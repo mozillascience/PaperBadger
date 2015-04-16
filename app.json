@@ -1,0 +1,7 @@
+{
+  "name": "PaperBadger",
+  "description": "Exploring the use of digital badges for crediting contributors to scholarly papers for their work",
+  "repository": "https://github.com/mozillascience/PaperBadger",
+  "logo": "",
+  "keywords": ["badges", "science", "node"]
+}

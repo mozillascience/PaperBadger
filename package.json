@@ -1,0 +1,26 @@
+{
+  "name": "PaperBadger",
+  "version": "0.1.1",
+  "description": "Exploring the use of digital badges for crediting contributors to scholarly papers for their work",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "~4.9.x",
+    "badgekit-api-client": "https://github.com/mozilla/badgekit-api-client/tarball/v0.2.4"
+  },
+  "engines": {
+    "node": "0.12.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozillascience/PaperBadger"
+  },
+  "keywords": [
+    "badges",
+    "science",
+    "node"
+  ],
+  "license": "MPL-2.0"
+}
