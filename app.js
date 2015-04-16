@@ -15,7 +15,7 @@ var client = new Client(apiEndpoint, auth);
 
 
 app.get('/', function(request, response) {
-  response.send('Hello World!');
+  response.send('Welcome to PaperBadger!');
 });
 
 app.listen(app.get('port'), function() {
