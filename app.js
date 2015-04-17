@@ -7,8 +7,8 @@ app.use(express.static(__dirname + '/public'));
 
 var apiEndpoint = process.env.BADGES_ENDPOINT || 'http://localhost:8080';
 var auth = {
-  key: process.env.BADGES_KEY || 'http://localhost:8080',
-  secret: process.env.BADGES_SECRET || 'http://localhost:8080'
+  key: process.env.BADGES_KEY || 'master',
+  secret: process.env.BADGES_SECRET || 'your secret'
 };
 
 var client = new Client(apiEndpoint, auth);
