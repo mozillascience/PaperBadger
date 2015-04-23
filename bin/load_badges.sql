@@ -1,5 +1,6 @@
 --
--- Dumping data for table `images`
+-- Insert Contributorship Badges data into `images` table
+-- see: http://dictionary.casrai.org/Contributor_Roles
 --
 
 LOCK TABLES `images` WRITE;
@@ -22,6 +23,11 @@ INSERT INTO `images` VALUES
 /*!40000 ALTER TABLE `images` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Insert Contributorship Badges data into `badges` table
+-- see: http://dictionary.casrai.org/Contributor_Roles
+--
+
 LOCK TABLES `badges` WRITE;
 /*!40000 ALTER TABLE `badges` DISABLE KEYS */;
 INSERT INTO `badges` VALUES
@@ -41,6 +47,10 @@ INSERT INTO `badges` VALUES
   (NULL,'writing_review','Writing - review & editing',NULL,'Preparation, creation and/or presentation of the published work by those from the original research group, specifically critical review, commentary or revision – including pre- or post-publication stages.','Preparation, creation and/or presentation of the published work by those from the original research group, specifically critical review, commentary or revision – including pre- or post-publication stages.',NULL,NULL,'http://dictionary.casrai.org/Contributor_Roles',NULL,NULL,NULL,0,0,NULL,1,NULL,NULL,1,'contributor',NULL);
 /*!40000 ALTER TABLE `badges` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Insert correct imageId in badges table (id autoincremented on insert)
+--
 
 UPDATE `badges` SET imageId = (SELECT id FROM images where slug = 'conceptualization-img') WHERE slug = 'conceptualization';
 UPDATE `badges` SET imageId = (SELECT id FROM images where slug = 'data_curation-img') WHERE slug = 'data_curation';
