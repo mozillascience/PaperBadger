@@ -1,6 +1,16 @@
 --
 -- Insert Contributorship Badges data into `images` table
 -- see: http://dictionary.casrai.org/Contributor_Roles
+-- desc images;
+-- +----------+--------------+------+-----+---------+----------------+
+-- | Field    | Type         | Null | Key | Default | Extra          |
+-- +----------+--------------+------+-----+---------+----------------+
+-- | id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+-- | slug     | varchar(255) | NO   | UNI | NULL    |                |
+-- | url      | varchar(255) | YES  |     | NULL    |                |
+-- | mimetype | varchar(255) | YES  |     | NULL    |                |
+-- | data     | longblob     | YES  |     | NULL    |                |
+-- +----------+--------------+------+-----+---------+----------------+
 --
 
 LOCK TABLES `images` WRITE;
@@ -26,6 +36,32 @@ UNLOCK TABLES;
 --
 -- Insert Contributorship Badges data into `badges` table
 -- see: http://dictionary.casrai.org/Contributor_Roles
+-- desc badges;
+-- +---------------------+--------------------------------------------+------+-----+-------------------+----------------+
+-- | Field               | Type                                       | Null | Key | Default           | Extra          |
+-- +---------------------+--------------------------------------------+------+-----+-------------------+----------------+
+-- | id                  | int(11)                                    | NO   | PRI | NULL              | auto_increment |
+-- | slug                | varchar(255)                               | NO   | UNI | NULL              |                |
+-- | name                | varchar(255)                               | NO   |     | NULL              |                |
+-- | strapline           | varchar(140)                               | YES  |     | NULL              |                |
+-- | earnerDescription   | text                                       | NO   |     | NULL              |                |
+-- | consumerDescription | text                                       | NO   |     | NULL              |                |
+-- | issuerUrl           | varchar(255)                               | YES  |     | NULL              |                |
+-- | rubricUrl           | varchar(255)                               | YES  |     | NULL              |                |
+-- | criteriaUrl         | varchar(255)                               | NO   |     | NULL              |                |
+-- | timeValue           | int(11)                                    | YES  |     | NULL              |                |
+-- | timeUnits           | enum('minutes','hours','days','weeks')     | YES  |     | NULL              |                |
+-- | limit               | int(11)                                    | YES  |     | NULL              |                |
+-- | unique              | tinyint(1)                                 | NO   |     | 0                 |                |
+-- | archived            | tinyint(1)                                 | NO   |     | 0                 |                |
+-- | created             | timestamp                                  | NO   |     | CURRENT_TIMESTAMP |                |
+-- | imageId             | int(11)                                    | NO   |     | NULL              |                |
+-- | programId           | int(11)                                    | YES  |     | NULL              |                |
+-- | issuerId            | int(11)                                    | YES  |     | NULL              |                |
+-- | systemId            | int(11)                                    | YES  |     | NULL              |                |
+-- | type                | varchar(255)                               | NO   |     | NULL              |                |
+-- | evidenceType        | enum('URL','Text','Photo','Video','Sound') | YES  |     | NULL              |                |
+-- +---------------------+--------------------------------------------+------+-----+-------------------+----------------+
 --
 
 LOCK TABLES `badges` WRITE;
