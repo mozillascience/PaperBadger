@@ -13,7 +13,7 @@ This work is a collaboration with publishers [BioMed Central](http://www.biomedc
 
 #### Dependencies
 
-* BadgeKit API: http://github.com/mozilla/badgekit-api (See the [BadgeKit API self hosting guide](https://github.com/mozilla/openbadges-badgekit/wiki/BadgeKit-Self-Hosting-Guide))
+* BadgeKit API: https://github.com/acabunoc/badgekit-api (See the [BadgeKit API self hosting guide](https://github.com/mozilla/openbadges-badgekit/wiki/BadgeKit-Self-Hosting-Guide))
 
 #### Project Setup
 
