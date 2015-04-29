@@ -11,18 +11,13 @@ This work is a collaboration with publishers [BioMed Central](http://www.biomedc
 
 ### Getting Started
 
-#### Dependencies
-
-* BadgeKit API: https://github.com/acabunoc/badgekit-api (See the [BadgeKit API self hosting guide](https://github.com/mozilla/openbadges-badgekit/wiki/BadgeKit-Self-Hosting-Guide))
-
 #### Project Setup
 
 1. Clone PaperBadger and enter the directory: `git clone https://github.com/mozillascience/PaperBadger && cd PaperBadger`
 2. Install PaperBadger's Node dependencies: `npm install`
 3. Copy the configuration template to its expected location: `cp env.dist .env`
-4. Open `.env` in your favourite text editor and ensure that your `PORT`, `BADGES_ENDPOINT`, `BADGES_KEY`, `BADGES_SECRET`, and `BADGES_SYSTEM` environment variables are set to the correct values. `PORT` can be any available port. `BADGES_ENDPOINT`, `BADGES_KEY`, `BADGES_SECRET`, and `BADGES_SYSTEM` should point to the URL of your running BadgeKit API service instances.
-5. Load Contributorship Badges into your database (if you're self hosting BadgeKit API). From your home directory: `mysql badgekitapi < bin/load_badges.sql -u USERNAME -p`
-6. Run `node app.js`, and open up `http://localhost:5000/` in your favourite web browser!
+4. Open `.env` in your favourite text editor and ensure that your `PORT`, `BADGES_ENDPOINT`, `BADGES_KEY`, `BADGES_SECRET`, and `BADGES_SYSTEM` environment variables are set to the correct values. `PORT` can be any available port. `BADGES_ENDPOINT`, `BADGES_KEY`, `BADGES_SECRET`, and `BADGES_SYSTEM` should point to the Mozilla Science Lab's version of BadgeKit API at http://badgekit-api-sciencelab.herokuapp.com/. Our custom BadgeKit API code can be found [here](https://github.com/acabunoc/badgekit-api).
+5. Run `node app.js`, and open up `http://localhost:5000/` in your favourite web browser!
 
 ### Contributing
 
