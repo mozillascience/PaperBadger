@@ -102,3 +102,10 @@ UPDATE `badges` SET imageId = (SELECT id FROM images where slug = 'validation-im
 UPDATE `badges` SET imageId = (SELECT id FROM images where slug = 'data_visualization-img') WHERE slug = 'data_visualization';
 UPDATE `badges` SET imageId = (SELECT id FROM images where slug = 'writing_initial-img') WHERE slug = 'writing_initial';
 UPDATE `badges` SET imageId = (SELECT id FROM images where slug = 'writing_review-img') WHERE slug = 'writing_review';
+
+--
+-- Create system badgekit for MozillaScience. Assign all badges to this system.
+--
+
+INSERT INTO systems (slug, name, url) VALUES ('badgekit', 'MozillaScience', 'http://mozillascience.org/');
+UPDATE `badges` SET systemId = (SELECT id FROM systems where slug = 'badgekit');
