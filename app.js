@@ -60,6 +60,10 @@ app.get('/badges', function(request, response){
 // Get all badge instances earned by a user
 app.get('/users/:orcid/badges', function(request, response){
   var orcid = request.params.orcid;
+  if(!orcid) {
+    response.status(400).end();
+    return;
+  }
   client.getBadgeInstances({system:system}, {email: emailFromORCID(orcid)}, function(err, badges){
     if(err) {
       console.error(err);
@@ -77,6 +81,10 @@ app.get('/users/:orcid/badges', function(request, response){
 app.get('/users/:orcid/badges/:badge', function(request, response){
   // get all badge instances for the user. Is there a more efficient way to do this?
   var orcid = request.params.orcid;
+  if(!orcid) {
+    response.status(400).end();
+    return;
+  }
   client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
     if(err) {
       console.error(err);
@@ -96,6 +104,10 @@ app.get('/users/:orcid/badges/:badge', function(request, response){
 // THIS DOES NOT WORK!!
 // Get all badge instances for a paper.
 app.get('/papers/:doi/badges', function(request, response){
+  if(!request.params.doi){
+    response.status(400).end();
+    return;
+  }
   var evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
   client.getBadgeInstances({system:system}, function(err, badges){
@@ -115,6 +127,10 @@ app.get('/papers/:doi/badges', function(request, response){
 
 // Get all badge instances of a certain badge for a paper. NOTE: inefficiently filters for doi afterwards
 app.get('/papers/:doi/badges/:badge', function(request, response){
+  if(!request.params.doi){
+    response.status(400).end();
+    return;
+  }
   var evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
   client.getBadgeInstances({system:system, badge:request.params.badge}, function(err, badges){
@@ -134,6 +150,10 @@ app.get('/papers/:doi/badges/:badge', function(request, response){
 
 // Get all badge instances earned by a user for a paper.
 app.get('/papers/:doi/badges/:orcid/badges', function(request, response){
+  if(!request.params.doi || !request.params.orcid){
+    response.status(400).end();
+    return;
+  }
   var orcid = request.params.orcid,
       evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
@@ -153,6 +173,10 @@ app.get('/papers/:doi/badges/:orcid/badges', function(request, response){
 
 // Get all badge instances of a certain badge earned by a user for a paper.
 app.get('/papers/:doi/badges/:orcid/badges/:badge', function(request, response){
+  if(!request.params.doi || !request.params.orcid){
+    response.status(400).end();
+    return;
+  }
   var orcid = request.params.orcid,
       evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
