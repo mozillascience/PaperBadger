@@ -2,6 +2,7 @@ var express = require('express'),
     app = express(),
     system = process.env.BADGES_SYSTEM,
     orcidRe = /(\d{4}-\d{4}-\d{4}-\d{4})@orcid\.org/,
+    Url = require('url'),
     Client = require('badgekit-api-client');
 
 app.set('port', (process.env.PORT || 5000));
@@ -37,7 +38,8 @@ function urlFromDOI(doi){
 }
 
 function DOIFromURL(url){
-  return encodeURI(url); // TODO: remove prefix doi.org/
+  // pathname should be '/10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
+  return encodeURI(Url.parse(url).pathname);
 }
 
 app.get('/', function(request, response) {
