@@ -33,7 +33,7 @@ function modEntry(entry, orcid){
 }
 
 function urlFromDOI(doi){
-  return "http://doi.org/" + decodeURI(doi);
+  return "http://dx.doi.org/" + decodeURI(doi);
 }
 
 function DOIFromURL(url){
@@ -72,7 +72,7 @@ app.get('/users/:orcid/badges/:badge', function(request, response){
   client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
     if(err) console.error(err);
     // filter for the badge
-    if (badges.length > 0) var filtered = badges.filter(function(entry){
+    if (badges) var filtered = badges.filter(function(entry){
       return (entry.badge.slug == request.params.badge) ? modEntry(entry, orcid) : false;
     });
     (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
@@ -89,7 +89,7 @@ app.get('/papers/:doi/badges', function(request, response){
   client.getBadgeInstances({system:system}, function(err, badges){
     if(err) console.error(err);
     // filter for the badge
-    if (badges.length > 0) var filtered = badges.filter(function(entry){
+    if (badges) var filtered = badges.filter(function(entry){
       var orcid = ORCIDFromEmail(entry.email);
       return (entry.evidenceUrl == evidenceUrl) ? modEntry(entry, orcid) : false;
     });
@@ -104,7 +104,7 @@ app.get('/papers/:doi/badges/:badge', function(request, response){
   client.getBadgeInstances({system:system, badge:request.params.badge}, function(err, badges){
     if(err) console.error(err);
     // filter for the badge
-    if (badges.length > 0) var filtered = badges.filter(function(entry){
+    if (badges) var filtered = badges.filter(function(entry){
       var orcid = ORCIDFromEmail(entry.email);
       return (entry.evidenceUrl == evidenceUrl) ? modEntry(entry, orcid) : false;
     });
@@ -120,7 +120,7 @@ app.get('/papers/:doi/badges/:orcid/badges', function(request, response){
   client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
     if(err) console.error(err);
     // filter for the badge
-    if (badges.length > 0) var filtered = badges.filter(function(entry){
+    if (badges) var filtered = badges.filter(function(entry){
       return (entry.evidenceUrl == evidenceUrl) ? modEntry(entry, orcid) : false;
     });
     (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
@@ -135,7 +135,7 @@ app.get('/papers/:doi/badges/:orcid/badges/:badge', function(request, response){
   client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
     if(err) console.error(err);
     // filter for the doi & badge
-    if (badges.length > 0) var filtered = badges.filter(function(entry){
+    if (badges) var filtered = badges.filter(function(entry){
       return ((entry.evidenceUrl == evidenceUrl) && (entry.badge.slug == request.params.badge)) ? modEntry(entry, orcid) : false;
     });
     (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
