@@ -46,7 +46,11 @@ app.get('/', function(request, response) {
 
 app.get('/badges', function(request, response){
   client.getAllBadges({system: system}, function(err, badges){
-    if(err) console.error(err);
+    if(err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
     response.send(badges);
   })
 });
@@ -57,7 +61,11 @@ app.get('/badges', function(request, response){
 app.get('/users/:orcid/badges', function(request, response){
   var orcid = request.params.orcid;
   client.getBadgeInstances({system:system}, {email: emailFromORCID(orcid)}, function(err, badges){
-    if(err) console.error(err);
+    if(err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
     badges.forEach(function(entry){
       modEntry(entry, orcid);
     });
@@ -70,12 +78,16 @@ app.get('/users/:orcid/badges/:badge', function(request, response){
   // get all badge instances for the user. Is there a more efficient way to do this?
   var orcid = request.params.orcid;
   client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
-    if(err) console.error(err);
+    if(err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
     // filter for the badge
     if (badges) var filtered = badges.filter(function(entry){
       return (entry.badge.slug == request.params.badge) ? modEntry(entry, orcid) : false;
     });
-    (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
+    (filtered && filtered.length == 0) ? response.status(404).end() : response.send(filtered);
   })
 })
 
@@ -87,13 +99,17 @@ app.get('/papers/:doi/badges', function(request, response){
   var evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
   client.getBadgeInstances({system:system}, function(err, badges){
-    if(err) console.error(err);
+    if(err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
     // filter for the badge
     if (badges) var filtered = badges.filter(function(entry){
       var orcid = ORCIDFromEmail(entry.email);
       return (entry.evidenceUrl == evidenceUrl) ? modEntry(entry, orcid) : false;
     });
-    (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
+    (filtered && filtered.length == 0) ? response.status(404).end() : response.send(filtered);
   });
 });
 
@@ -102,13 +118,17 @@ app.get('/papers/:doi/badges/:badge', function(request, response){
   var evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
   client.getBadgeInstances({system:system, badge:request.params.badge}, function(err, badges){
-    if(err) console.error(err);
+    if(err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
     // filter for the badge
     if (badges) var filtered = badges.filter(function(entry){
       var orcid = ORCIDFromEmail(entry.email);
       return (entry.evidenceUrl == evidenceUrl) ? modEntry(entry, orcid) : false;
     });
-    (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
+    (filtered && filtered.length == 0) ? response.status(404).end() : response.send(filtered);
   });
 });
 
@@ -118,12 +138,16 @@ app.get('/papers/:doi/badges/:orcid/badges', function(request, response){
       evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
   client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
-    if(err) console.error(err);
+    if(err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
     // filter for the badge
     if (badges) var filtered = badges.filter(function(entry){
       return (entry.evidenceUrl == evidenceUrl) ? modEntry(entry, orcid) : false;
     });
-    (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
+    (filtered && filtered.length == 0) ? response.status(404).end() : response.send(filtered);
   });
 });
 
@@ -133,12 +157,16 @@ app.get('/papers/:doi/badges/:orcid/badges/:badge', function(request, response){
       evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
   client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
-    if(err) console.error(err);
+    if(err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
     // filter for the doi & badge
     if (badges) var filtered = badges.filter(function(entry){
       return ((entry.evidenceUrl == evidenceUrl) && (entry.badge.slug == request.params.badge)) ? modEntry(entry, orcid) : false;
     });
-    (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
+    (filtered && filtered.length == 0) ? response.status(404).end() : response.send(filtered);
   })
 });
 
@@ -159,7 +187,11 @@ function createBadge(args){
         }
       };
   client.createBadgeInstance(context, function (err, badge) {
-    if(err) console.error(err);
+    if(err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
     modEntry(badge, orcid);
     response.send(badge);
   });
