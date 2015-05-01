@@ -22,13 +22,13 @@ function emailFromORCID (orcid) {
 function ORCIDFromEmail (email) {
   var m;
   if(m = orcidRe.exec(email) !== null){
-    return m[0]
+    return m[1]
   }
 }
 
 function modEntry(entry, orcid){
   entry.orcid = orcid;
-  entry.email = undefined;
+  delete entry.email;
   return true;
 }
 
@@ -90,6 +90,7 @@ app.get('/papers/:doi/badges', function(request, response){
     if(err) console.error(err);
     // filter for the badge
     if (badges.length > 0) var filtered = badges.filter(function(entry){
+      var orcid = ORCIDFromEmail(entry.email);
       return (entry.evidenceUrl == evidenceUrl) ? modEntry(entry, orcid) : false;
     });
     (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
@@ -104,6 +105,7 @@ app.get('/papers/:doi/badges/:badge', function(request, response){
     if(err) console.error(err);
     // filter for the badge
     if (badges.length > 0) var filtered = badges.filter(function(entry){
+      var orcid = ORCIDFromEmail(entry.email);
       return (entry.evidenceUrl == evidenceUrl) ? modEntry(entry, orcid) : false;
     });
     (filtered.length == 0) ? response.status(404).end() : response.send(filtered);
@@ -112,9 +114,10 @@ app.get('/papers/:doi/badges/:badge', function(request, response){
 
 // Get all badge instances earned by a user for a paper.
 app.get('/papers/:doi/badges/:orcid/badges', function(request, response){
-  var evidenceUrl = urlFromDOI(request.params.doi);
+  var orcid = request.params.orcid,
+      evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
-  client.getBadgeInstances({system:system }, emailFromORCID(request.params.orcid), function(err, badges){
+  client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
     if(err) console.error(err);
     // filter for the badge
     if (badges.length > 0) var filtered = badges.filter(function(entry){
@@ -126,9 +129,10 @@ app.get('/papers/:doi/badges/:orcid/badges', function(request, response){
 
 // Get all badge instances of a certain badge earned by a user for a paper.
 app.get('/papers/:doi/badges/:orcid/badges/:badge', function(request, response){
-  var evidenceUrl = urlFromDOI(request.params.doi);
+  var orcid = request.params.orcid,
+      evidenceUrl = urlFromDOI(request.params.doi);
   // get all badge instances for the user. Is there a more efficient way to do this?
-  client.getBadgeInstances({system:system }, emailFromORCID(request.params.orcid), function(err, badges){
+  client.getBadgeInstances({system:system }, emailFromORCID(orcid), function(err, badges){
     if(err) console.error(err);
     // filter for the doi & badge
     if (badges.length > 0) var filtered = badges.filter(function(entry){
