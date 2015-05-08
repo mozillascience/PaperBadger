@@ -42,9 +42,6 @@ function DOIFromURL(url){
   return encodeURI(Url.parse(url).pathname);
 }
 
-app.get('/', function(request, response) {
-  response.send('Welcome to PaperBadger!');
-});
 
 app.get('/badges', function(request, response){
   client.getAllBadges({system: system}, function(err, badges){
@@ -197,6 +194,9 @@ app.get('/papers/:doi/badges/:orcid/badges/:badge', function(request, response){
 });
 
 
+app.get('*', function(request, response) {
+  response.sendfile(__dirname + '/public/index.html');
+});
 
 
 // Create a badge.
