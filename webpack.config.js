@@ -1,10 +1,10 @@
 var path = require('path');
 
 var IMPORT_ES5_SHIM = 'imports?shim=es5-shim/es5-shim&' +
-                      'sham=es5-shim/es5-sham';
+  'sham=es5-shim/es5-sham';
 
 module.exports = {
-  entry: "./templates/client.jsx",
+  entry: './templates/client.jsx',
 
   output: {
     filename: '[name].js',
@@ -14,9 +14,12 @@ module.exports = {
   },
 
   module: {
-    loaders: [
-      { test: /\.jsx$/, loaders: ['babel', 'jsx-loader'] },
-      { test: require.resolve('react'), loader: IMPORT_ES5_SHIM }
-    ]
+    loaders: [{
+      test: /\.jsx$/,
+      loaders: ['babel', 'jsx-loader']
+    }, {
+      test: require.resolve('react'),
+      loader: IMPORT_ES5_SHIM
+    }]
   }
 };
