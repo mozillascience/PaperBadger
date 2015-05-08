@@ -195,7 +195,7 @@ app.get('/papers/:doi/badges/:orcid/badges/:badge', function(request, response){
 
 
 app.get('*', function(request, response) {
-  response.sendfile(__dirname + '/public/index.html');
+  response.sendFile(__dirname + '/public/index.html');
 });
 
 

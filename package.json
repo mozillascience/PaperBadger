@@ -7,7 +7,10 @@
     "start": "npm-run-all --parallel server watch:js",
     "build:js": "webpack --config webpack.config.js --progress --profile --colors",
     "watch:js": "npm run build:js -- --watch",
-    "server": "node app.js"
+    "clean": "rm -r public/js/*",
+    "server": "node app.js",
+    "build:production": "npm run build:js -- --optimize-minimize --optimize-dedupe",
+    "start:production": "npm-run-all build:production server"
   },
   "dependencies": {
     "babel-loader": "^5.0.0",
