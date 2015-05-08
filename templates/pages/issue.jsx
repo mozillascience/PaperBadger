@@ -34,6 +34,7 @@ var Issue = React.createClass({
     return (
       <div>
         <h1>Issue a Badge</h1>
+        <p>This is a simple prototype demonstrating using a form to issue a badge in the badgekit-api. In future versions we will only allow users to issue badges for their own ORCID (after logging in using ORCID oauth) on papers they have been flagged as a contributor.</p>
         <form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
             <fieldset>
                 <div className="pure-control-group">
