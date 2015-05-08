@@ -26,7 +26,7 @@ If you would like to develop against the hosted custom badgekit-api we have runn
     ```
 Ask @acabunoc for `BADGES_SECRET`. Our custom BadgeKit API code can be found [here](https://github.com/acabunoc/badgekit-api).
 
-5. Run `node app.js`, and open up `http://localhost:5000/` in your favourite web browser!
+5. Run `npm start`, and open up `http://localhost:5000/` in your favourite web browser!
 
 ### Contributing
 
