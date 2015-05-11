@@ -1,18 +1,19 @@
 var React = require('react'),
     Badge = require('./badge.jsx'),
-    $ = require('jquery');
+    fetch = require('isomorphic-fetch');
 
 var BadgeList = React.createClass({
   loadUsersFromServer: function() {
-    $.ajax({
-      url: "/badges",
-      dataType: 'json',
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
+    fetch('/badges')
+    .then((response) => {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    })
+    .then((badges) => {
+        this.setState({data: badges});
+        console.log(badges);
     });
   },
   getInitialState: function() {

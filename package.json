@@ -22,7 +22,7 @@
     "es5-shim": "^4.1.1",
     "express": "~4.9.x",
     "imports-loader": "^0.6.3",
-    "jquery": "^2.1.4",
+    "isomorphic-fetch": "^2.0.2",
     "js-beautify": "^1.5.5",
     "jscs": "^1.13.1",
     "jshint": "^2.7.0",

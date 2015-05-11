@@ -1,5 +1,5 @@
 var React = require('react'),
-    $ = require('jquery'),
+    fetch = require('isomorphic-fetch'),
     Url = require('url');
 
 var Issue = React.createClass({
@@ -17,16 +17,18 @@ var Issue = React.createClass({
 
     var url = '/papers/' + path[path.length-2] + '/' + path[path.length-1] + '/users/' + orcid + '/badges/' + badge;
 
-    $.ajax({
-      url: url,
-      method: 'POST',
-      success: function(data) {
+    fetch(url, {
+      method: 'post'
+    })
+    .then((response) => {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    })
+    .then((data) => {
         console.log(data);
         document.location = url;
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
     });
     return;
   },
