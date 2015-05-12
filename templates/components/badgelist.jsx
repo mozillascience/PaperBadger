@@ -13,7 +13,6 @@ var BadgeList = React.createClass({
     })
     .then((badges) => {
         this.setState({data: badges});
-        console.log(badges);
     });
   },
   getInitialState: function() {
