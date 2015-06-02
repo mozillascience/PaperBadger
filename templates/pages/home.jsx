@@ -19,7 +19,7 @@ var Home = React.createClass({
         <h2>Explore Badges</h2>
         <ul>
           <li><Link to="issue">Issue a badge</Link></li>
-          <li><span onClick={this.handleClick.bind(this, "/users/0000-0003-4959-3049/badges")} href="/users/0000-0003-4959-3049/badges">Browse issued badges for ORCID 0000-0003-4959-3049</span> (JSON endpoint)</li>
+          <li><a href="/users/0000-0003-4959-3049/badges">Browse issued badges for ORCID 0000-0003-4959-3049</a> (JSON endpoint)</li>
           <li><a href="/badges/formal_analysis">Browse all formal analysis badges</a> (JSON endpoint)</li>
         </ul>
         <h2>Badges</h2>

@@ -30,6 +30,8 @@ Ask @acabunoc for `BADGES_SECRET`. Our custom BadgeKit API code can be found [he
 
 ### Contributing
 
+[Project Roadmap: #17](https://github.com/mozillascience/paperbadger/issues/17)
+
 Please review our contributing guidelines [here](CONTRIBUTING.md)
 
 Want to help? Drop us a line in [this issue](https://github.com/mozillascience/PaperBadger/issues/2).
