@@ -30,6 +30,35 @@ Ask @acabunoc for `BADGES_SECRET`. Our custom BadgeKit API code can be found [he
 
 ### Contributing
 
+[Project Roadmap: #17](https://github.com/mozillascience/paperbadger/issues/17)
+
 Please review our contributing guidelines [here](CONTRIBUTING.md)
 
 Want to help? Drop us a line in [this issue](https://github.com/mozillascience/PaperBadger/issues/2).
+
+### API Endpoints
+
+*   GET [/badges](http://paperbadger.herokuapp.com/badges)
+    *   Get all badges we issue
+*   GET /badges/:badge
+    *   Get all badge instances of a certain badge
+    *   e.g. [/badges/formal_analysis](http://paperbadger.herokuapp.com/badges/formal_analysis)
+*   GET /users/:orcid/badges
+    *   Get all badge instances earned by a user
+    *   e.g. [/users/0000-0003-4959-3049/badges](http://paperbadger.herokuapp.com/users/0000-0003-4959-3049/badges)
+*   GET /users/:orcid/badges/:badge
+    *   Get all badge instances of a certain badge earned by a user
+    *   e.g. [/users/0000-0003-4959-3049/badges/investigation](http://paperbadger.herokuapp.com/users/0000-0003-4959-3049/badges/investigation)
+*   GET /papers/:doi1/:doi2/badges (not implemented)
+    *   Get all badge instances for a paper.
+*   GET /papers/:doi1/:doi2/badges/:badge
+    *   Get all badge instances of a certain badge for a paper.
+    *   e.g. [/papers/10.1371/journal.pbio.1002126/badges/investigation](http://paperbadger.herokuapp.com/papers/10.1371/journal.pbio.1002126/badges/investigation)
+*   GET /papers/:doi1/:doi2/badges/:orcid/badges
+    *   Get all badge instances earned by a user for a paper.
+    *   e.g. [/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges](http://paperbadger.herokuapp.com/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges)
+*   GET /papers/:doi1/:doi2/badges/:orcid/badges/:badge
+    *   Get all badge instances of a certain badge earned by a user for a paper.
+    *   e.g. [/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges/investigation](http://paperbadger.herokuapp.com/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges/investigation)
+*   POST /papers/:doi1/:doi2/badges/:orcid/badges/:badge
+    *   Issue a badge

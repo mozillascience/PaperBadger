@@ -34,12 +34,12 @@ module.exports = function (config) {
   }
 
   function urlFromDOI(doi) {
-    return 'http://dx.doi.org/' + decodeURI(doi);
+    return 'http://dx.doi.org/' + doi;
   }
 
   function DOIFromURL(url) {
     // pathname should be '/10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
-    return encodeURI(Url.parse(url).pathname);
+    return encodeURI(Url.parse(url).pathname) || url;
   }
 
   app.get('/badges', function (request, response) {
@@ -54,6 +54,26 @@ module.exports = function (config) {
       response.send(badges);
     });
   });
+
+
+// Get all badge instances of a certain badge
+app.get('/badges/:badge', function (request, response) {
+  client.getBadgeInstances({
+    system: system,
+    badge: request.params.badge
+  }, function (err, badges) {
+    if (err) {
+      console.error(err);
+      response.send(err);
+      return;
+    }
+    badges.forEach(function (entry) {
+      var orcid = ORCIDFromEmail(entry.email);
+      modEntry(entry, orcid);
+    });
+    response.send(badges);
+  });
+});
 
   /* Get badges for a user */
 
@@ -116,12 +136,12 @@ module.exports = function (config) {
 
   // THIS DOES NOT WORK!!
   // Get all badge instances for a paper.
-  app.get('/papers/:doi/badges', function (request, response) {
-    if (!request.params.doi) {
+  app.get('/papers/:doi1/:doi2/badges', function (request, response) {
+    if (!request.params.doi1 || !request.params.doi2) {
       response.status(400).end();
       return;
     }
-    var evidenceUrl = urlFromDOI(request.params.doi),
+    var evidenceUrl = urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
       filtered;
     // get all badge instances for the user. Is there a more efficient way to do this?
     client.getBadgeInstances({
@@ -148,12 +168,12 @@ module.exports = function (config) {
   });
 
   // Get all badge instances of a certain badge for a paper. NOTE: inefficiently filters for doi afterwards
-  app.get('/papers/:doi/badges/:badge', function (request, response) {
-    if (!request.params.doi) {
+  app.get('/papers/:doi1/:doi2/badges/:badge', function (request, response) {
+    if (!request.params.doi1 || !request.params.doi2) {
       response.status(400).end();
       return;
     }
-    var evidenceUrl = urlFromDOI(request.params.doi),
+    var evidenceUrl = urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
       filtered;
     // get all badge instances for the user. Is there a more efficient way to do this?
     client.getBadgeInstances({
@@ -181,13 +201,13 @@ module.exports = function (config) {
   });
 
   // Get all badge instances earned by a user for a paper.
-  app.get('/papers/:doi/badges/:orcid/badges', function (request, response) {
-    if (!request.params.doi || !request.params.orcid) {
+  app.get('/papers/:doi1/:doi2/:badges/:orcid/badges', function (request, response) {
+    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
       response.status(400).end();
       return;
     }
     var orcid = request.params.orcid,
-      evidenceUrl = urlFromDOI(request.params.doi),
+      evidenceUrl = urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
       filtered;
     // get all badge instances for the user. Is there a more efficient way to do this?
     client.getBadgeInstances({
@@ -213,13 +233,13 @@ module.exports = function (config) {
   });
 
   // Get all badge instances of a certain badge earned by a user for a paper.
-  app.get('/papers/:doi/badges/:orcid/badges/:badge', function (request, response) {
-    if (!request.params.doi || !request.params.orcid) {
+  app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
+    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
       response.status(400).end();
       return;
     }
     var orcid = request.params.orcid,
-      evidenceUrl = urlFromDOI(request.params.doi),
+      evidenceUrl = urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
       filtered;
     // get all badge instances for the user. Is there a more efficient way to do this?
     client.getBadgeInstances({
@@ -246,11 +266,11 @@ module.exports = function (config) {
   });
 
   // Create a badge instance -- need to add auth around this
-  app.post('/papers/:doi/badges/:orcid/badges/:badge', function (request, response) {
+  app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
     // Create a badge.
     var orcid = request.params.orcid,
       badge = request.params.badge,
-      evidence = DOIFromURL(request.params.doi) || request.params.doi,
+      evidence = DOIFromURL(request.params.doi1 + '/' + request.params.doi2),
       context = {
         system: system,
         badge: badge,
