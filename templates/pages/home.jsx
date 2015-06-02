@@ -1,21 +1,25 @@
 var React = require('react'),
+    Link = require('react-router').Link,
     BadgeList = require('../components/badgelist.jsx')
 
 var Home = React.createClass({
   componentDidMount: function() {
     document.title = "Contributorship Badges";
   },
+  handleClick: function(i){
+    console.log(i);
+  },
   render: function() {
     return (
       <div>
         <div>
         <h1>Contributorship Badges</h1>
-        <p>Exploring the use of digital badges for crediting contributors to scholarly papers for their work. <a href="/about">More about contributorship badges.</a></p>
+        <p>Exploring the use of digital badges for crediting contributors to scholarly papers for their work. <Link to="about">More about contributorship badges.</Link></p>
         </div>
         <h2>Explore Badges</h2>
         <ul>
-          <li><a href="/issue">Issue a badge</a></li>
-          <li><a href="/users/0000-0003-4959-3049/badges">Browse issued badges for ORCID 0000-0003-4959-3049</a> (JSON endpoint)</li>
+          <li><Link to="issue">Issue a badge</Link></li>
+          <li><span onClick={this.handleClick.bind(this, "/users/0000-0003-4959-3049/badges")} href="/users/0000-0003-4959-3049/badges">Browse issued badges for ORCID 0000-0003-4959-3049</span> (JSON endpoint)</li>
           <li><a href="/badges/formal_analysis">Browse all formal analysis badges</a> (JSON endpoint)</li>
         </ul>
         <h2>Badges</h2>
