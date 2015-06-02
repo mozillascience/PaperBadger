@@ -30,7 +30,8 @@
     "npm-run-all": "^1.2.4",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
-    "webpack": "^1.8.11"
+    "webpack": "^1.8.11",
+    "dotenv": "~1.1.0"
   },
   "engines": {
     "node": "0.12.2"

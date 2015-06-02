@@ -1,7 +1,0 @@
-{
-	"BADGES_ENDPOINT" : "http://badgekit-api-sciencelab.herokuapp.com/",
-	"BADGES_KEY" : "master",
-	"BADGES_SECRET" : "supersecret",
-	"BADGES_SYSTEM" : "badgekit",
-	"PORT" : "5000"
-}

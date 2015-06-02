@@ -1,16 +1,10 @@
-var getConfig = require('./config.js')(process.env);
-var app = require('./app');
+require('dotenv').load();
 
 module.exports = function (startAppCallback) {
-  getConfig(function (error, config) {
-    if (error !== null) {
-      console.log('Config error :' + error);
-    } else {
-      var appConfigured = app(config);
-      appConfigured.listen(config.PORT, startAppCallback({
-        name: 'PaperBadger',
-        port: config.PORT
-      }));
-    }
-  });
+  var config = process.env;
+  var app = require('./app')(config);
+  app.listen(config.PORT, startAppCallback({
+    name: 'PaperBadger',
+    port: config.PORT
+  }));
 };
