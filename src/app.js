@@ -233,7 +233,7 @@ app.get('/badges/:badge', function (request, response) {
   });
 
   // Get all badge instances of a certain badge earned by a user for a paper.
-  app.get('/papers/:doi1/:doi2/:badges/:orcid/badges/:badge', function (request, response) {
+  app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
     if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
       response.status(400).end();
       return;
@@ -266,7 +266,7 @@ app.get('/badges/:badge', function (request, response) {
   });
 
   // Create a badge instance -- need to add auth around this
-  app.post('/papers/:doi1/:doi2/badges/:orcid/badges/:badge', function (request, response) {
+  app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
     // Create a badge.
     var orcid = request.params.orcid,
       badge = request.params.badge,
