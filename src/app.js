@@ -49,13 +49,14 @@ module.exports = function (config) {
     }, function(error, result){
       if (error) {
         // check for access_denied param
-        if (request.query.error == 'access_denied')
+        if (request.query.error == 'access_denied') {
           // User denied access
-          response.redirect('/denied_access');      
-        else
+          response.redirect('/denied_access');
+        } else {
           // Token Page
           request.session.orcid_token_error = oauth2.accessToken.create(result);
           response.redirect('/orcid_token_error');
+        }
       } else {
         // Token Page
         request.session.orcid_token = oauth2.accessToken.create(result);
