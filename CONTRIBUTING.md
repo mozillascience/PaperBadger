@@ -43,6 +43,8 @@ Additionally, JS files need to be run through [JSBeautify](https://github.com/ei
 
 Any patch should be tested in as many of our supported browsers as possible. Obviously, access to all devices is rare, so just aim for the best coverage possible. At a minimum please test in all available desktop browsers.
 
+Run tests with `mocha` or `npm test`.
+
 ## Pull requests
 
 - Try not to pollute your pull request with unintended changes – keep them simple and small. If possible, squash your commits.
