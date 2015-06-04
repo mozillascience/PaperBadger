@@ -55,25 +55,24 @@ module.exports = function (config) {
     });
   });
 
-
-// Get all badge instances of a certain badge
-app.get('/badges/:badge', function (request, response) {
-  client.getBadgeInstances({
-    system: system,
-    badge: request.params.badge
-  }, function (err, badges) {
-    if (err) {
-      console.error(err);
-      response.send(err);
-      return;
-    }
-    badges.forEach(function (entry) {
-      var orcid = ORCIDFromEmail(entry.email);
-      modEntry(entry, orcid);
+  // Get all badge instances of a certain badge
+  app.get('/badges/:badge', function (request, response) {
+    client.getBadgeInstances({
+      system: system,
+      badge: request.params.badge
+    }, function (err, badges) {
+      if (err) {
+        console.error(err);
+        response.send(err);
+        return;
+      }
+      badges.forEach(function (entry) {
+        var orcid = ORCIDFromEmail(entry.email);
+        modEntry(entry, orcid);
+      });
+      response.send(badges);
     });
-    response.send(badges);
   });
-});
 
   /* Get badges for a user */
 
