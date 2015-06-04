@@ -6,6 +6,10 @@ var React = require('react'),
 var Issue = React.createClass({
   componentDidMount: function() {
     document.title = "Contributorship Badges";
+    // TODO: 
+    // Get /ORCIDiD
+    //    If it's null redirect to /request-orcid-user-auth
+    //    Otherwise populate orcid input
   },
   handleSubmit: function(e) {
     e.preventDefault();

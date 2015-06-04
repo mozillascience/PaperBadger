@@ -16,7 +16,7 @@ module.exports = function (config) {
     clientID: config.ORCID_AUTH_CLIENT_ID,
     clientSecret: config.ORCID_AUTH_CLIENT_SECRET,
     site: config.ORCID_AUTH_SITE,
-    tokenPath: config.ORCID_AUTH_SITE
+    tokenPath: config.ORCID_AUTH_TOKEN_PATH
   };
   
   // Initialize the OAuth2 Library for ORCID
@@ -34,34 +34,42 @@ module.exports = function (config) {
   });
 
   // Redirect example using Express (see http://expressjs.com/api.html#res.redirect)
-  app.get('/request-orcid-user-auth', function(req, res) {
+  app.get('/request-orcid-user-auth', function(request, response) {
     // Prepare the context
-    res.redirect(authorization_uri);
+    response.redirect(authorization_uri);
   });
 
-  // Get the ORCID access token object (the authorization code is given from the previous step).
-  app.get('/orcid_auth_callback', function(req, res) {
+  // Get the ORCID access token object (the authorization code from previous step)
+  app.get('/orcid_auth_callback', function(request, response) {
     var token;
-    var code = req.query.code;
+    var code = request.query.code;
     oauth2.authCode.getToken({
       code: code,
       redirect_uri: config.ORCID_REDIRECT_URI
     }, function(error, result){
       if (error) {
         // check for access_denied param
-        if (req.query.error == 'access_denied')
+        if (request.query.error == 'access_denied') {
           // User denied access
-          res.redirect('/denied_access');      
-        else
+          response.redirect('/denied_access');
+        } else {
           // Token Page
-          req.session.orcid_token_error = oauth2.accessToken.create(result);
-          res.redirect('/orcid_token_error');
+          request.session.orcid_token_error = oauth2.accessToken.create(result);
+          response.redirect('/orcid_token_error');
+        }
       } else {
         // Token Page
-        req.session.orcid_token = oauth2.accessToken.create(result);
-        res.redirect('/issue');
+        request.session.orcid_token = oauth2.accessToken.create(result);
+        response.redirect('/issue');
       }
     });
+  });
+
+  // Get ORCID iD for user
+  app.get('/ORCIDiD', function (request, response) {
+    if (request.session.orcid_token === undefined) return response.send(null);
+    if (request.session.orcid_token.token === undefined) return response.send(null);
+	response.send(request.session.orcid_token.token.orcid);
   });
 
   var auth = {
