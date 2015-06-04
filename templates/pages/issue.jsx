@@ -1,6 +1,7 @@
 var React = require('react'),
     fetch = require('isomorphic-fetch'),
-    Url = require('url');
+    Url = require('url'),
+    Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
   componentDidMount: function() {
@@ -33,7 +34,7 @@ var Issue = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <Page>
         <h1>Issue a Badge</h1>
         <p>This is a simple prototype demonstrating using a form to issue a badge in the badgekit-api. In future versions we will only allow users to issue badges for their own ORCID (after logging in using ORCID oauth) on papers they have been flagged as a contributor.</p>
         <form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
@@ -73,8 +74,7 @@ var Issue = React.createClass({
                 </div>
             </fieldset>
         </form>
-
-      </div>
+      </Page>
 
       );
   }

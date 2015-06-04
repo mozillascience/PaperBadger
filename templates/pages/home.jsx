@@ -1,6 +1,7 @@
 var React = require('react'),
     Link = require('react-router').Link,
-    BadgeList = require('../components/badgelist.jsx')
+    Page = require('../components/page.jsx'),
+    BadgeList = require('../components/badgelist.jsx');
 
 var Home = React.createClass({
   componentDidMount: function() {
@@ -11,11 +12,7 @@ var Home = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <div>
-        <h1>Contributorship Badges</h1>
-        <p>Exploring the use of digital badges for crediting contributors to scholarly papers for their work. <Link to="about">More about contributorship badges.</Link></p>
-        </div>
+      <Page splash>
         <h2>Explore Badges</h2>
         <ul>
           <li><Link to="issue">Issue a badge</Link></li>
@@ -78,7 +75,7 @@ var Home = React.createClass({
             </ul>
           </li>
         </ul>
-      </div>
+      </Page>
     );
   }
 });
