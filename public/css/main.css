@@ -228,6 +228,13 @@ a.pure-button-primary {
     background: #111;
 }
 
+.footer a:link {
+  color:white;
+}
+.footer a:visited {
+  color:#CCC;
+}
+
 /*
  * -- TABLET (AND UP) MEDIA QUERIES --
  * On tablets and other medium-sized devices, we want to customize some
