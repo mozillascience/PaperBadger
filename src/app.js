@@ -26,7 +26,7 @@ module.exports = function (config) {
 
   // Build ORCID authorization oauth2 URI
   var authorization_uri = oauth2.authCode.authorizeURL({
-    redirect_uri: 'http://localhost:5000/orcid_auth_callback',
+    redirect_uri: config.ORCID_REDIRECT_URI,
     scope: '/authenticate',
     state: 'none'
   });
@@ -43,7 +43,7 @@ module.exports = function (config) {
     var code = req.query.code;
     oauth2.authCode.getToken({
       code: code,
-      redirect_uri: 'http://localhost:8000/orcid_auth_callback'
+      redirect_uri: config.ORCID_REDIRECT_URI
     }, function(error, result){
       if (error) {
         // check for access_denied param
