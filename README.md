@@ -1,4 +1,4 @@
-# PaperBadger
+# PaperBadger [![Build Status](https://travis-ci.org/mozillascience/PaperBadger.svg)](https://travis-ci.org/mozillascience/PaperBadger)
 
 Exploring the use of digital badges for crediting contributors to scholarly papers for their work
 
