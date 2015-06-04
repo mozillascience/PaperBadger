@@ -7,10 +7,10 @@ var React = require('react'),
 
 var Page = React.createClass({
   render: function() {
-    if(this.props.splash){
-      return (
-        <div className="home">
-          <Header />
+    var splash;
+
+    if (this.props.splash){
+      splash =
           <div className="splash-container">
             <div className="splash">
               <div className="splash-head">
@@ -24,27 +24,20 @@ var Page = React.createClass({
               </p>
             </div>
           </div>
-          <div className="content-wrapper">
-            <div className="content">
-              { this.props.children }
-            </div>
-            <Footer />
+      }
+
+    return (
+      <div className={ this.props.splash ? "home" : "" }>
+        <Header />
+        { splash }
+        <div className="content-wrapper">
+          <div className="content">
+            { this.props.children }
           </div>
+          <Footer />
         </div>
-      );
-    } else {
-      return (
-        <div>
-          <Header />
-          <div className="content-wrapper">
-            <div className="content">
-              { this.props.children }
-            </div>
-            <Footer />
-          </div>
-        </div>
-      );
-    }
+      </div>
+    );
   }
 });
 
