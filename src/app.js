@@ -8,6 +8,7 @@ module.exports = function (config) {
     Client = require('badgekit-api-client');
 
   app.use(express.static(path.join(__dirname, '..', '/public')));
+  
   // Set the client credentials and the OAuth2 server
   var credentials = {
     clientID: config.ORCID_AUTH_CLIENT_ID,
@@ -15,6 +16,7 @@ module.exports = function (config) {
     site: config.ORCID_AUTH_SITE,
     tokenPath: config.ORCID_AUTH_SITE
   };
+  
   // Initialize the OAuth2 Library for ORCID
   var oauth2 = require('simple-oauth2')(credentials);
 
