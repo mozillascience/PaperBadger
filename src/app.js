@@ -49,10 +49,9 @@ module.exports = function (config) {
           // User denied access
           res.redirect('/denied_access');      
         else
-          // General Error page
-          res.render('pages/error', {
-            'error': JSON.stringify(error, null, 4)
-          });
+          // Token Page
+          req.session.orcid_token_error = oauth2.accessToken.create(result);
+          res.redirect('/orcid_token_error');
       } else {
         // Token Page
         req.session.orcid_token = oauth2.accessToken.create(result);
