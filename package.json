@@ -33,6 +33,8 @@
     "npm-run-all": "^1.2.4",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
+    "express-session": "~1.11.2",
+    "simple-oauth2": "https://github.com/ORCID/simple-oauth2/archive/MASTER_2015_06_03.tar.gz",
     "webpack": "^1.8.11"
   },
   "devDependencies": {

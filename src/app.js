@@ -8,6 +8,59 @@ module.exports = function (config) {
     Client = require('badgekit-api-client');
 
   app.use(express.static(path.join(__dirname, '..', '/public')));
+  
+  // Set the client credentials and the OAuth2 server
+  var credentials = {
+    clientID: config.ORCID_AUTH_CLIENT_ID,
+    clientSecret: config.ORCID_AUTH_CLIENT_SECRET,
+    site: config.ORCID_AUTH_SITE,
+    tokenPath: config.ORCID_AUTH_SITE
+  };
+  
+  // Initialize the OAuth2 Library for ORCID
+  var oauth2 = require('simple-oauth2')(credentials);
+
+  // TODO: review proper session use
+  var session = require('express-session');
+  app.use(session({ secret: config.SESSION_SECRET, cookie: { maxAge: 60000 } }));
+
+  // Build ORCID authorization oauth2 URI
+  var authorization_uri = oauth2.authCode.authorizeURL({
+    redirect_uri: config.ORCID_REDIRECT_URI,
+    scope: '/authenticate',
+    state: 'none'
+  });
+
+  // Redirect example using Express (see http://expressjs.com/api.html#res.redirect)
+  app.get('/request-orcid-user-auth', function(req, res) {
+    // Prepare the context
+    res.redirect(authorization_uri);
+  });
+
+  // Get the ORCID access token object (the authorization code is given from the previous step).
+  app.get('/orcid_auth_callback', function(req, res) {
+    var token;
+    var code = req.query.code;
+    oauth2.authCode.getToken({
+      code: code,
+      redirect_uri: config.ORCID_REDIRECT_URI
+    }, function(error, result){
+      if (error) {
+        // check for access_denied param
+        if (req.query.error == 'access_denied')
+          // User denied access
+          res.redirect('/denied_access');      
+        else
+          // Token Page
+          req.session.orcid_token_error = oauth2.accessToken.create(result);
+          res.redirect('/orcid_token_error');
+      } else {
+        // Token Page
+        req.session.orcid_token = oauth2.accessToken.create(result);
+        res.redirect('/issue');
+      }
+    });
+  });
 
   var auth = {
     key: config.BADGES_KEY,
