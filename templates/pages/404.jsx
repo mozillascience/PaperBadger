@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react'),
+    Page = require('../components/page.jsx');
 
 var fourOhFour = React.createClass({
   componentDidMount: function() {
@@ -6,7 +7,9 @@ var fourOhFour = React.createClass({
   },
   render: function() {
     return (
-      <div>Page not found</div>
+      <Page>
+        <div>Page not found</div>
+      </Page>
     );
   }
 });

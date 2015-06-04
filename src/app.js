@@ -31,7 +31,6 @@ module.exports = function (config) {
     });
   });
 
-
   // Get all badge instances of a certain badge
   app.get('/badges/:badge', function (request, response) {
     client.getBadgeInstances({
