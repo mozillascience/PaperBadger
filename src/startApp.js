@@ -1,10 +1,14 @@
-require('dotenv').load();
+var Habitat = require('habitat')
+// load env from .env
+Habitat.load();
+
+// expose everything to `env`
+var env = new Habitat();
 
 module.exports = function (startAppCallback) {
-  var config = process.env;
-  var app = require('./app')(config);
-  app.listen(config.PORT, startAppCallback({
+  var app = require('./app')(env);
+  app.listen(env.get('PORT'), startAppCallback({
     name: 'PaperBadger',
-    port: config.PORT
+    port: env.get('PORT')
   }));
 };

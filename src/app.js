@@ -1,19 +1,19 @@
-module.exports = function (config) {
+module.exports = function (env) {
   var express = require('express'),
     helpers = require('./helpers'),
     app = express(),
     path = require('path'),
-    system = config.BADGES_SYSTEM,
+    system = env.get('BADGES_SYSTEM'),
     Client = require('badgekit-api-client');
 
   app.use(express.static(path.join(__dirname, '..', '/public')));
 
   // Set the client credentials and the OAuth2 server
   var credentials = {
-    clientID: config.ORCID_AUTH_CLIENT_ID,
-    clientSecret: config.ORCID_AUTH_CLIENT_SECRET,
-    site: config.ORCID_AUTH_SITE,
-    tokenPath: config.ORCID_AUTH_TOKEN_PATH
+    clientID: env.get('ORCID_AUTH_CLIENT_ID'),
+    clientSecret: env.get('ORCID_AUTH_CLIENT_SECRET'),
+    site: env.get('ORCID_AUTH_SITE'),
+    tokenPath: env.get('ORCID_AUTH_TOKEN_PATH')
   };
 
   // Initialize the OAuth2 Library for ORCID
@@ -22,13 +22,13 @@ module.exports = function (config) {
   // TODO: review proper session use
   var session = require('express-session');
   app.use(session({
-    secret: config.SESSION_SECRET,
+    secret: env.get('SESSION_SECRET'),
     cookie: {}
   }));
 
   // Build ORCID authorization oauth2 URI
   var authorizationUri = oauth2.authCode.authorizeURL({
-    redirect_uri: config.ORCID_REDIRECT_URI,
+    redirect_uri: env.get('ORCID_REDIRECT_URI'),
     scope: '/authenticate',
     state: 'none'
   });
@@ -44,7 +44,7 @@ module.exports = function (config) {
     var code = request.query.code;
     oauth2.authCode.getToken({
       code: code,
-      redirect_uri: config.ORCID_REDIRECT_URI
+      redirect_uri: env.get('ORCID_REDIRECT_URI')
     }, function (error, result) {
       if (error) {
         // check for access_denied param
@@ -65,11 +65,11 @@ module.exports = function (config) {
   });
 
   var auth = {
-    key: config.BADGES_KEY,
-    secret: config.BADGES_SECRET
+    key: env.get('BADGES_KEY'),
+    secret: env.get('BADGES_SECRET')
   };
 
-  var client = new Client(config.BADGES_ENDPOINT, auth);
+  var client = new Client(env.get('BADGES_ENDPOINT'), auth);
 
   app.get('/badges', function (request, response) {
     client.getAllBadges({
@@ -80,7 +80,9 @@ module.exports = function (config) {
         response.send(err);
         return;
       }
-      response.send(badges);
+      response.render(path.join(__dirname, '..', '/public/code.jade'), {
+        data: JSON.stringify(badges, null, 2)
+      });
     });
   });
 
@@ -99,7 +101,9 @@ module.exports = function (config) {
         var orcid = helpers.ORCIDFromEmail(entry.email);
         helpers.modEntry(entry, orcid);
       });
-      response.send(badges);
+      response.render(path.join(__dirname, '..', '/public/code.jade'), {
+        data: JSON.stringify(badges, null, 2)
+      });
     });
   });
 
@@ -125,7 +129,9 @@ module.exports = function (config) {
       badges.forEach(function (entry) {
         helpers.modEntry(entry, orcid);
       });
-      response.send(badges);
+      response.render(path.join(__dirname, '..', '/public/code.jade'), {
+        data: JSON.stringify(badges, null, 2)
+      });
     });
   });
 
@@ -155,7 +161,9 @@ module.exports = function (config) {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        response.send(filtered);
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(filtered, null, 2)
+        });
       }
     });
   });
@@ -190,7 +198,9 @@ module.exports = function (config) {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        response.send(filtered);
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(filtered, null, 2)
+        });
       }
     });
   });
@@ -223,7 +233,9 @@ module.exports = function (config) {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        response.send(filtered);
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(filtered, null, 2)
+        });
       }
     });
   });
@@ -255,7 +267,9 @@ module.exports = function (config) {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        response.send(filtered);
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(filtered, null, 2)
+        });
       }
     });
   });
@@ -288,7 +302,9 @@ module.exports = function (config) {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        response.send(filtered);
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(filtered, null, 2)
+        });
       }
     });
   });
@@ -314,7 +330,9 @@ module.exports = function (config) {
         return;
       }
       helpers.modEntry(badge, orcid);
-      response.send(badge);
+      response.render(path.join(__dirname, '..', '/public/code.jade'), {
+        data: JSON.stringify(badges, null, 2)
+      });
     });
   });
 
