@@ -4,28 +4,28 @@ var Url = require('url')
 
 module.exports = {
 
-  emailFromORCID: function(orcid) {
+  emailFromORCID: function (orcid) {
     return orcid + '@orcid.org';
   },
 
-  ORCIDFromEmail: function(email) {
+  ORCIDFromEmail: function (email) {
     var m = orcidRe.exec(email);
     if (m !== null) {
       return m[1];
     }
   },
 
-  modEntry: function(entry, orcid) {
+  modEntry: function (entry, orcid) {
     entry.orcid = orcid;
     delete entry.email;
     return true;
   },
 
-  urlFromDOI: function(doi) {
+  urlFromDOI: function (doi) {
     return 'http://dx.doi.org/' + doi;
   },
 
-  DOIFromURL: function(url) {
+  DOIFromURL: function (url) {
     // pathname should be '/10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
     return encodeURI(Url.parse(url).pathname) || url;
   }

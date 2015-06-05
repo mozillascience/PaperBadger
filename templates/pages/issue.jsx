@@ -6,10 +6,10 @@ var React = require('react'),
 var Issue = React.createClass({
   componentDidMount: function() {
     document.title = "Contributorship Badges";
-    // TODO: 
-    // Get /ORCIDiD
-    //    If it's null redirect to /request-orcid-user-auth
-    //    Otherwise populate orcid input
+    if(!this.props.orcid){
+      //redirect if user isn't logged in
+      window.location.href="/request-orcid-user-auth";
+    }
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -45,7 +45,7 @@ var Issue = React.createClass({
             <fieldset>
                 <div className="pure-control-group">
                     <label for="orcid">ORCID</label>
-                    <input ref="orcid" id="orcid" type="text" placeholder="Your ORCID" />
+                    <input ref="orcid" id="orcid" type="text" value={ this.props.orcid }  disabled/>
                 </div>
 
                 <div className="pure-control-group">

@@ -23,8 +23,10 @@
     "dotenv": "~1.1.0",
     "es5-shim": "^4.1.1",
     "express": "~4.9.x",
+    "express-session": "~1.11.2",
     "imports-loader": "^0.6.3",
     "isomorphic-fetch": "^2.0.2",
+    "jade": "^1.10.0",
     "js-beautify": "^1.5.5",
     "jscs": "^1.13.1",
     "jshint": "^2.7.0",
@@ -33,7 +35,6 @@
     "npm-run-all": "^1.2.4",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
-    "express-session": "~1.11.2",
     "simple-oauth2": "https://github.com/ORCID/simple-oauth2/archive/MASTER_2015_06_03.tar.gz",
     "webpack": "^1.8.11"
   },
