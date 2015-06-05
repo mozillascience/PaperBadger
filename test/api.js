@@ -16,10 +16,9 @@ var app = require('../src/app.js')(config);
 var nock = require('nock');
 
 var scope = nock('http://example.com')
-              .log(console.log)
-              .get('/systems/badgekit/badges?archived=any')
-              .reply(200, []);
-
+  .log(console.log)
+  .get('/systems/badgekit/badges?archived=any')
+  .reply(200, []);
 
 describe("PaperBadger", function () {
 
