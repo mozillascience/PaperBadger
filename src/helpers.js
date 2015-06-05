@@ -1,6 +1,6 @@
 // should this be configuration?
 var orcidRe = /(\d{4}-\d{4}-\d{4}-\d{4})@orcid\.org/;
-var Url = require('url')
+var Url = require('url');
 
 module.exports = {
 
@@ -30,4 +30,4 @@ module.exports = {
     return encodeURI(Url.parse(url).pathname) || url;
   }
 
-}
+};
