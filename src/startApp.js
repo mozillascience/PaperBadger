@@ -1,9 +1,9 @@
 module.exports = function (startAppCallback) {
-  var habitat = require('habitat');
-  habitat.load('.env');
-  habitat.load('env.dist');
+  var Habitat = require('habitat');
+  Habitat.load('.env');
+  Habitat.load('env.dist');
 
-  var env = new habitat();
+  var env = new Habitat();
 
   var app = require('./app')();
   app.listen(env.get('PORT'), startAppCallback({

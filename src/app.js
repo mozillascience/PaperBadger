@@ -1,15 +1,14 @@
 module.exports = function () {
-  var habitat = require('habitat');
-  habitat.load('.env');
-  habitat.load('env.dist');
-  var env = new habitat();
+  var Habitat = require('habitat');
+  Habitat.load('.env');
+  Habitat.load('env.dist');
+  var env = new Habitat();
   var express = require('express'),
     helpers = require('./helpers'),
     app = express(),
     path = require('path'),
     system = env.get('BADGES_SYSTEM'),
     Client = require('badgekit-api-client');
-
 
   app.use(express.static(path.join(__dirname, '..', '/public')));
 
@@ -145,14 +144,13 @@ module.exports = function () {
       badges.forEach(function (entry) {
         helpers.modEntry(entry, orcid);
       });
-      if(pretty) {
+      if (pretty) {
         response.render(path.join(__dirname, '..', '/public/code.jade'), {
           data: JSON.stringify(badges, null, 2)
         });
       } else {
         response.send(badges);
       }
-
     });
   });
 
@@ -183,7 +181,7 @@ module.exports = function () {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        if(pretty) {
+        if (pretty) {
           response.render(path.join(__dirname, '..', '/public/code.jade'), {
             data: JSON.stringify(filtered, null, 2)
           });
@@ -225,7 +223,7 @@ module.exports = function () {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        if(pretty) {
+        if (pretty) {
           response.render(path.join(__dirname, '..', '/public/code.jade'), {
             data: JSON.stringify(filtered, null, 2)
           });
@@ -264,8 +262,8 @@ module.exports = function () {
       }
       if (filtered && filtered.length === 0) {
         response.status(404).end();
-      } else {console.log(pretty)
-        if(pretty) {
+      } else {
+        if (pretty) {
           response.render(path.join(__dirname, '..', '/public/code.jade'), {
             data: JSON.stringify(filtered, null, 2)
           });
@@ -303,8 +301,8 @@ module.exports = function () {
       }
       if (filtered && filtered.length === 0) {
         response.status(404).end();
-      } else {console.log(pretty)
-        if(pretty) {
+      } else {
+        if (pretty) {
           response.render(path.join(__dirname, '..', '/public/code.jade'), {
             data: JSON.stringify(filtered, null, 2)
           });
@@ -343,8 +341,8 @@ module.exports = function () {
       }
       if (filtered && filtered.length === 0) {
         response.status(404).end();
-      } else {console.log(pretty)
-        if(pretty) {
+      } else {
+        if (pretty) {
           response.render(path.join(__dirname, '..', '/public/code.jade'), {
             data: JSON.stringify(filtered, null, 2)
           });
@@ -377,14 +375,13 @@ module.exports = function () {
         return;
       }
       helpers.modEntry(badge, orcid);
-      if(pretty) {
+      if (pretty) {
         response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(badges, null, 2)
+          data: JSON.stringify(badge, null, 2)
         });
       } else {
-        response.send(badges);
+        response.send(badge);
       }
-
     });
   });
 
