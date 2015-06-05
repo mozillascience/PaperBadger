@@ -39,6 +39,9 @@
     "webpack": "^1.8.11"
   },
   "devDependencies": {
+    "jscs": "^1.13.1",
+    "js-beautify": "^1.5.5",
+    "jshint": "^2.7.0",
     "mocha": "^2.2.5"
   },
   "engines": {
