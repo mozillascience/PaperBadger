@@ -1,10 +1,15 @@
-module.exports = function (env) {
+module.exports = function () {
+  var habitat = require('habitat');
+  habitat.load('.env');
+  habitat.load('env.dist');
+  var env = new habitat();
   var express = require('express'),
     helpers = require('./helpers'),
     app = express(),
     path = require('path'),
     system = env.get('BADGES_SYSTEM'),
     Client = require('badgekit-api-client');
+
 
   app.use(express.static(path.join(__dirname, '..', '/public')));
 
