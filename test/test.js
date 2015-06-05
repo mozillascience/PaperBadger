@@ -1,4 +1,3 @@
 var assert = require("assert");
 
-describe("example test", function() {
-});
+describe("example test", function () {});
