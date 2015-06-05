@@ -8,7 +8,8 @@ module.exports = function () {
     app = express(),
     path = require('path'),
     system = env.get('BADGES_SYSTEM'),
-    Client = require('badgekit-api-client');
+    Client = require('badgekit-api-client'),
+    jade = require('jade');
 
   app.use(express.static(path.join(__dirname, '..', '/public')));
 
@@ -54,7 +55,7 @@ module.exports = function () {
         // check for access_denied param
         if (request.query.error === 'access_denied') {
           // User denied access
-          response.redirect('/denied_access');
+          response.redirect('/denied');
         } else {
           // Token Page
           request.session.orcid_token_error = oauth2.accessToken.create(result);
