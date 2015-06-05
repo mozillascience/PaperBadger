@@ -23,9 +23,7 @@ module.exports = function (config) {
   var session = require('express-session');
   app.use(session({
     secret: config.SESSION_SECRET,
-    cookie: {
-      maxAge: 60000
-    }
+    cookie: {}
   }));
 
   // Build ORCID authorization oauth2 URI
@@ -64,17 +62,6 @@ module.exports = function (config) {
         response.redirect('/issue');
       }
     });
-  });
-
-  // Get ORCID iD for user
-  app.get('/ORCIDiD', function (request, response) {
-    if (request.session.orcid_token === undefined) {
-      return response.send(null);
-    }
-    if (request.session.orcid_token.token === undefined) {
-      return response.send(null);
-    }
-    response.send(request.session.orcid_token.token.orcid);
   });
 
   var auth = {
@@ -332,7 +319,13 @@ module.exports = function (config) {
   });
 
   app.get('*', function (request, response) {
-    response.sendFile(path.join(__dirname, '..', '/public/index.html'));
+    var orcid;
+    if (request.session.orcid_token && request.session.orcid_token.token) {
+      orcid = request.session.orcid_token.token.orcid;
+    }
+    response.render(path.join(__dirname, '..', '/public/index.jade'), {
+      orcid: orcid
+    });
   });
 
   return app;

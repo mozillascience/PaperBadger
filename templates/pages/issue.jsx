@@ -4,12 +4,12 @@ var React = require('react'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
-  componentDidMount: function() {
+  componentWillMount: function() {
     document.title = "Contributorship Badges";
-    // TODO: 
-    // Get /ORCIDiD
-    //    If it's null redirect to /request-orcid-user-auth
-    //    Otherwise populate orcid input
+    if(!this.props.orcid){
+      //redirect if user isn't logged in
+      window.location.href="/request-orcid-user-auth";
+    }
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -40,12 +40,12 @@ var Issue = React.createClass({
     return (
       <Page>
         <h1>Issue a Badge</h1>
-        <p>This is a simple prototype demonstrating using a form to issue a badge in the badgekit-api. In future versions we will only allow users to issue badges for their own ORCID (after logging in using ORCID oauth) on papers they have been flagged as a contributor.</p>
+        <p>This is a simple prototype demonstrating using a form to issue a badge in the badgekit-api. In future versions we will only allow users to issue badges on papers they have been flagged as a contributor.</p>
         <form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
             <fieldset>
                 <div className="pure-control-group">
                     <label for="orcid">ORCID</label>
-                    <input ref="orcid" id="orcid" type="text" placeholder="Your ORCID" />
+                    <input ref="orcid" id="orcid" type="text" value={ this.props.orcid }  disabled/>
                 </div>
 
                 <div className="pure-control-group">

@@ -12,7 +12,9 @@ module.exports = {
     path: path.join('public', 'js'),
     publicPath: '/js/'
   },
-
+  externals: {
+    App: true
+  },
   module: {
     loaders: [{
       test: /\.jsx$/,

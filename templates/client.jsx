@@ -12,6 +12,13 @@ var routes = (
   </Route>
 );
 
-Router.run(routes, Router.HistoryLocation, function (Handler) {
-  React.render(<Handler/>, document.body);
-});
+var App = {
+  init: function (orcid) {
+    Router.run(routes, Router.HistoryLocation, function (Handler) {
+      React.render(<Handler orcid={orcid} />, document.body);
+    });
+  }
+}
+
+// expose App so that I can pass user orcid information on load
+window.App = App;
