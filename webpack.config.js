@@ -13,7 +13,7 @@ module.exports = {
     publicPath: '/js/'
   },
   externals: {
-    "App": true
+    App: true
   },
   module: {
     loaders: [{

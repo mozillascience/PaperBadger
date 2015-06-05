@@ -319,7 +319,10 @@ module.exports = function (config) {
   });
 
   app.get('*', function (request, response) {
-    var orcid = request.session.orcid_token && request.session.orcid_token.token && request.session.orcid_token.token.orcid;
+    var orcid;
+    if (request.session.orcid_token && request.session.orcid_token.token) {
+      orcid = request.session.orcid_token.token.orcid;
+    }
     response.render(path.join(__dirname, '..', '/public/index.jade'), {
       orcid: orcid
     });
