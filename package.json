@@ -26,9 +26,6 @@
     "express-session": "~1.11.2",
     "imports-loader": "^0.6.3",
     "isomorphic-fetch": "^2.0.2",
-    "js-beautify": "^1.5.5",
-    "jscs": "^1.13.1",
-    "jshint": "^2.7.0",
     "jsx-loader": "^0.13.2",
     "mofo-style": "^1.0.1",
     "npm-run-all": "^1.2.4",
@@ -39,6 +36,9 @@
   },
   "devDependencies": {
     "supertest": "^1.0.1",
+    "jscs": "^1.13.1",
+    "js-beautify": "^1.5.5",
+    "jshint": "^2.7.0",
     "mocha": "^2.2.5"
   },
   "engines": {
