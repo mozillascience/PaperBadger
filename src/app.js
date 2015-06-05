@@ -1,16 +1,13 @@
-
 module.exports = function (config) {
-
   var express = require('express'),
     helpers = require('./helpers'),
     app = express(),
     path = require('path'),
     system = config.BADGES_SYSTEM,
-    Url = require('url'),
     Client = require('badgekit-api-client');
 
   app.use(express.static(path.join(__dirname, '..', '/public')));
-  
+
   // Set the client credentials and the OAuth2 server
   var credentials = {
     clientID: config.ORCID_AUTH_CLIENT_ID,
@@ -18,38 +15,42 @@ module.exports = function (config) {
     site: config.ORCID_AUTH_SITE,
     tokenPath: config.ORCID_AUTH_TOKEN_PATH
   };
-  
+
   // Initialize the OAuth2 Library for ORCID
   var oauth2 = require('simple-oauth2')(credentials);
 
   // TODO: review proper session use
   var session = require('express-session');
-  app.use(session({ secret: config.SESSION_SECRET, cookie: { maxAge: 60000 } }));
+  app.use(session({
+    secret: config.SESSION_SECRET,
+    cookie: {
+      maxAge: 60000
+    }
+  }));
 
   // Build ORCID authorization oauth2 URI
-  var authorization_uri = oauth2.authCode.authorizeURL({
+  var authorizationUri = oauth2.authCode.authorizeURL({
     redirect_uri: config.ORCID_REDIRECT_URI,
     scope: '/authenticate',
     state: 'none'
   });
 
   // Redirect example using Express (see http://expressjs.com/api.html#res.redirect)
-  app.get('/request-orcid-user-auth', function(request, response) {
+  app.get('/request-orcid-user-auth', function (request, response) {
     // Prepare the context
-    response.redirect(authorization_uri);
+    response.redirect(authorizationUri);
   });
 
   // Get the ORCID access token object (the authorization code from previous step)
-  app.get('/orcid_auth_callback', function(request, response) {
-    var token;
+  app.get('/orcid_auth_callback', function (request, response) {
     var code = request.query.code;
     oauth2.authCode.getToken({
       code: code,
       redirect_uri: config.ORCID_REDIRECT_URI
-    }, function(error, result){
+    }, function (error, result) {
       if (error) {
         // check for access_denied param
-        if (request.query.error == 'access_denied') {
+        if (request.query.error === 'access_denied') {
           // User denied access
           response.redirect('/denied_access');
         } else {
@@ -67,9 +68,13 @@ module.exports = function (config) {
 
   // Get ORCID iD for user
   app.get('/ORCIDiD', function (request, response) {
-    if (request.session.orcid_token === undefined) return response.send(null);
-    if (request.session.orcid_token.token === undefined) return response.send(null);
-	response.send(request.session.orcid_token.token.orcid);
+    if (request.session.orcid_token === undefined) {
+      return response.send(null);
+    }
+    if (request.session.orcid_token.token === undefined) {
+      return response.send(null);
+    }
+    response.send(request.session.orcid_token.token.orcid);
   });
 
   var auth = {
@@ -191,7 +196,7 @@ module.exports = function (config) {
       // filter for the badge
       if (badges) {
         filtered = badges.filter(function (entry) {
-          var orcid = ORCIDFromEmail(entry.email);
+          var orcid = helpers.ORCIDFromEmail(entry.email);
           return (entry.evidenceUrl === evidenceUrl) ? helpers.modEntry(entry, orcid) : false;
         });
       }
@@ -321,7 +326,7 @@ module.exports = function (config) {
         response.send(err);
         return;
       }
-      modEntry(badge, orcid);
+      helpers.modEntry(badge, orcid);
       response.send(badge);
     });
   });
