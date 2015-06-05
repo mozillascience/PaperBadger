@@ -77,6 +77,7 @@ module.exports = function () {
   var client = new Client(env.get('BADGES_ENDPOINT'), auth);
 
   app.get('/badges', function (request, response) {
+    var pretty = request.query.pretty;
     client.getAllBadges({
       system: system
     }, function (err, badges) {
@@ -85,14 +86,19 @@ module.exports = function () {
         response.send(err);
         return;
       }
-      response.render(path.join(__dirname, '..', '/public/code.jade'), {
-        data: JSON.stringify(badges, null, 2)
-      });
+      if (pretty) {
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(badges, null, 2)
+        });
+      } else {
+        response.send(badges);
+      }
     });
   });
 
   // Get all badge instances of a certain badge
   app.get('/badges/:badge', function (request, response) {
+    var pretty = request.query.pretty;
     client.getBadgeInstances({
       system: system,
       badge: request.params.badge
@@ -106,9 +112,13 @@ module.exports = function () {
         var orcid = helpers.ORCIDFromEmail(entry.email);
         helpers.modEntry(entry, orcid);
       });
-      response.render(path.join(__dirname, '..', '/public/code.jade'), {
-        data: JSON.stringify(badges, null, 2)
-      });
+      if (pretty) {
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(badges, null, 2)
+        });
+      } else {
+        response.send(badges);
+      }
     });
   });
 
@@ -116,6 +126,7 @@ module.exports = function () {
 
   // Get all badge instances earned by a user
   app.get('/users/:orcid/badges', function (request, response) {
+    var pretty = request.query.pretty;
     var orcid = request.params.orcid;
     if (!orcid) {
       response.status(400).end();
@@ -134,14 +145,20 @@ module.exports = function () {
       badges.forEach(function (entry) {
         helpers.modEntry(entry, orcid);
       });
-      response.render(path.join(__dirname, '..', '/public/code.jade'), {
-        data: JSON.stringify(badges, null, 2)
-      });
+      if(pretty) {
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(badges, null, 2)
+        });
+      } else {
+        response.send(badges);
+      }
+
     });
   });
 
   // Get all badge instances of a certain badge earned by a user
   app.get('/users/:orcid/badges/:badge', function (request, response) {
+    var pretty = request.query.pretty;
     // get all badge instances for the user. Is there a more efficient way to do this?
     var orcid = request.params.orcid,
       filtered;
@@ -166,9 +183,13 @@ module.exports = function () {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(filtered, null, 2)
-        });
+        if(pretty) {
+          response.render(path.join(__dirname, '..', '/public/code.jade'), {
+            data: JSON.stringify(filtered, null, 2)
+          });
+        } else {
+          response.send(filtered);
+        }
       }
     });
   });
@@ -178,6 +199,7 @@ module.exports = function () {
   // THIS DOES NOT WORK!!
   // Get all badge instances for a paper.
   app.get('/papers/:doi1/:doi2/badges', function (request, response) {
+    var pretty = request.query.pretty;
     if (!request.params.doi1 || !request.params.doi2) {
       response.status(400).end();
       return;
@@ -203,15 +225,20 @@ module.exports = function () {
       if (filtered && filtered.length === 0) {
         response.status(404).end();
       } else {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(filtered, null, 2)
-        });
+        if(pretty) {
+          response.render(path.join(__dirname, '..', '/public/code.jade'), {
+            data: JSON.stringify(filtered, null, 2)
+          });
+        } else {
+          response.send(filtered);
+        }
       }
     });
   });
 
   // Get all badge instances of a certain badge for a paper. NOTE: inefficiently filters for doi afterwards
   app.get('/papers/:doi1/:doi2/badges/:badge', function (request, response) {
+    var pretty = request.query.pretty;
     if (!request.params.doi1 || !request.params.doi2) {
       response.status(400).end();
       return;
@@ -237,16 +264,21 @@ module.exports = function () {
       }
       if (filtered && filtered.length === 0) {
         response.status(404).end();
-      } else {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(filtered, null, 2)
-        });
+      } else {console.log(pretty)
+        if(pretty) {
+          response.render(path.join(__dirname, '..', '/public/code.jade'), {
+            data: JSON.stringify(filtered, null, 2)
+          });
+        } else {
+          response.send(filtered);
+        }
       }
     });
   });
 
   // Get all badge instances earned by a user for a paper.
   app.get('/papers/:doi1/:doi2/:badges/:orcid/badges', function (request, response) {
+    var pretty = request.query.pretty;
     if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
       response.status(400).end();
       return;
@@ -271,16 +303,21 @@ module.exports = function () {
       }
       if (filtered && filtered.length === 0) {
         response.status(404).end();
-      } else {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(filtered, null, 2)
-        });
+      } else {console.log(pretty)
+        if(pretty) {
+          response.render(path.join(__dirname, '..', '/public/code.jade'), {
+            data: JSON.stringify(filtered, null, 2)
+          });
+        } else {
+          response.send(filtered);
+        }
       }
     });
   });
 
   // Get all badge instances of a certain badge earned by a user for a paper.
   app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
+    var pretty = request.query.pretty;
     if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
       response.status(400).end();
       return;
@@ -306,16 +343,21 @@ module.exports = function () {
       }
       if (filtered && filtered.length === 0) {
         response.status(404).end();
-      } else {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(filtered, null, 2)
-        });
+      } else {console.log(pretty)
+        if(pretty) {
+          response.render(path.join(__dirname, '..', '/public/code.jade'), {
+            data: JSON.stringify(filtered, null, 2)
+          });
+        } else {
+          response.send(filtered);
+        }
       }
     });
   });
 
   // Create a badge instance -- need to add auth around this
   app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
+    var pretty = request.query.pretty;
     // Create a badge.
     var orcid = request.params.orcid,
       badge = request.params.badge,
@@ -335,9 +377,14 @@ module.exports = function () {
         return;
       }
       helpers.modEntry(badge, orcid);
-      response.render(path.join(__dirname, '..', '/public/code.jade'), {
-        data: JSON.stringify(badges, null, 2)
-      });
+      if(pretty) {
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(badges, null, 2)
+        });
+      } else {
+        response.send(badges);
+      }
+
     });
   });
 
