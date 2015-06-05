@@ -50,7 +50,7 @@ module.exports = function (config) {
         // check for access_denied param
         if (request.query.error === 'access_denied') {
           // User denied access
-          response.redirect('/denied_access');
+          response.redirect('/denied');
         } else {
           // Token Page
           request.session.orcid_token_error = oauth2.accessToken.create(result);

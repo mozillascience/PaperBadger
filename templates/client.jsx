@@ -8,6 +8,7 @@ var routes = (
     <Route name="home" path="/" handler={require('./pages/home.jsx')} />
     <Route name="about" path="/about/?" handler={require('./pages/about.jsx')} />
     <Route name="issue" path="/issue/?" handler={require('./pages/issue.jsx')} />
+    <Route name="denied" path="/denied/?" handler={require('./pages/denied.jsx')} />
     <NotFoundRoute handler={require('./pages/404.jsx')}/>
   </Route>
 );
