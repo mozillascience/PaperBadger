@@ -4,7 +4,8 @@ module.exports = function (config) {
     app = express(),
     path = require('path'),
     system = config.BADGES_SYSTEM,
-    Client = require('badgekit-api-client');
+    Client = require('badgekit-api-client'),
+    jade = require('jade');
 
   app.use(express.static(path.join(__dirname, '..', '/public')));
 
