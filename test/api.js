@@ -1,4 +1,3 @@
-var assert = require('assert');
 var request = require('supertest');
 
 // provide a session secret for testing

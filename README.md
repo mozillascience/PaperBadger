@@ -16,19 +16,19 @@ This work is a collaboration with publishers [BioMed Central](http://www.biomedc
 1. Clone PaperBadger and enter the directory: `git clone https://github.com/mozillascience/PaperBadger && cd PaperBadger`
 2. Install PaperBadger's Node dependencies: `npm install`
 3. Copy the configuration template to its expected location: `cp env.dist .env`
-4. Open `.env` in your favourite text editor and ensure that your `PORT`, `SESSION_SECRET`, `BADGES_ENDPOINT`, `BADGES_KEY`, `BADGES_SECRET`, `BADGES_SYSTEM`, `ORCID_AUTH_CLIENT_ID`, `ORCID_AUTH_CLIENT_SECRET`, `ORCID_AUTH_SITE`, `ORCID_AUTH_TOKEN_PATH` and `ORCID_REDIRECT_URI` environment variables are set to the correct values. `PORT` can be any available port. Run `source .env`.
+4. Open `.env` in your favourite text editor and ensure that your `PORT`, `SESSION_SECRET`, `BADGES_ENDPOINT`, `BADGES_KEY`, `BADGES_SECRET`, `BADGES_SYSTEM`, `ORCID_AUTH_CLIENT_ID`, `ORCID_AUTH_CLIENT_SECRET`, `ORCID_AUTH_SITE`, `ORCID_AUTH_TOKEN_PATH` and `ORCID_REDIRECT_URI` environment variables are set to the correct values. `PORT` can be any available port.
 If you would like to develop against the hosted custom badgekit-api we have running specificaly for PaperBadger testing, your environment values should look this:
 
         # default port is 5000
         export PORT=5000
         export SESSION_SECRET=USE_SOMETHING_GOOD_LIKE_puUJjfE6QtUnYryb
-       
+
         # Badges
         export BADGES_ENDPOINT=http://badgekit-api-sciencelab.herokuapp.com/
         export BADGES_KEY=master
         export BADGES_SECRET=#############
         export BADGES_SYSTEM=badgekit
-        
+
         # ORCID Auth
         export ORCID_AUTH_CLIENT_ID=#############
         export ORCID_AUTH_CLIENT_SECRET=#############

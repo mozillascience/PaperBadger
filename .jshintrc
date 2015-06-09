@@ -1,0 +1,16 @@
+{
+  "bitwise": true,
+  "browser": true,
+  "curly": true,
+  "eqeqeq": true,
+  "freeze": true,
+  "latedef": true,
+  "node": true,
+  "shadow": true,
+  "undef": true,
+  "unused": "vars",
+  "predef": [
+    "describe",
+    "it"
+  ]
+}
