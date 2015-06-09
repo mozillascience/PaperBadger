@@ -50,3 +50,8 @@ Run tests with `mocha` or `npm test`.
 - Try not to pollute your pull request with unintended changes – keep them simple and small. If possible, squash your commits.
 - Try to share which browsers and devices your code has been tested in before submitting a pull request.
 - If your PR resolves an issue, include **closes #ISSUE_NUMBER** in your commit message (or a [synonym](https://help.github.com/articles/closing-issues-via-commit-messages)).
+- Review
+    - If your PR is ready for review, someone will be assigned to review your PR within 1 business day
+    - Once they review, comment with r+ / r- along with inline comments
+    - r-: address the comments left by the reviewer. Once you're ready for another review, ping the reviewer in a comment.
+    - r+: You code can be merged to `master`
