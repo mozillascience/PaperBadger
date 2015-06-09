@@ -3,7 +3,7 @@ var request = require('supertest');
 // provide a session secret for testing
 var config = {
   SESSION_SECRET: 'test_secret'
-}
+};
 
 var app = require('../src/app.js')(config);
 

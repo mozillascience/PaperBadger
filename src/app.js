@@ -8,9 +8,9 @@ module.exports = function () {
     app = express(),
     path = require('path'),
     system = env.get('BADGES_SYSTEM'),
-    Client = require('badgekit-api-client'),
-    jade = require('jade');
+    Client = require('badgekit-api-client');
 
+  app.set('view engine', 'jade');
   app.use(express.static(path.join(__dirname, '..', '/public')));
 
   // Set the client credentials and the OAuth2 server
