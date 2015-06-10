@@ -1,4 +1,4 @@
-var request = require('supertest');
+var request = require('request');
 
 // test config (need to override .env and .env.dist)
 process.env.SESSION_SECRET = 'test_secret'

@@ -41,7 +41,12 @@
     "jscs": "^1.13.1",
     "js-beautify": "^1.5.5",
     "jshint": "^2.7.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "request": "~2.57.0",
+    "habitat": "~3.1.2",
+    "jade": "~1.10.0",
+    "simple-oauth2": "https://github.com/ORCID/simple-oauth2/archive/MASTER_2015_06_03.tar.gz",
+    "express-session": "~1.11.2"
   },
   "engines": {
     "node": "0.12.2"
