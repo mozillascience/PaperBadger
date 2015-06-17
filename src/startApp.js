@@ -4,8 +4,10 @@ module.exports = function (startAppCallback) {
   Habitat.load('env.dist');
 
   var env = new Habitat();
+  var badgeClient = require('./badgeClient.js')(env);
+  var badgeService = require('./badgeService.js')(badgeClient, env);
 
-  var app = require('./app')();
+  var app = require('./app')(badgeService);
   app.listen(env.get('PORT'), startAppCallback({
     name: 'PaperBadger',
     port: env.get('PORT')
