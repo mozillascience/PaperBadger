@@ -35,8 +35,22 @@ describe("Intergration test against the real Badge server", function () {
       .expect('Content-Type', /json/)
       .expect(function (res) {        
         assert.equal(res.body[0].badge.name, "Formal analysis");
-      })
+        assert.equal(res.body[0].orcid, "0000-0003-4959-3049");
+        //assert.equal(res.body[0].email, null); ?? bug??
+      })      
       .expect(200, done);
+  });
+
+  it('get all badge instances earned by a user', function (done) {
+    request(app)
+    .get('/users/0000-0003-4959-3049/badges')
+    // .expect('Content-Type', /json/)
+    .expect(function (res) {
+      // console.log("badgesreturn:" + JSON.stringify(res.body, null, 2));          
+      assert.ok(res.body[0].slug, "find one badge slug");
+      assert.equal(res.body[0].orcid, "0000-0003-4959-3049");
+    })
+    .expect(200, done);
   });
 
 });
