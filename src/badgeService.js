@@ -1,10 +1,10 @@
 module.exports = function (apiClient, config) {
   var system = config.BADGES_SYSTEM;
-  var helpers = require('./helpers');
+  var helpers = require('./helpers');  
 
   function _getBadges(orcid, badge, dois) {
     return function (callback) {      
-      // var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null;
+      var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null;      
       var clientCallback = function (err, badges) {
         if (err) {
           console.error(err);
@@ -15,8 +15,8 @@ module.exports = function (apiClient, config) {
         if (badges) {                              
           filtered = badges.filter(function (entry) {
             var goodBadge = (!badge || entry.badge.slug === badge);            
-            // var goodDoi = (dois === null || entry.evidenceUrl === evidenceUrl);
-            return goodBadge;
+            var goodDoi = (!dois || entry.evidenceUrl === evidenceUrl);
+            return goodBadge && goodDoi;
           });
 
           filtered.forEach(function (entry) {
