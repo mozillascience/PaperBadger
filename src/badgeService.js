@@ -1,52 +1,32 @@
 module.exports = function (apiClient, config) {
   var system = config.BADGES_SYSTEM;
+  var helpers = require('./helpers');
 
-  function emailFromORCID(orcid) {
-    return orcid + '@orcid.org';
-  }
-
-  function modEntry(entry, orcid) {
-    entry.orcid = orcid;
-    delete entry.email;
-    return true;
-  }
-
-  function clientCallback(err, badges) {
-    if (err) {
-      console.error(err);
-      return callback(err);
-    }
-    // filter for the badge
-    if (badges) {
-      filtered = badges.filter(function (entry) {
-        return (entry.badge.slug === badge) ? modEntry(entry, orcid) : false;
-      });
-    }
-
-    if (filtered && filtered.length === 0) {
-      callback('not found');
-    } else {
-      callback(null, filtered);
-    }
-  }
-
-  function _getBadges(orcid, badge) {
-    return function (callback) {
-
+  function _getBadges(orcid, badge, dois) {
+    return function (callback) {      
+      // var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null;
       var clientCallback = function (err, badges) {
         if (err) {
           console.error(err);
           return callback(err);
         }
+
         // filter for the badge
-        if (badges) {          
+        if (badges) {                              
           filtered = badges.filter(function (entry) {
-            return (entry.badge.slug === badge) ? modEntry(entry, orcid) : false;
+            var goodBadge = (!badge || entry.badge.slug === badge);            
+            // var goodDoi = (dois === null || entry.evidenceUrl === evidenceUrl);
+            return goodBadge;
+          });
+
+          filtered.forEach(function (entry) {
+            var orcid = helpers.ORCIDFromEmail(entry.email);
+            helpers.modEntry(entry, orcid);
           });
         }
 
         if (filtered && filtered.length === 0) {
-          callback('not found');
+          callback('client return empty result');
         } else {          
           callback(null, filtered);
         }
@@ -56,7 +36,7 @@ module.exports = function (apiClient, config) {
         var filtered;
         apiClient.getBadgeInstances({
           system: system
-        }, emailFromORCID(orcid), clientCallback);
+        }, helpers.emailFromORCID(orcid), clientCallback);
       } else {        
         var filtered;
         apiClient.getBadgeInstances({

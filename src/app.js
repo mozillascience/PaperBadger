@@ -23,8 +23,7 @@ module.exports = function (badgerService) {
           httpResponse.render(path.join(__dirname, '..', '/public/code.jade'), {
             data: JSON.stringify(badges, null, 2)
           });
-        } else {
-          // console.log("badgesreturn:" + JSON.stringify(badges, null, 2));          
+        } else {          
           httpResponse.json(badges);
         }
       }
@@ -102,87 +101,16 @@ module.exports = function (badgerService) {
     returnBadges(badgerService.getBadges(null, request.params.badge), request, response);
   });
 
-  // Get all badge instances of a certain badge
-  // app.get('/badges/:badge', function (request, response) {
-  //   var pretty = request.query.pretty;
-  //   client.getBadgeInstances({
-  //     system: system,
-  //     badge: request.params.badge
-  //   }, function (err, badges) {
-  //     if (err) {
-  //       console.error(err);
-  //       response.send(err);
-  //       return;
-  //     }
-  //     badges.forEach(function (entry) {
-  //       var orcid = helpers.ORCIDFromEmail(entry.email);
-  //       helpers.modEntry(entry, orcid);
-  //     });
-  //     if (pretty) {
-  //       response.render(path.join(__dirname, '..', '/public/code.jade'), {
-  //         data: JSON.stringify(badges, null, 2)
-  //       });
-  //     } else {
-  //       console.log(">>>" + JSON.stringify(badges, null, 2));
-  //       console.log(">>>" + badges[0].badge.name);
-  //       response.json(badges);
-  //     }
-  //   });
-  // });
-
-  // function validAndProcessRequest(validation, sucessCallback, failedCallback) {
-  //   if (validation()) {
-  //     sucessCallback();
-  //   } else {
-  //     failedCallback();
-  //   }
-  // }
-
-  // var checkOrcid = function (request) {
-  //   return !request.params.orcid;
-  // }
-
-  // var failedOrcidParameterProcess = function (response) {
-  //   response.status(400).end();
-  // }
-
   /* Get badges for a user */
 
   // Get all badge instances earned by a user
-  // app.get('/users/:orcid/badges', function (request, response) {
-  //   validAndProcessRequest(checkOrcid, function(request, response) {
-  //     returnBadges(badgerService.getBadgeInstances(request.params.orcid, null), response);  
-  //   }, failedOrcidParameterProcess(response));
-  // }
-
   app.get('/users/:orcid/badges', function (request, response) {
-    var pretty = request.query.pretty;
     var orcid = request.params.orcid;
     if (!orcid) {
       response.status(400).end();
       return;
-    }
-    client.getBadgeInstances({
-      system: system
-    }, {
-      email: helpers.emailFromORCID(orcid)
-    }, function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      badges.forEach(function (entry) {
-        helpers.modEntry(entry, orcid);
-      });
-      if (pretty) {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(badges, null, 2)
-        });
-      } else {
-        response.send(badges);
-      }
-    });
+    }    
+    returnBadges(badgerService.getBadges(orcid), request, response);    
   });
 
   // Get all badge instances of a certain badge earned by a user
