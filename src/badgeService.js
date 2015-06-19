@@ -1,10 +1,10 @@
 module.exports = function (apiClient, config) {
   var system = config.get('BADGES_SYSTEM');
-  var helpers = require('./helpers');  
+  var helpers = require('./helpers');
 
   function _createBadge(orcid, badge, dois) {
-    return function (callback) {      
-      var evidence = helpers.urlFromDOI(dois._1 + '/' + dois._2);      
+    return function (callback) {
+      var evidence = helpers.urlFromDOI(dois._1 + '/' + dois._2);
       var context = {
         system: system,
         badge: badge,
@@ -19,16 +19,16 @@ module.exports = function (apiClient, config) {
           console.error(err);
           return callback(err);
         }
-        helpers.modEntry(badgeResult, orcid);    
+        helpers.modEntry(badgeResult, orcid);
 
-        callback(null, badgeResult);      
+        callback(null, badgeResult);
       });
     };
   }
 
   function _getBadges(orcid, badge, dois) {
-    return function (callback) {      
-      var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null; 
+    return function (callback) {
+      var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null;
 
       var clientCallback = function (err, badges) {
         if (err) {
@@ -37,9 +37,9 @@ module.exports = function (apiClient, config) {
         }
 
         // filter for the badge
-        if (badges) {                              
+        if (badges) {
           filtered = badges.filter(function (entry) {
-            var goodBadge = (!badge || entry.badge.slug === badge);            
+            var goodBadge = (!badge || entry.badge.slug === badge);
             var goodDoi = (!dois || entry.evidenceUrl === evidenceUrl);
             return goodBadge && goodDoi;
           });
@@ -52,24 +52,23 @@ module.exports = function (apiClient, config) {
 
         if (filtered && filtered.length === 0) {
           callback('client return empty result');
-        } else {          
+        } else {
           callback(null, filtered);
         }
-      }
+      };
 
       if (orcid) {
         var filtered;
         apiClient.getBadgeInstances({
           system: system
         }, helpers.emailFromORCID(orcid), clientCallback);
-      } else {        
+      } else {
         var filtered;
         apiClient.getBadgeInstances({
           system: system,
           badge: badge
         }, clientCallback);
       }
-
     };
   }
 
