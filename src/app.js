@@ -125,43 +125,13 @@ module.exports = function () {
 
   // THIS DOES NOT WORK!!
   // Get all badge instances for a paper.
-  // app.get('/papers/:doi1/:doi2/badges', function (request, response) {
-  //   var pretty = request.query.pretty;
-  //   if (!request.params.doi1 || !request.params.doi2) {
-  //     response.status(400).end();
-  //     return;
-  //   }
-  //   var evidenceUrl = helpers.urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
-  //     filtered;
-  //   // get all badge instances for the user. Is there a more efficient way to do this?
-  //   client.getBadgeInstances({
-  //     system: system
-  //   }, function (err, badges) {
-  //     if (err) {
-  //       console.error(err);
-  //       response.send(err);
-  //       return;
-  //     }
-  //     // filter for the badge
-  //     if (badges) {
-  //       filtered = badges.filter(function (entry) {
-  //         var orcid = helpers.ORCIDFromEmail(entry.email);
-  //         return (entry.evidenceUrl === evidenceUrl) ? helpers.modEntry(entry, orcid) : false;
-  //       });
-  //     }
-  //     if (filtered && filtered.length === 0) {
-  //       response.status(404).end();
-  //     } else {
-  //       if (pretty) {
-  //         response.render(path.join(__dirname, '..', '/public/code.jade'), {
-  //           data: JSON.stringify(filtered, null, 2)
-  //         });
-  //       } else {
-  //         response.send(filtered);
-  //       }
-  //     }
-  //   });
-  // });
+  app.get('/papers/:doi1/:doi2/badges', function (request, response) {    
+    if (!request.params.doi1 || !request.params.doi2) {
+      response.status(400).end();
+      return;
+    }
+    returnBadges(badgerService.getBadges(null, null, {'_1':request.params.doi1 , '_2':request.params.doi2}), request, response);
+  });
 
   // Get all badge instances of a certain badge for a paper. NOTE: inefficiently filters for doi afterwards
   app.get('/papers/:doi1/:doi2/badges/:badge', function (request, response) {    
