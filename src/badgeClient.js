@@ -7,4 +7,4 @@ module.exports = function (config) {
   };
 
   return new ApiClient(config.get('BADGES_ENDPOINT'), auth);
-}
+};

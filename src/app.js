@@ -3,7 +3,7 @@ module.exports = function () {
   var express = require('express'),
     helpers = require('./helpers'),
     app = express(),
-    path = require('path');    
+    path = require('path');
 
   app.set('view engine', 'jade');
   app.use(express.static(path.join(__dirname, '..', '/public')));
@@ -11,19 +11,19 @@ module.exports = function () {
   function returnBadges(getBadges, httpRequest, httpResponse) {
     getBadges(function (error, badges) {
       if (error !== null) {
-        console.log("Get error from return Badges " + error);
+        console.log('Get error from return Badges ' + error);
         httpResponse.send(error);
       } else {
         if (httpRequest.query.pretty) {
           httpResponse.render(path.join(__dirname, '..', '/public/code.jade'), {
             data: JSON.stringify(badges, null, 2)
           });
-        } else {          
+        } else {
           httpResponse.json(badges);
         }
       }
     });
-  };
+  }
 
   // Set the client credentials and the OAuth2 server
   var credentials = {
@@ -81,10 +81,7 @@ module.exports = function () {
     });
   });
 
-  var auth = {
-    key: env.get('BADGES_KEY'),
-    secret: env.get('BADGES_SECRET')
-  };  
+  /* Get all badges from system */
 
   app.get('/badges', function (request, response) {
     returnBadges(badgerService.getAllBadges(), request, response);
@@ -102,8 +99,8 @@ module.exports = function () {
     if (!orcid) {
       response.status(400).end();
       return;
-    }    
-    returnBadges(badgerService.getBadges(orcid), request, response);    
+    }
+    returnBadges(badgerService.getBadges(orcid), request, response);
   });
 
   // Get all badge instances of a certain badge earned by a user
@@ -121,21 +118,27 @@ module.exports = function () {
 
   // THIS DOES NOT WORK!!
   // Get all badge instances for a paper.
-  app.get('/papers/:doi1/:doi2/badges', function (request, response) {    
+  app.get('/papers/:doi1/:doi2/badges', function (request, response) {
     if (!request.params.doi1 || !request.params.doi2) {
       response.status(400).end();
       return;
     }
-    returnBadges(badgerService.getBadges(null, null, {'_1':request.params.doi1 , '_2':request.params.doi2}), request, response);
+    returnBadges(badgerService.getBadges(null, null, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   // Get all badge instances of a certain badge for a paper. NOTE: inefficiently filters for doi afterwards
-  app.get('/papers/:doi1/:doi2/badges/:badge', function (request, response) {    
+  app.get('/papers/:doi1/:doi2/badges/:badge', function (request, response) {
     if (!request.params.doi1 || !request.params.doi2) {
       response.status(400).end();
       return;
     }
-    returnBadges(badgerService.getBadges(null, request.params.badge, {'_1':request.params.doi1 , '_2':request.params.doi2}), request, response);
+    returnBadges(badgerService.getBadges(null, request.params.badge, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   // Get all badge instances earned by a user for a paper.
@@ -144,7 +147,10 @@ module.exports = function () {
       response.status(400).end();
       return;
     }
-    returnBadges(badgerService.getBadges(request.params.orcid, null, {'_1':request.params.doi1 , '_2':request.params.doi2}), request, response);
+    returnBadges(badgerService.getBadges(request.params.orcid, null, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   // Get all badge instances of a certain badge earned by a user for a paper.
@@ -153,7 +159,10 @@ module.exports = function () {
       response.status(400).end();
       return;
     }
-    returnBadges(badgerService.getBadges(request.params.orcid, request.params.badge, {'_1':request.params.doi1 , '_2':request.params.doi2}), request, response);
+    returnBadges(badgerService.getBadges(request.params.orcid, request.params.badge, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   // Create a badge instance -- need to add auth around this
@@ -162,7 +171,10 @@ module.exports = function () {
       response.status(400).end();
       return;
     }
-    returnBadges(badgerService.createBadge(request.params.orcid, request.params.badge, {'_1':request.params.doi1 , '_2':request.params.doi2}), request, response);
+    returnBadges(badgerService.createBadge(request.params.orcid, request.params.badge, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   app.get('*', function (request, response) {
