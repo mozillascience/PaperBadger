@@ -2,9 +2,34 @@ module.exports = function (apiClient, config) {
   var system = config.get('BADGES_SYSTEM');
   var helpers = require('./helpers');  
 
+  function _createBadge(orcid, badge, dois) {
+    return function (callback) {      
+      var evidence = helpers.urlFromDOI(dois._1 + '/' + dois._2);      
+      var context = {
+        system: system,
+        badge: badge,
+        instance: {
+          email: helpers.emailFromORCID(orcid),
+          evidenceUrl: helpers.urlFromDOI(evidence)
+        }
+      };
+
+      apiClient.createBadgeInstance(context, function (err, badgeResult) {
+        if (err) {
+          console.error(err);
+          return callback(err);
+        }
+        helpers.modEntry(badgeResult, orcid);    
+
+        callback(null, badgeResult);      
+      });
+    };
+  }
+
   function _getBadges(orcid, badge, dois) {
     return function (callback) {      
-      var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null;      
+      var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null; 
+
       var clientCallback = function (err, badges) {
         if (err) {
           console.error(err);
@@ -65,6 +90,7 @@ module.exports = function (apiClient, config) {
 
   return {
     getBadges: _getBadges,
-    getAllBadges: _getAllBadges
+    getAllBadges: _getAllBadges,
+    createBadge: _createBadge
   };
 };

@@ -3,9 +3,7 @@ module.exports = function () {
   var express = require('express'),
     helpers = require('./helpers'),
     app = express(),
-    path = require('path'),
-    system = env.get('BADGES_SYSTEM'),
-    Client = require('badgekit-api-client');
+    path = require('path');    
 
   app.set('view engine', 'jade');
   app.use(express.static(path.join(__dirname, '..', '/public')));
@@ -86,9 +84,7 @@ module.exports = function () {
   var auth = {
     key: env.get('BADGES_KEY'),
     secret: env.get('BADGES_SECRET')
-  };
-
-  var client = new Client(env.get('BADGES_ENDPOINT'), auth);
+  };  
 
   app.get('/badges', function (request, response) {
     returnBadges(badgerService.getAllBadges(), request, response);
@@ -162,34 +158,11 @@ module.exports = function () {
 
   // Create a badge instance -- need to add auth around this
   app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
-    var pretty = request.query.pretty;
-    // Create a badge.
-    var orcid = request.params.orcid,
-      badge = request.params.badge,
-      evidence = helpers.DOIFromURL(request.params.doi1 + '/' + request.params.doi2),
-      context = {
-        system: system,
-        badge: badge,
-        instance: {
-          email: helpers.emailFromORCID(orcid),
-          evidenceUrl: helpers.urlFromDOI(evidence)
-        }
-      };
-    client.createBadgeInstance(context, function (err, badge) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      helpers.modEntry(badge, orcid);
-      if (pretty) {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(badge, null, 2)
-        });
-      } else {
-        response.send(badge);
-      }
-    });
+    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid || !request.params.badge) {
+      response.status(400).end();
+      return;
+    }
+    returnBadges(badgerService.createBadge(request.params.orcid, request.params.badge, {'_1':request.params.doi1 , '_2':request.params.doi2}), request, response);
   });
 
   app.get('*', function (request, response) {
