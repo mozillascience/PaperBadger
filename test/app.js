@@ -94,4 +94,16 @@ describe("Intergration test against the real Badge server", function () {
     })
     .expect(200, done);
   });
+
+  // it('Create a badge instance', function (done) {
+  //   var newOrcid = '0000-0003-4959' + Math.floor(Math.random()*1000) + '-test';
+  //   request(app)
+  //   .post('/papers/10.1371/journal.pbio.1002126/users/' + newOrcid + '/badges/investigation')
+  //   .expect(function (res) {      
+  //     assert.ok(res.body[0].slug, "not find one badge slug in json");       
+  //     assert.equal(res.body[0].badge.name, 'Investigation');
+  //     assert.equal(res.body[0].orcid, newOrcid);      
+  //   })
+  //   .expect(200, done);
+  // });
 });
