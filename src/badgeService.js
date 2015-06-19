@@ -1,5 +1,5 @@
 module.exports = function (apiClient, config) {
-  var system = config.BADGES_SYSTEM;
+  var system = config.get('BADGES_SYSTEM');
   var helpers = require('./helpers');  
 
   function _getBadges(orcid, badge, dois) {
