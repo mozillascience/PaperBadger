@@ -356,10 +356,17 @@ module.exports = function () {
 
   // Create a badge instance -- need to add auth around this
   app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
+    var orcid;
+    if (request.session.orcid_token && request.session.orcid_token.token) {
+      orcid = request.session.orcid_token.token.orcid;
+    }
+    if (orcid !== request.params.orcid) {
+      response.status(403).end();
+      return;
+    }
     var pretty = request.query.pretty;
     // Create a badge.
-    var orcid = request.params.orcid,
-      badge = request.params.badge,
+    var badge = request.params.badge,
       evidence = helpers.DOIFromURL(request.params.doi1 + '/' + request.params.doi2),
       context = {
         system: system,
