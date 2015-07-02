@@ -1,8 +1,6 @@
 module.exports = function () {
-  var Habitat = require('habitat');
-  Habitat.load('.env');
-  Habitat.load('env.dist');
-  var env = new Habitat();
+  var env = require('./environments');
+
   var express = require('express'),
     helpers = require('./helpers'),
     app = express(),
