@@ -2,12 +2,24 @@ var request = require('supertest');
 var assert = require('assert');
 
 var Habitat = require('habitat');
-var testEnv = Habitat.load('.env');
+var testEnv = new Habitat();
 
 var badgeClient = require('../src/badgeClient.js')(testEnv);
 var badgeService = require('../src/badgeService.js')(badgeClient, testEnv);
 var app = require('../src/app.js')(badgeService);
+
+function before() {
+  // without this function declare, jshint report error
+}
+
 describe('Intergration test against the real Badge server', function () {
+  before(function () {
+    assert.ok(testEnv.get('BADGES_ENDPOINT'), 'should set up BADGES_ENDPOINT in your test environment');
+    assert.ok(testEnv.get('BADGES_KEY'), 'should set up BADGES_KEY in your test environment');
+    assert.ok(testEnv.get('BADGES_SECRET'), 'should set up BADGES_SECRET in your test environment');
+    assert.ok(testEnv.get('BADGES_SYSTEM'), 'should set up BADGES_SYSTEM in your test environment');
+  });
+
   it('get all the badges', function (done) {
     request(app)
       .get('/badges')
