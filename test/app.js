@@ -9,7 +9,7 @@ var badgeService = require('../src/badgeService.js')(badgeClient, testEnv);
 var app = require('../src/app.js')(badgeService);
 
 function before() {
-  // without this function declare, jshint report error
+  // without this function declare, jshint report error about before not defined ...
 }
 
 describe('Intergration test against the real Badge server', function () {
