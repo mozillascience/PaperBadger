@@ -1,5 +1,5 @@
 // should this be configuration?
-var orcidRe = /(\d{4}-\d{4}-\d{4}-\d{4})@orcid\.org/;
+var orcidRe = /(\d{4}-\d{4}-\d{4}-\d{3}[\dX])@orcid\.org/;
 var Url = require('url');
 
 module.exports = {

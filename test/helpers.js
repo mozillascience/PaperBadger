@@ -3,11 +3,15 @@ var assert = require('assert');
 
 describe('helpers', function () {
   it('emailFromORCID creates an email address', function () {
-    assert.equal(helpers.emailFromORCID('test'), 'test@orcid.org');
+    assert.equal(helpers.emailFromORCID('0000-0003-4959-3049'), '0000-0003-4959-3049@orcid.org');
   });
 
-  it('ORCIDFromEmail strips email leaving username', function () {
-    assert.equal(helpers.ORCIDFromEmail('test@orcid.org', 'test'));
+  it('ORCIDFromEmail strips email leaving ORCID', function () {
+    assert.equal(helpers.ORCIDFromEmail('0000-0003-4959-3049@orcid.org'), '0000-0003-4959-3049');
+  });
+
+  it('ORCIDFromEmail strips email leaving ORCID when ORCID ends in X', function () {
+    assert.equal(helpers.ORCIDFromEmail('0000-0002-3881-294X@orcid.org'), '0000-0002-3881-294X');
   });
 
   it('modEntry removes email and adds ORCID ID', function () {
