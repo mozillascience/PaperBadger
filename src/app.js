@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function (badgerService) {
   var env = require('./environments');
   var express = require('express'),
     helpers = require('./helpers'),
