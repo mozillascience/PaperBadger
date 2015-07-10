@@ -41,7 +41,7 @@
     "jscs": "^1.13.1",
     "js-beautify": "^1.5.5",
     "jshint": "^2.7.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5"    
   },
   "engines": {
     "node": "0.12.2"
