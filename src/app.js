@@ -167,14 +167,41 @@ module.exports = function (badgerService) {
 
   // Create a badge instance -- need to add auth around this
   app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
-    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid || !request.params.badge) {
-      response.status(400).end();
+    var orcid;
+    if (request.session.orcid_token && request.session.orcid_token.token) {
+      orcid = request.session.orcid_token.token.orcid;
+    }
+    if (orcid !== request.params.orcid) {
+      response.status(403).end();
       return;
     }
-    returnBadges(badgerService.createBadge(request.params.orcid, request.params.badge, {
-      '_1': request.params.doi1,
-      '_2': request.params.doi2
-    }), request, response);
+    var pretty = request.query.pretty;
+    // Create a badge.
+    var badge = request.params.badge,
+      evidence = helpers.DOIFromURL(request.params.doi1 + '/' + request.params.doi2),
+      context = {
+        system: system,
+        badge: badge,
+        instance: {
+          email: helpers.emailFromORCID(orcid),
+          evidenceUrl: helpers.urlFromDOI(evidence)
+        }
+      };
+    client.createBadgeInstance(context, function (err, badge) {
+      if (err) {
+        console.error(err);
+        response.send(err);
+        return;
+      }
+      helpers.modEntry(badge, orcid);
+      if (pretty) {
+        response.render(path.join(__dirname, '..', '/public/code.jade'), {
+          data: JSON.stringify(badge, null, 2)
+        });
+      } else {
+        response.send(badge);
+      }
+    });
   });
 
   app.get('*', function (request, response) {
