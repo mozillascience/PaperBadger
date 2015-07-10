@@ -23,7 +23,8 @@ var Issue = React.createClass({
     var url = '/papers/' + path[path.length-2] + '/' + path[path.length-1] + '/users/' + orcid + '/badges/' + badge;
 
     fetch(url, {
-      method: 'post'
+      method: 'post',
+      credentials: 'same-origin'
     })
     .then((response) => {
         if (response.status >= 400) {
