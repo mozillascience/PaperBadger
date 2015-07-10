@@ -1,8 +1,7 @@
 var request = require('supertest');
 var assert = require('assert');
 
-var Habitat = require('habitat');
-var testEnv = new Habitat();
+var testEnv = require('../src/environments');
 
 var badgeClient = require('../src/badgeClient.js')(testEnv);
 var badgeService = require('../src/badgeService.js')(badgeClient, testEnv);
