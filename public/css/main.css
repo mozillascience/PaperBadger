@@ -88,6 +88,16 @@ a.pure-button-primary {
     font-size: 120%;
 }
 
+.pure-icon-button {
+  color: #1f8dd6;
+  font-size: 120%;
+}
+
+.pure-icon-button.fa-minus-circle {
+  margin-left:0.5em;
+  vertical-align: 5px;
+}
+
 
 
 /*
