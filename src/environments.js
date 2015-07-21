@@ -1,6 +1,6 @@
-module.exports = (function() {
-  var habitat = require( "habitat" );
-  habitat.load('.env');
-  habitat.load('default.env');
-  return new habitat();
+module.exports = (function () {
+  var Habitat = require('habitat');
+  Habitat.load('.env');
+  Habitat.load('default.env');
+  return new Habitat();
 }());
