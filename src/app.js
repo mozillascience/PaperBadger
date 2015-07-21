@@ -1,15 +1,29 @@
-module.exports = function () {
+module.exports = function (badgerService) {
   var env = require('./environments');
-
   var express = require('express'),
     helpers = require('./helpers'),
     app = express(),
-    path = require('path'),
-    system = env.get('BADGES_SYSTEM'),
-    Client = require('badgekit-api-client');
+    path = require('path');
 
   app.set('view engine', 'jade');
   app.use(express.static(path.join(__dirname, '..', '/public')));
+
+  function returnBadges(getBadges, httpRequest, httpResponse) {
+    getBadges(function (error, badges) {
+      if (error !== null) {
+        console.log('Get error from return Badges ' + error);
+        httpResponse.send(error);
+      } else {
+        if (httpRequest.query.pretty) {
+          httpResponse.render(path.join(__dirname, '..', '/public/code.jade'), {
+            data: JSON.stringify(badges, null, 2)
+          });
+        } else {
+          httpResponse.json(badges);
+        }
+      }
+    });
+  }
 
   // Set the client credentials and the OAuth2 server
   var credentials = {
@@ -67,128 +81,37 @@ module.exports = function () {
     });
   });
 
-  var auth = {
-    key: env.get('BADGES_KEY'),
-    secret: env.get('BADGES_SECRET')
-  };
-
-  var client = new Client(env.get('BADGES_ENDPOINT'), auth);
+  /* Get all badges from system */
 
   app.get('/badges', function (request, response) {
-    var pretty = request.query.pretty;
-    client.getAllBadges({
-      system: system
-    }, function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      if (pretty) {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(badges, null, 2)
-        });
-      } else {
-        response.send(badges);
-      }
-    });
+    returnBadges(badgerService.getAllBadges(), request, response);
   });
 
-  // Get all badge instances of a certain badge
   app.get('/badges/:badge', function (request, response) {
-    var pretty = request.query.pretty;
-    client.getBadgeInstances({
-      system: system,
-      badge: request.params.badge
-    }, function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      badges.forEach(function (entry) {
-        var orcid = helpers.ORCIDFromEmail(entry.email);
-        helpers.modEntry(entry, orcid);
-      });
-      if (pretty) {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(badges, null, 2)
-        });
-      } else {
-        response.send(badges);
-      }
-    });
+    returnBadges(badgerService.getBadges(null, request.params.badge), request, response);
   });
 
   /* Get badges for a user */
 
   // Get all badge instances earned by a user
   app.get('/users/:orcid/badges', function (request, response) {
-    var pretty = request.query.pretty;
     var orcid = request.params.orcid;
     if (!orcid) {
       response.status(400).end();
       return;
     }
-    client.getBadgeInstances({
-      system: system
-    }, {
-      email: helpers.emailFromORCID(orcid)
-    }, function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      badges.forEach(function (entry) {
-        helpers.modEntry(entry, orcid);
-      });
-      if (pretty) {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(badges, null, 2)
-        });
-      } else {
-        response.send(badges);
-      }
-    });
+    returnBadges(badgerService.getBadges(orcid), request, response);
   });
 
   // Get all badge instances of a certain badge earned by a user
   app.get('/users/:orcid/badges/:badge', function (request, response) {
-    var pretty = request.query.pretty;
     // get all badge instances for the user. Is there a more efficient way to do this?
-    var orcid = request.params.orcid,
-      filtered;
+    var orcid = request.params.orcid;
     if (!orcid) {
       response.status(400).end();
       return;
     }
-    client.getBadgeInstances({
-      system: system
-    }, helpers.emailFromORCID(orcid), function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      // filter for the badge
-      if (badges) {
-        filtered = badges.filter(function (entry) {
-          return (entry.badge.slug === request.params.badge) ? helpers.modEntry(entry, orcid) : false;
-        });
-      }
-      if (filtered && filtered.length === 0) {
-        response.status(404).end();
-      } else {
-        if (pretty) {
-          response.render(path.join(__dirname, '..', '/public/code.jade'), {
-            data: JSON.stringify(filtered, null, 2)
-          });
-        } else {
-          response.send(filtered);
-        }
-      }
-    });
+    returnBadges(badgerService.getBadges(orcid, request.params.badge), request, response);
   });
 
   /* Get badges for a paper */
@@ -196,160 +119,50 @@ module.exports = function () {
   // THIS DOES NOT WORK!!
   // Get all badge instances for a paper.
   app.get('/papers/:doi1/:doi2/badges', function (request, response) {
-    var pretty = request.query.pretty;
     if (!request.params.doi1 || !request.params.doi2) {
       response.status(400).end();
       return;
     }
-    var evidenceUrl = helpers.urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
-      filtered;
-    // get all badge instances for the user. Is there a more efficient way to do this?
-    client.getBadgeInstances({
-      system: system
-    }, function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      // filter for the badge
-      if (badges) {
-        filtered = badges.filter(function (entry) {
-          var orcid = helpers.ORCIDFromEmail(entry.email);
-          return (entry.evidenceUrl === evidenceUrl) ? helpers.modEntry(entry, orcid) : false;
-        });
-      }
-      if (filtered && filtered.length === 0) {
-        response.status(404).end();
-      } else {
-        if (pretty) {
-          response.render(path.join(__dirname, '..', '/public/code.jade'), {
-            data: JSON.stringify(filtered, null, 2)
-          });
-        } else {
-          response.send(filtered);
-        }
-      }
-    });
+    returnBadges(badgerService.getBadges(null, null, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   // Get all badge instances of a certain badge for a paper. NOTE: inefficiently filters for doi afterwards
   app.get('/papers/:doi1/:doi2/badges/:badge', function (request, response) {
-    var pretty = request.query.pretty;
     if (!request.params.doi1 || !request.params.doi2) {
       response.status(400).end();
       return;
     }
-    var evidenceUrl = helpers.urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
-      filtered;
-    // get all badge instances for the user. Is there a more efficient way to do this?
-    client.getBadgeInstances({
-      system: system,
-      badge: request.params.badge
-    }, function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      // filter for the badge
-      if (badges) {
-        filtered = badges.filter(function (entry) {
-          var orcid = helpers.ORCIDFromEmail(entry.email);
-          return (entry.evidenceUrl === evidenceUrl) ? helpers.modEntry(entry, orcid) : false;
-        });
-      }
-      if (filtered && filtered.length === 0) {
-        response.status(404).end();
-      } else {
-        if (pretty) {
-          response.render(path.join(__dirname, '..', '/public/code.jade'), {
-            data: JSON.stringify(filtered, null, 2)
-          });
-        } else {
-          response.send(filtered);
-        }
-      }
-    });
+    returnBadges(badgerService.getBadges(null, request.params.badge, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   // Get all badge instances earned by a user for a paper.
   app.get('/papers/:doi1/:doi2/:badges/:orcid/badges', function (request, response) {
-    var pretty = request.query.pretty;
     if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
       response.status(400).end();
       return;
     }
-    var orcid = request.params.orcid,
-      evidenceUrl = helpers.urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
-      filtered;
-    // get all badge instances for the user. Is there a more efficient way to do this?
-    client.getBadgeInstances({
-      system: system
-    }, helpers.emailFromORCID(orcid), function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      // filter for the badge
-      if (badges) {
-        filtered = badges.filter(function (entry) {
-          return (entry.evidenceUrl === evidenceUrl) ? helpers.modEntry(entry, orcid) : false;
-        });
-      }
-      if (filtered && filtered.length === 0) {
-        response.status(404).end();
-      } else {
-        if (pretty) {
-          response.render(path.join(__dirname, '..', '/public/code.jade'), {
-            data: JSON.stringify(filtered, null, 2)
-          });
-        } else {
-          response.send(filtered);
-        }
-      }
-    });
+    returnBadges(badgerService.getBadges(request.params.orcid, null, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   // Get all badge instances of a certain badge earned by a user for a paper.
   app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
-    var pretty = request.query.pretty;
-    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
+    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid || !request.params.badge) {
       response.status(400).end();
       return;
     }
-    var orcid = request.params.orcid,
-      evidenceUrl = helpers.urlFromDOI(request.params.doi1 + '/' + request.params.doi2),
-      filtered;
-    // get all badge instances for the user. Is there a more efficient way to do this?
-    client.getBadgeInstances({
-      system: system
-    }, helpers.emailFromORCID(orcid), function (err, badges) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      // filter for the doi & badge
-      if (badges) {
-        filtered = badges.filter(function (entry) {
-          return ((entry.evidenceUrl === evidenceUrl) && (entry.badge.slug === request.params.badge)) ?
-            helpers.modEntry(entry, orcid) : false;
-        });
-      }
-      if (filtered && filtered.length === 0) {
-        response.status(404).end();
-      } else {
-        if (pretty) {
-          response.render(path.join(__dirname, '..', '/public/code.jade'), {
-            data: JSON.stringify(filtered, null, 2)
-          });
-        } else {
-          response.send(filtered);
-        }
-      }
-    });
+    returnBadges(badgerService.getBadges(request.params.orcid, request.params.badge, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   // Publisher submits a new paper
