@@ -36,7 +36,7 @@ var Issue = React.createClass({
     return;
   },
   getInitialState: function() {
-      return {data: [{id: 0}], email_id:0, doi: ''};
+      return {data: [{id: 0}], doi: ''};
   },
   render: function() {
     return (
