@@ -11,9 +11,7 @@ var Issue = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
     var doi = this.state.doi;
-    var emails = this.state.data.map(function(item){
-      return item.value;
-    });
+    var emails = this.state.data.split('\n');
     var path = Url.parse(doi).pathname || doi;
     path = path.split('/');
 
@@ -36,7 +34,7 @@ var Issue = React.createClass({
     return;
   },
   getInitialState: function() {
-      return {data: [{id: 0}], doi: ''};
+      return {data: '', doi: ''};
   },
   render: function() {
     return (
@@ -50,7 +48,15 @@ var Issue = React.createClass({
                     <input type="text" valueLink={this.linkState('doi')} placeholder="Paper DOI" />
                 </div>
 
-                <EmailList data={this.state.data} valueLink={this.linkState("data")} />
+                <div className="pure-control-group">
+                    <label for="authors">Author Emails</label>
+                    <textarea valueLink={this.linkState('data')} placeholder="Author emails"></textarea>
+                </div>
+
+                <div className="pure-control-group">
+                    <label></label>
+                    <span>Add each email on a separate line</span>
+                </div>
 
                 <div className="pure-controls">
                     <button type="submit" className="pure-button pure-button-primary">Submit</button>
@@ -63,66 +69,6 @@ var Issue = React.createClass({
   }
 });
 
-
-var EmailList = React.createClass({
-    onUpdate: function(id, value) {
-      var emails = this.props.data.map(function(elem){
-        if(elem.id == id){
-          elem.value = value;
-        }
-        return elem;
-      });
-      this.props.valueLink.requestChange(emails);
-    },
-    deleteObj: function(data_id) {
-      var emails = this.props.data.filter(function(elem) {
-          return elem.id != data_id;
-      });
-      this.props.valueLink.requestChange(emails);
-    },
-    handleAddAuthor: function() {
-        var email = {id: (this.props.data.length > 0 ? this.props.data[this.props.data.length-1].id + 1 : 0)},
-            emails = this.props.data;
-        emails.push(email);
-      this.props.valueLink.requestChange(emails);
-    },
-    render: function() {
-        var onDelete = this.deleteObj,
-            onUpdate = this.onUpdate;
-
-        var emails = this.props.data.map(function(email, ind, array) {
-          return <Email onDelete={onDelete} onUpdate={onUpdate} email={email} key={email.id}/>;
-        });
-
-        return (
-            <div>
-                {emails}
-                <div className="pure-control-group">
-                    <label for="badge"></label>
-                    <span onClick={this.handleAddAuthor}><i className="fa fa-plus-circle pure-icon-button"></i> Add an author</span>
-                </div>
-            </div>
-        )
-    }
-});
-
-var Email = React.createClass({
-  deleteObj: function() {
-      this.props.onDelete(this.props.email.id);
-  },
-  updateObj: function() {
-    this.props.onUpdate(this.props.email.id, this.refs.email.getDOMNode().value);
-  },
-  render: function() {
-    return (
-      <div className="pure-control-group">
-                    <label for="badge">Author Email</label>
-                    <input ref="email" type="text" placeholder='Email address' onChange={this.updateObj}/>
-                    <i onClick={this.deleteObj} className="fa fa-minus-circle pure-icon-button"></i>
-                </div>
-    );
-  }
-});
 
 module.exports = Issue;
 
