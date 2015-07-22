@@ -18,7 +18,7 @@ module.exports = {
   modEntry: function (entry, orcid) {
     entry.orcid = orcid;
     entry.email = undefined; // set undefined to remove value from badgekit
-    delete entry.email
+    delete entry.email;
     return true;
   },
 
