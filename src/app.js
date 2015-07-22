@@ -1,25 +1,24 @@
 module.exports = function (badgerService) {
   var env = require('./environments');
   var express = require('express'),
-    helpers = require('./helpers'),
     app = express(),
     path = require('path');
 
   app.set('view engine', 'jade');
   app.use(express.static(path.join(__dirname, '..', '/public')));
 
-  function returnBadges(getBadges, httpRequest, httpResponse) {
+  function returnBadges(getBadges, request, response) {
     getBadges(function (error, badges) {
       if (error !== null) {
         console.log('Get error from return Badges ' + error);
-        httpResponse.send(error);
+        response.send(error);
       } else {
-        if (httpRequest.query.pretty) {
-          httpResponse.render(path.join(__dirname, '..', '/public/code.jade'), {
+        if (request.query.pretty) {
+          response.render(path.join(__dirname, '..', '/public/code.jade'), {
             data: JSON.stringify(badges, null, 2)
           });
         } else {
-          httpResponse.json(badges);
+          response.json(badges);
         }
       }
     });
@@ -175,33 +174,14 @@ module.exports = function (badgerService) {
       response.status(403).end();
       return;
     }
-    var pretty = request.query.pretty;
-    // Create a badge.
-    var badge = request.params.badge,
-      evidence = helpers.DOIFromURL(request.params.doi1 + '/' + request.params.doi2),
-      context = {
-        system: system,
-        badge: badge,
-        instance: {
-          email: helpers.emailFromORCID(orcid),
-          evidenceUrl: helpers.urlFromDOI(evidence)
-        }
-      };
-    client.createBadgeInstance(context, function (err, badge) {
-      if (err) {
-        console.error(err);
-        response.send(err);
-        return;
-      }
-      helpers.modEntry(badge, orcid);
-      if (pretty) {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(badge, null, 2)
-        });
-      } else {
-        response.send(badge);
-      }
-    });
+    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid || !request.params.badge) {
+      response.status(400).end();
+      return;
+    }
+    returnBadges(badgerService.createBadge(request.params.orcid, request.params.badge, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    }), request, response);
   });
 
   app.get('*', function (request, response) {
