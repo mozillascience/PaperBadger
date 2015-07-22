@@ -1,16 +1,16 @@
-var React = require('react'),
+var React = require('react/addons'),
     fetch = require('isomorphic-fetch'),
     Url = require('url'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
-  email_id: 0,
+  mixins: [React.addons.LinkedStateMixin],
   componentWillMount: function() {
     document.title = "Submit a Paper | Contributorship Badges";
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var doi = this.refs.doi.getDOMNode().value.trim();
+    var doi = this.state.doi;
     var emails = this.state.data.map(function(item){
       return item.value;
     });
@@ -31,36 +31,12 @@ var Issue = React.createClass({
         return response.json();
     })
     .then((data) => {
-        document.location = url;
+        document.location = url + '/badges';
     });
     return;
   },
-  handleAddAuthor: function() {
-      var email = {id: this.email_id++};
-
-      var links = this.state.data;
-      var newLinks = links.concat([email]);
-      this.setState({data: newLinks});
-  },
-  deleteObj: function(data_id) {
-      var emails = this.state.data;
-      var newemails = emails.filter(function(elem) {
-          return elem.id != data_id;
-      });
-
-      this.setState({data: newemails});
-  },
-  updateObj: function(data_id, value){
-    var emails = this.state.data.map(function(elem){
-      if(elem.id == data_id){
-        elem.value = value;
-      }
-      return elem;
-    });
-    this.setState({data:emails});
-  },
   getInitialState: function() {
-      return {data: [{id: this.email_id++}]};
+      return {data: [{id: 0}], email_id:0, doi: ''};
   },
   render: function() {
     return (
@@ -71,17 +47,10 @@ var Issue = React.createClass({
             <fieldset>
                 <div className="pure-control-group">
                     <label for="doi">DOI</label>
-                    <input ref="doi" id="doi" type="text" placeholder="Paper DOI" />
+                    <input type="text" valueLink={this.linkState('doi')} placeholder="Paper DOI" />
                 </div>
 
-                <EmailList data={this.state.data}
-                           onUpdate={this.updateObj}
-                           onDelete={this.deleteObj} />
-
-                <div className="pure-control-group">
-                    <label for="badge"></label>
-                    <span onClick={this.handleAddAuthor}><i className="fa fa-plus-circle pure-icon-button"></i> Add an author</span>
-                </div>
+                <EmailList data={this.state.data} valueLink={this.linkState("data")} />
 
                 <div className="pure-controls">
                     <button type="submit" className="pure-button pure-button-primary">Submit</button>
@@ -96,9 +65,30 @@ var Issue = React.createClass({
 
 
 var EmailList = React.createClass({
+    onUpdate: function(id, value) {
+      var emails = this.props.data.map(function(elem){
+        if(elem.id == id){
+          elem.value = value;
+        }
+        return elem;
+      });
+      this.props.valueLink.requestChange(emails);
+    },
+    deleteObj: function(data_id) {
+      var emails = this.props.data.filter(function(elem) {
+          return elem.id != data_id;
+      });
+      this.props.valueLink.requestChange(emails);
+    },
+    handleAddAuthor: function() {
+        var email = {id: (this.props.data.length > 0 ? this.props.data[this.props.data.length-1].id + 1 : 0)},
+            emails = this.props.data;
+        emails.push(email);
+      this.props.valueLink.requestChange(emails);
+    },
     render: function() {
-        var onDelete = this.props.onDelete,
-            onUpdate = this.props.onUpdate;
+        var onDelete = this.deleteObj,
+            onUpdate = this.onUpdate;
 
         var emails = this.props.data.map(function(email, ind, array) {
           return <Email onDelete={onDelete} onUpdate={onUpdate} email={email} key={email.id}/>;
@@ -107,6 +97,10 @@ var EmailList = React.createClass({
         return (
             <div>
                 {emails}
+                <div className="pure-control-group">
+                    <label for="badge"></label>
+                    <span onClick={this.handleAddAuthor}><i className="fa fa-plus-circle pure-icon-button"></i> Add an author</span>
+                </div>
             </div>
         )
     }
