@@ -164,6 +164,12 @@ module.exports = function (badgerService) {
     }), request, response);
   });
 
+  // Publisher submits a new paper
+  app.post('/papers/:doi1/:doi2', function (request, response) {
+    // TODO: write this. https://github.com/mozillascience/PaperBadger/issues/23
+    return;
+  });
+
   // Create a badge instance -- need to add auth around this
   app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
     var orcid;
