@@ -2,10 +2,15 @@ module.exports = function (badgerService) {
   var env = require('./environments');
   var express = require('express'),
     app = express(),
+    bodyParser = require('body-parser'),
     path = require('path');
 
   app.set('view engine', 'jade');
   app.use(express.static(path.join(__dirname, '..', '/public')));
+  app.use(bodyParser.json()); // to support JSON-encoded bodies
+  app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+    extended: true
+  }));
 
   function returnBadges(getBadges, request, response) {
     getBadges(function (error, badges) {
@@ -170,8 +175,8 @@ module.exports = function (badgerService) {
     return;
   });
 
-  // Create a badge instance -- need to add auth around this
-  app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
+  // Create a badge instance -- allow for bulk loading in post data
+  app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge?', function (request, response) {
     var orcid;
     if (request.session.orcid_token && request.session.orcid_token.token) {
       orcid = request.session.orcid_token.token.orcid;
@@ -180,14 +185,30 @@ module.exports = function (badgerService) {
       response.status(403).end();
       return;
     }
-    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid || !request.params.badge) {
+    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
       response.status(400).end();
       return;
     }
-    returnBadges(badgerService.createBadge(request.params.orcid, request.params.badge, {
-      '_1': request.params.doi1,
-      '_2': request.params.doi2
-    }), request, response);
+
+    var badges = request.body.badges || [request.param.badge];
+    var badgeFinal = [];
+    badges.map(function (badge) {
+      var getBadges = badgerService.createBadge(request.params.orcid, badge, {
+        '_1': request.params.doi1,
+        '_2': request.params.doi2
+      });
+      getBadges(function (error, badge) {
+        if (error !== null) {
+          console.log('Get error from return Badges ' + error);
+          response.send(error);
+        } else {
+          badgeFinal.push(badge);
+          if (badgeFinal.length === badges.length) {
+            response.json(badgeFinal);
+          }
+        }
+      });
+    });
   });
 
   app.get('*', function (request, response) {
