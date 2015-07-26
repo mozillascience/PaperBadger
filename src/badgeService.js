@@ -4,7 +4,7 @@ module.exports = function (apiClient, config) {
 
   function _createBadge(orcid, badge, dois) {
     return function (callback) {
-      var evidence = helpers.urlFromDOI(dois._1 + '/' + dois._2);
+      var evidence = helpers.urlFromDOI(dois._1, dois._2);
       var context = {
         system: system,
         badge: badge,
@@ -28,7 +28,7 @@ module.exports = function (apiClient, config) {
 
   function _getBadges(orcid, badge, dois) {
     return function (callback) {
-      var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null;
+      var evidenceUrl = dois ? helpers.urlFromDOI(dois._1, dois._2) : null;
 
       var clientCallback = function (err, badges) {
         if (err) {

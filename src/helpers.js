@@ -22,13 +22,15 @@ module.exports = {
     return true;
   },
 
-  urlFromDOI: function (doi) {
-    return 'http://dx.doi.org/' + doi;
+  urlFromDOI: function (doi1, doi2) {
+    return 'http://dx.doi.org/' + doi1 + '/' + decodeURIComponent(doi2);
   },
 
   DOIFromURL: function (url) {
     // pathname should be '10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
-    return encodeURI(Url.parse(url).pathname) || url;
+    var doiRe = /(10\.\d{3}\d+\/.*)\b/;
+    var m = doiRe.exec(url);
+    return m[1];
   }
 
 };
