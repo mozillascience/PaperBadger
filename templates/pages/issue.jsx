@@ -17,7 +17,7 @@ var Issue = React.createClass({
     var doi = this.refs.doi.getDOMNode().value.trim();
     var badge = this.refs.badge.getDOMNode().value.trim();
 
-    var doiRe = /(10\.\d{3}\d+)\/(.*)$/;
+    var doiRe = /(10\.\d{3}\d+)\/(.*)\b/;
     var m = doiRe.exec(doi);
     var url = '/papers/' + m[1] + '/' + encodeURIComponent(m[2]) + '/users/' + orcid + '/badges';
 
