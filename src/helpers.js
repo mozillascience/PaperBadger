@@ -27,7 +27,7 @@ module.exports = {
   },
 
   DOIFromURL: function (url) {
-    // pathname should be '/10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
+    // pathname should be '10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
     return encodeURI(Url.parse(url).pathname) || url;
   }
 

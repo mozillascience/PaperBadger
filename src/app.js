@@ -186,7 +186,7 @@ module.exports = function (badgerService) {
     }
     returnBadges(badgerService.createBadge(request.params.orcid, request.params.badge, {
       '_1': request.params.doi1,
-      '_2': request.params.doi2
+      '_2': decodeURIComponent(request.params.doi2)
     }), request, response);
   });
 

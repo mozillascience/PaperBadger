@@ -17,10 +17,9 @@ var Issue = React.createClass({
     var doi = this.refs.doi.getDOMNode().value.trim();
     var badge = this.refs.badge.getDOMNode().value.trim();
 
-    var path = Url.parse(doi).pathname || doi;
-    path = path.split('/');
-
-    var url = '/papers/' + path[path.length-2] + '/' + path[path.length-1] + '/users/' + orcid + '/badges/' + badge;
+    var doiRe = /(10\.\d{3}\d+)\/(.*)$/;
+    var m = doiRe.exec(doi);
+    var url = '/papers/' + m[1] + '/' + encodeURIComponent(m[2]) + '/users/' + orcid + '/badges';
 
     fetch(url, {
       method: 'post',
