@@ -10,6 +10,7 @@ var routes = (
     <Route name="issue" path="/issue/?" handler={require('./pages/issue.jsx')} />
     <Route name="denied" path="/denied/?" handler={require('./pages/denied.jsx')} />
     <Route name="new-paper" path="/papers/new" handler={require('./pages/paper.jsx')} />
+    <Route name="view" path="/v/?" handler={require('./pages/view.jsx')} />
     <NotFoundRoute handler={require('./pages/404.jsx')}/>
   </Route>
 );

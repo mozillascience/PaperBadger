@@ -4,7 +4,7 @@ var React = require('react');
 var Badge = React.createClass({
   render: function() {
     var badge = this.props.badge,
-        slug = "/badges/" + badge.slug + '?pretty=true';
+        slug = "/v/#/badges/" + badge.slug;
     return (
       <div className="badge pure-u-1-8">
         <a href={slug} >
