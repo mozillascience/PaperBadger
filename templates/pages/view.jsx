@@ -5,13 +5,19 @@ var React = require('react'),
 var viewBadges = React.createClass({
   componentDidMount: function() {
     document.title = "Contributorship Badges";
+    window.onhashchange = this.updateUrl;
+  },
+  updateUrl: function(){
+    this.setState({ url: (window.location.href.split('#')[1] || '' )});
+  },
+  getInitialState: function() {
+    return { url: (window.location.href.split('#')[1] || this.props.url) };
   },
   render: function() {
-    var url = window.location.hash.replace('#/', '');
-    console.log(url);
     return (
       <Page>
-        <BadgeInstanceList url={ url }>
+        <p>View JSON: <a href={ this.state.url + '?pretty=true' }>{this.state.url}</a></p>
+        <BadgeInstanceList url={ this.state.url }>
         </BadgeInstanceList>
       </Page>
     );

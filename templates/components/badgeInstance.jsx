@@ -8,9 +8,9 @@ var BadgeInstance = React.createClass({
     return (
       <div className="badge pure-u-1-4">
           <img src={ badge.badge.imageUrl }/>
-          <h4> { badge.badge.name } </h4>
-          <a href={ 'http://orcid.org/' + badge.orcid }> { badge.orcid } </a><br />
-          <a href={ badge.evidenceUrl} > { badge.evidenceUrl } </a>
+          <h4><a href={ '/v/#/badges/' + badge.badge.slug }>{ badge.badge.name }</a></h4>
+          <a href={ '/v/#/users/' + badge.orcid + '/badges'}> { badge.orcid } </a><br />
+          <a href={ badge.evidenceUrl } > { badge.evidenceUrl } </a>
       </div>
     );
   }

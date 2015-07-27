@@ -4,7 +4,7 @@ var React = require('react'),
 
 var BadgeInstanceList = React.createClass({
   loadBadgesFromServer: function() {
-    fetch('/' + this.props.url)
+    fetch(this.state.url)
     .then((response) => {
         if (response.status >= 400) {
             throw new Error("Bad response from server");
@@ -15,8 +15,11 @@ var BadgeInstanceList = React.createClass({
         this.setState({data: badges});
     });
   },
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({ url: nextProps.url, data:[] }, this.loadBadgesFromServer);
+  },
   getInitialState: function() {
-    return {data: []};
+    return {data: [], url:this.props.url};
   },
   componentDidMount: function() {
     this.loadBadgesFromServer();
