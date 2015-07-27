@@ -11,7 +11,7 @@ var viewBadges = React.createClass({
     this.setState({ url: (window.location.href.split('#')[1] || '' )});
   },
   getInitialState: function() {
-    return { url: (window.location.href.split('#')[1] || this.props.url) };
+    return { url: (window.location.href.split('#')[1] || '' )};
   },
   render: function() {
     return (
