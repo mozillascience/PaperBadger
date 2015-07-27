@@ -24,7 +24,7 @@ var viewBadges = React.createClass({
     this.setState({ url: url,
                     orcid: orcid,
                     doi: doi,
-                    badge: badge }, function(){console.log(this.state)});
+                    badge: badge });
   },
   getInitialState: function() {
     return { };
