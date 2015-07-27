@@ -72,34 +72,34 @@ describe('Intergration test against the real Badge server', function () {
 
   it('get all badge instances of a certain badge for a paper.', function (done) {
     request(app)
-      .get('/papers/10.1371/journal.pbio.1002126/badges/investigation')
+      .get('/papers/10.1186/2047-217X-2-10/badges/investigation')
       .expect(function (res) {
         assert.ok(res.body[0].slug, 'not find one badge slug in json');
         assert.equal(res.body[0].badge.name, 'Investigation');
-        assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1371/journal.pbio.1002126');
+        assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1186/2047-217X-2-10');
       })
       .expect(200, done);
   });
 
   it('get all badge instances earned by a user for a paper.', function (done) {
     request(app)
-      .get('/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges')
+      .get('/papers/10.1186/2047-217X-2-10/users/0000-0002-3881-294X/badges')
       .expect(function (res) {
         assert.ok(res.body[0].slug, 'not find one badge slug in json');
-        assert.equal(res.body[0].orcid, '0000-0003-4959-3049');
-        assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1371/journal.pbio.1002126');
+        assert.equal(res.body[0].orcid, '0000-0002-3881-294X');
+        assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1186/2047-217X-2-10');
       })
       .expect(200, done);
   });
 
   it('get all badge instances of a certain badge earned by a user for a paper.', function (done) {
     request(app)
-      .get('/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges/investigation')
+      .get('/papers/10.1186/2047-217X-2-10/users/0000-0002-3881-294X/badges/investigation')
       .expect(function (res) {
         assert.ok(res.body[0].slug, 'not find one badge slug in json');
         assert.equal(res.body[0].badge.name, 'Investigation');
-        assert.equal(res.body[0].orcid, '0000-0003-4959-3049');
-        assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1371/journal.pbio.1002126');
+        assert.equal(res.body[0].orcid, '0000-0002-3881-294X');
+        assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1186/2047-217X-2-10');
       })
       .expect(200, done);
   });
