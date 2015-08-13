@@ -57,18 +57,22 @@ module.exports = function (apiClient, config) {
         }
       };
 
+      var filtered;
+      var context = {
+        system: system
+      };
+      var options = {};
       if (orcid) {
-        var filtered;
-        apiClient.getBadgeInstances({
-          system: system
-        }, helpers.emailFromORCID(orcid), clientCallback);
+        options.email = helpers.emailFromORCID(orcid);
       } else {
-        var filtered;
-        apiClient.getBadgeInstances({
-          system: system,
-          badge: badge
-        }, clientCallback);
+        context.badge = badge || '*';
       }
+      if (evidenceUrl) {
+        options.paginate = {
+          evidenceUrl: evidenceUrl
+        };
+      }
+      apiClient.getBadgeInstances(context, options, clientCallback);
     };
   }
 
