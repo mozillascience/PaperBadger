@@ -146,7 +146,7 @@ module.exports = function (badgerService) {
   });
 
   // Get all badge instances earned by a user for a paper.
-  app.get('/papers/:doi1/:doi2/:badges/:orcid/badges', function (request, response) {
+  app.get('/papers/:doi1/:doi2/users/:orcid/badges', function (request, response) {
     if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
       response.status(400).end();
       return;
