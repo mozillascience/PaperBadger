@@ -58,10 +58,10 @@ Want to help? Drop us a line in [this issue](https://github.com/mozillascience/P
     *   e.g. [/badges/formal_analysis](http://paperbadger.herokuapp.com/badges/formal_analysis)
 *   GET /users/:orcid/badges
     *   Get all badge instances earned by a user
-    *   e.g. [/users/0000-0003-4959-3049/badges](http://paperbadger.herokuapp.com/users/0000-0003-4959-3049/badges)
+    *   e.g. [/users/0000-0001-5979-8713/badges](http://paperbadger.herokuapp.com/users/0000-0001-5979-8713/badges)
 *   GET /users/:orcid/badges/:badge
     *   Get all badge instances of a certain badge earned by a user
-    *   e.g. [/users/0000-0003-4959-3049/badges/investigation](http://paperbadger.herokuapp.com/users/0000-0003-4959-3049/badges/investigation)
+    *   e.g. [/users/0000-0001-5979-8713/badges/data_curation](http://paperbadger.herokuapp.com/users/0000-0001-5979-8713/badges/data_curation)
 *   GET /papers/:doi1/:doi2/badges
     *   Get all badge instances for a paper.
     *   e.g. [/papers/10.1186/2047-217X-3-18/badges](http://paperbadger.herokuapp.com/papers/10.1186/2047-217X-3-18/badges)
@@ -70,9 +70,9 @@ Want to help? Drop us a line in [this issue](https://github.com/mozillascience/P
     *   e.g. [/papers/10.1186/2047-217X-3-18/badges/investigation](http://paperbadger.herokuapp.com/papers/10.1186/2047-217X-3-18/badges/investigation)
 *   GET /papers/:doi1/:doi2/badges/:orcid/badges
     *   Get all badge instances earned by a user for a paper.
-    *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0003-4959-3049/badges](http://paperbadger.herokuapp.com/papers/10.1186/2047-217X-3-18/users/0000-0003-4959-3049/badges)
+    *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges](http://paperbadger.herokuapp.com/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges)
 *   GET /papers/:doi1/:doi2/badges/:orcid/badges/:badge
     *   Get all badge instances of a certain badge earned by a user for a paper.
-    *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0003-4959-3049/badges/investigation](http://paperbadger.herokuapp.com/papers/10.1186/2047-217X-3-18/users/0000-0003-4959-3049/badges/investigation)
+    *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation](http://paperbadger.herokuapp.com/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation)
 *   POST /papers/:doi1/:doi2/badges/:orcid/badges/:badge
     *   Issue a badge
