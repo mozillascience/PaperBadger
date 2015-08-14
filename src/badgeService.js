@@ -19,8 +19,8 @@ module.exports = function (apiClient, config) {
           console.error(err);
           return callback(err);
         }
-        helpers.modEntry(badgeResult, orcid);
 
+        badgeResult = helpers.modEntry(badgeResult);
         callback(null, badgeResult);
       });
     };
@@ -44,10 +44,7 @@ module.exports = function (apiClient, config) {
             return goodBadge && goodDoi;
           });
 
-          filtered.forEach(function (entry) {
-            var orcid = helpers.ORCIDFromEmail(entry.email);
-            helpers.modEntry(entry, orcid);
-          });
+          filtered = filtered.map(helpers.modEntry);
         }
 
         if (filtered && filtered.length === 0) {
