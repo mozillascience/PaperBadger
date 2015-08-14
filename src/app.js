@@ -54,6 +54,12 @@ module.exports = function (badgerService) {
     state: 'none'
   });
 
+  app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+
   // Redirect example using Express (see http://expressjs.com/api.html#res.redirect)
   app.get('/request-orcid-user-auth', function (request, response) {
     // Prepare the context
