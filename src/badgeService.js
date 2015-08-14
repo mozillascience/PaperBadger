@@ -10,7 +10,7 @@ module.exports = function (apiClient, config) {
         badge: badge,
         instance: {
           email: helpers.emailFromORCID(orcid),
-          evidenceUrl: helpers.urlFromDOI(evidence)
+          evidenceUrl: evidence
         }
       };
 
