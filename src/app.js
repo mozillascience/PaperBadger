@@ -91,131 +91,24 @@ module.exports = function (badgerService) {
     });
   });
 
-  /* Get all badges from system */
+  // Routes for badges
+  var badges = require('./routes/badges')(returnBadges, badgerService);
+  app.get('/badges', badges.getAll);
+  app.get('/badges/:badge', badges.getAllByType);
 
-  app.get('/badges', function (request, response) {
-    returnBadges(badgerService.getAllBadges(), request, response);
-  });
+  // Routes for user
+  var users = require('./routes/users')(returnBadges, badgerService);
+  app.get('/users/:orcid/badges', users.getBadges);
+  app.get('/users/:orcid/badges/:badge', users.getBadgesByType);
 
-  app.get('/badges/:badge', function (request, response) {
-    returnBadges(badgerService.getBadges(null, request.params.badge), request, response);
-  });
-
-  /* Get badges for a user */
-
-  // Get all badge instances earned by a user
-  app.get('/users/:orcid/badges', function (request, response) {
-    var orcid = request.params.orcid;
-    if (!orcid) {
-      response.status(400).end();
-      return;
-    }
-    returnBadges(badgerService.getBadges(orcid), request, response);
-  });
-
-  // Get all badge instances of a certain badge earned by a user
-  app.get('/users/:orcid/badges/:badge', function (request, response) {
-    // get all badge instances for the user. Is there a more efficient way to do this?
-    var orcid = request.params.orcid;
-    if (!orcid) {
-      response.status(400).end();
-      return;
-    }
-    returnBadges(badgerService.getBadges(orcid, request.params.badge), request, response);
-  });
-
-  /* Get badges for a paper */
-
-  // THIS DOES NOT WORK!!
-  // Get all badge instances for a paper.
-  app.get('/papers/:doi1/:doi2/badges', function (request, response) {
-    if (!request.params.doi1 || !request.params.doi2) {
-      response.status(400).end();
-      return;
-    }
-    returnBadges(badgerService.getBadges(null, null, {
-      '_1': request.params.doi1,
-      '_2': request.params.doi2
-    }), request, response);
-  });
-
-  // Get all badge instances of a certain badge for a paper. NOTE: inefficiently filters for doi afterwards
-  app.get('/papers/:doi1/:doi2/badges/:badge', function (request, response) {
-    if (!request.params.doi1 || !request.params.doi2) {
-      response.status(400).end();
-      return;
-    }
-    returnBadges(badgerService.getBadges(null, request.params.badge, {
-      '_1': request.params.doi1,
-      '_2': request.params.doi2
-    }), request, response);
-  });
-
-  // Get all badge instances earned by a user for a paper.
-  app.get('/papers/:doi1/:doi2/users/:orcid/badges', function (request, response) {
-    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
-      response.status(400).end();
-      return;
-    }
-    returnBadges(badgerService.getBadges(request.params.orcid, null, {
-      '_1': request.params.doi1,
-      '_2': request.params.doi2
-    }), request, response);
-  });
-
-  // Get all badge instances of a certain badge earned by a user for a paper.
-  app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', function (request, response) {
-    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid || !request.params.badge) {
-      response.status(400).end();
-      return;
-    }
-    returnBadges(badgerService.getBadges(request.params.orcid, request.params.badge, {
-      '_1': request.params.doi1,
-      '_2': request.params.doi2
-    }), request, response);
-  });
-
-  // Publisher submits a new paper
-  app.post('/papers/:doi1/:doi2', function (request, response) {
-    // TODO: write this. https://github.com/mozillascience/PaperBadger/issues/23
-    return;
-  });
-
-  // Create a badge instance -- allow for bulk loading in post data
-  app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge?', function (request, response) {
-    var orcid;
-    if (request.session.orcid_token && request.session.orcid_token.token) {
-      orcid = request.session.orcid_token.token.orcid;
-    }
-    if (orcid !== request.params.orcid) {
-      response.status(403).end();
-      return;
-    }
-    if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
-      response.status(400).end();
-      return;
-    }
-
-    var badges = request.body.badges || [request.param.badge];
-    var badgeFinal = [];
-    badges.map(function (badge) {
-      var getBadges = badgerService.createBadge(request.params.orcid, badge, {
-        '_1': request.params.doi1,
-        '_2': request.params.doi2
-      });
-      getBadges(function (error, badge) {
-        if (error !== null) {
-          console.log('Get error from return Badges ' + error);
-          response.send(error);
-        } else {
-          badgeFinal.push(badge);
-          if (badgeFinal.length === badges.length) {
-            response.json(badgeFinal);
-          }
-        }
-      });
-    });
-  });
+  // Routes for papers
+  var papers = require('./routes/papers')(returnBadges, badgerService);
+  app.get('/papers/:doi1/:doi2/badges', papers.getBadges);
+  app.get('/papers/:doi1/:doi2/badges/:badge', papers.getBadgesByType);
+  app.get('/papers/:doi1/:doi2/users/:orcid/badges', papers.getUserBadges);
+  app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', papers.getUserBadgesByType);
+  app.post('/papers/:doi1/:doi2', papers.create);
+  app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge?', papers.createBadges);
 
   app.get('*', function (request, response) {
     var orcid;
