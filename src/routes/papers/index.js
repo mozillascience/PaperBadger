@@ -1,19 +1,4 @@
 var returnBadges, badgerService;
-module.exports = function (rb, bs) {
-  returnBadges = rb;
-  badgerService = bs;
-  return {
-    // GET
-    getBadges: getBadges,
-    getBadgesByType: getBadgesByType,
-    getUserBadges: getUserBadges,
-    getUserBadgesByType: getUserBadgesByType,
-
-    // POST
-    create: create,
-    createBadges: createBadges
-  };
-};
 
 function getBadges(request, response) {
   if (!request.params.doi1 || !request.params.doi2) {
@@ -102,3 +87,20 @@ function createBadges(request, response) {
     });
   });
 }
+
+
+module.exports = function (rb, bs) {
+  returnBadges = rb;
+  badgerService = bs;
+  return {
+    // GET
+    getBadges: getBadges,
+    getBadgesByType: getBadgesByType,
+    getUserBadges: getUserBadges,
+    getUserBadgesByType: getUserBadgesByType,
+
+    // POST
+    create: create,
+    createBadges: createBadges
+  };
+};
