@@ -1,12 +1,4 @@
 var returnBadges, badgerService;
-module.exports = function (rb, bs) {
-  returnBadges = rb;
-  badgerService = bs;
-  return {
-    getBadges: getBadges,
-    getBadgesByType: getBadgesByType
-  };
-};
 
 function getBadges(request, response) {
   var orcid = request.params.orcid;
@@ -26,3 +18,12 @@ function getBadgesByType(request, response) {
   }
   returnBadges(badgerService.getBadges(orcid, request.params.badge), request, response);
 }
+
+module.exports = function (rb, bs) {
+  returnBadges = rb;
+  badgerService = bs;
+  return {
+    getBadges: getBadges,
+    getBadgesByType: getBadgesByType
+  };
+};
