@@ -4,8 +4,10 @@ var assert = require('assert');
 var testEnv = require('../src/environments');
 
 var badgeClient = require('../src/badgeClient.js')(testEnv);
-var badgeService = require('../src/badgeService.js')(badgeClient, testEnv);
-var app = require('../src/app.js')(badgeService);
+var badgeService = require('../src/badgeService.js');
+badgeService.init(badgeClient, testEnv);
+
+var app = require('../src/app.js');
 
 function before() {
   // without this function declare, jshint report error about before not defined ...

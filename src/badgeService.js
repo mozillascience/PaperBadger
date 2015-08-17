@@ -1,34 +1,50 @@
-module.exports = function (apiClient, config) {
-  var system = config.get('BADGES_SYSTEM');
-  var helpers = require('./helpers');
+var path = require('path');
+var helpers = require('./helpers');
 
-  function _createBadge(orcid, badge, dois) {
+// We really want a singleton here
+var instance, client, system;
+module.exports = {
+    init: function (apiClient, config) {
+        client = apiClient;
+        system = config.get('BADGES_SYSTEM');
+    },
+
+    getInstance: function () {
+        if (!instance) {
+            instance = new BadgeService();
+        }
+        return instance;
+    }
+};
+
+function BadgeService() {}
+
+BadgeService.prototype.createBadge = function (orcid, badge, dois) {
     return function (callback) {
-      var evidence = helpers.urlFromDOI(dois._1 + '/' + dois._2);
-      var context = {
-        system: system,
-        badge: badge,
-        instance: {
-          email: helpers.emailFromORCID(orcid),
-          evidenceUrl: evidence
-        }
-      };
+        var evidence = helpers.urlFromDOI(path.join(dois._1, dois._2));
+        var context = {
+            system: system,
+            badge: badge,
+            instance: {
+                email: helpers.emailFromORCID(orcid),
+                evidenceUrl: evidence
+            }
+        };
 
-      apiClient.createBadgeInstance(context, function (err, badgeResult) {
-        if (err) {
-          console.error(err);
-          return callback(err);
-        }
-
-        badgeResult = helpers.modEntry(badgeResult);
-        callback(null, badgeResult);
-      });
+        client.createBadgeInstance(context, function (err, badgeResult) {
+            if (err) {
+                console.error(err);
+                return callback(err);
+            }
+            badgeResult = helpers.modEntry(badgeResult);
+            callback(null, badgeResult);
+        });
     };
-  }
+};
 
-  function _getBadges(orcid, badge, dois) {
+BadgeService.prototype.getBadges = function (orcid, badge, dois) {
     return function (callback) {
-      var evidenceUrl = dois ? helpers.urlFromDOI(dois._1 + '/' + dois._2) : null;
+      var evidenceUrl = dois ? helpers.urlFromDOI(path.join(dois._1, dois._2)) : null;
 
       var clientCallback = function (err, badges) {
         if (err) {
@@ -69,28 +85,21 @@ module.exports = function (apiClient, config) {
           evidenceUrl: evidenceUrl
         };
       }
-      apiClient.getBadgeInstances(context, options, clientCallback);
+      client.getBadgeInstances(context, options, clientCallback);
     };
-  }
+};
 
-  function _getAllBadges() {
+BadgeService.prototype.getAllBadges = function () {
     return function (callback) {
-      apiClient.getAllBadges({
-        system: system
-      }, function (err, badges) {
-        if (err) {
-          console.error(err);
-          callback(err);
-        } else {
-          callback(null, badges);
-        }
-      });
+        client.getAllBadges({
+            system: system
+        }, function (err, badges) {
+            if (err) {
+                console.error(err);
+                callback(err);
+            } else {
+                callback(null, badges);
+            }
+        });
     };
-  }
-
-  return {
-    getBadges: _getBadges,
-    getAllBadges: _getAllBadges,
-    createBadge: _createBadge
-  };
 };
