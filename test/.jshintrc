@@ -10,5 +10,11 @@
   "undef": true,
   "unused": "vars",
   "predef": [
+    "after",
+    "afterEach",
+    "before",
+    "beforeEach",
+    "describe",
+    "it"
   ]
 }
