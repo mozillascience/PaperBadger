@@ -1,13 +1,13 @@
 var app = require('./app');
 var env = require('./environments');
-var client = require('./badgeClient');
-var service = require('./badgeService');
+var client = require('./badges/client');
+var service = require('./badges/service');
 
 function init() {
-    service.init(client, env);
-    app.listen(env.get('PORT'), function () {
-        console.log('PaperBadger started on port: ', env.get('PORT'));
-    });
+  service.init(client, env);
+  app.listen(env.get('PORT'), function () {
+    console.log('PaperBadger started on port: ', env.get('PORT'));
+  });
 }
 
 init();

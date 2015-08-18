@@ -1,11 +1,3 @@
-module.exports = {
-  emailFromORCID: emailFromORCID,
-  ORCIDFromEmail: ORCIDFromEmail,
-  modEntry: modEntry,
-  urlFromDOI: urlFromDOI,
-  DOIFromURL: DOIFromURL
-};
-
 // should this be configuration?
 var orcidRe = /(\d{4}-\d{4}-\d{4}-\d{3}[\dX])@orcid\.org/;
 var Url = require('url');
@@ -41,3 +33,11 @@ function DOIFromURL(url) {
   // pathname should be '/10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
   return encodeURI(Url.parse(url).pathname) || url;
 }
+
+module.exports = {
+  emailFromORCID: emailFromORCID,
+  ORCIDFromEmail: ORCIDFromEmail,
+  modEntry: modEntry,
+  urlFromDOI: urlFromDOI,
+  DOIFromURL: DOIFromURL
+};

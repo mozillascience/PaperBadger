@@ -6,7 +6,9 @@ describe('helpers', function () {
   var entry;
 
   beforeEach(function () {
-    entry = { email: orcid + '@orcid.org' };
+    entry = {
+      email: orcid + '@orcid.org'
+    };
   });
 
   it('emailFromORCID creates an email address', function () {
