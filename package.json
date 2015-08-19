@@ -10,9 +10,10 @@
     "clean": "rm -r public/js/*",
     "server": "node src/index.js",
     "jscs": "jscs -c node_modules/mofo-style/linters/.jscsrc src test webpack.config.js",
-    "jshint": "jshint -c .jshintrc src test webpack.config.js",
+    "jshint": "jshint -c .jshintrc src webpack.config.js",
+    "jshint:test": "jshint -c test/.jshintrc test",
     "jsbeautify": "js-beautify --config node_modules/mofo-style/linters/.jsbeautifyrc src/*.js test/*.js webpack.config.js -r -n",
-    "lint": "npm run jsbeautify && npm run jshint && npm run jscs",
+    "lint": "npm run jsbeautify && npm run jshint && npm run jshint:test && npm run jscs",
     "build:production": "npm run build:js -- --optimize-minimize --optimize-dedupe",
     "start:production": "npm-run-all build:production server",
     "test": "mocha"
@@ -38,12 +39,12 @@
     "webpack": "^1.8.11"
   },
   "devDependencies": {
-    "nock": "^2.3.0",
-    "supertest": "^1.0.1",
-    "jscs": "^1.13.1",
     "js-beautify": "^1.5.5",
+    "jscs": "^1.13.1",
     "jshint": "^2.7.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "nock": "^2.3.0",
+    "supertest": "^1.0.1"
   },
   "engines": {
     "node": "0.12.2"

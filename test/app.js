@@ -9,10 +9,6 @@ badgeService.init(badgeClient, testEnv);
 
 var app = require('../src/app.js');
 
-function before() {
-  // without this function declare, jshint report error about before not defined ...
-}
-
 describe('Intergration test against the real Badge server', function () {
   before(function () {
     assert.ok(testEnv.get('BADGES_ENDPOINT'), 'should set up BADGES_ENDPOINT in your test environment');
