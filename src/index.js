@@ -1,6 +1,6 @@
 var app = require('./app');
 var env = require('./environments');
-var client = require('./badges/client');
+var client = require('./badges/client')(env);
 var service = require('./badges/service');
 
 function init() {
