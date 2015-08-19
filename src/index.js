@@ -1,7 +1,13 @@
-var startApp = require('./startApp');
+var app = require('./app');
+var env = require('./environments');
+var client = require('./badges/client')(env);
+var service = require('./badges/service');
 
-var startAppCallback = function (app) {
-  console.log(app.name + ' started on ' + app.port);
-};
+function init() {
+  service.init(client, env);
+  app.listen(env.get('PORT'), function () {
+    console.log('PaperBadger started on port: ', env.get('PORT'));
+  });
+}
 
-startApp(startAppCallback);
+init();

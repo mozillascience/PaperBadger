@@ -3,13 +3,11 @@ var assert = require('assert');
 
 var testEnv = require('../src/environments');
 
-var badgeClient = require('../src/badgeClient.js')(testEnv);
-var badgeService = require('../src/badgeService.js')(badgeClient, testEnv);
-var app = require('../src/app.js')(badgeService);
+var badgeClient = require('../src/badges/client')(testEnv);
+var badgeService = require('../src/badges/service');
+badgeService.init(badgeClient, testEnv);
 
-function before() {
-  // without this function declare, jshint report error about before not defined ...
-}
+var app = require('../src/app.js');
 
 describe('Intergration test against the real Badge server', function () {
   before(function () {

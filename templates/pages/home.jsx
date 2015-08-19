@@ -37,36 +37,37 @@ var Home = React.createClass({
           <li>GET /users/:orcid/badges
             <ul>
               <li>Get all badge instances earned by a user</li>
-              <li>e.g. <a href="/users/0000-0003-4959-3049/badges?pretty=true">/users/0000-0003-4959-3049/badges</a></li>
+              <li>e.g. <a href="/users/0000-0001-5979-8713/badges?pretty=true">/users/0000-0001-5979-8713/badges</a></li>
             </ul>
           </li>
           <li>GET /users/:orcid/badges/:badge
             <ul>
               <li>Get all badge instances of a certain badge earned by a user</li>
-              <li>e.g. <a href="/users/0000-0003-4959-3049/badges/investigation?pretty=true">/users/0000-0003-4959-3049/badges/investigation</a></li>
+              <li>e.g. <a href="/users/0000-0001-5979-8713/badges/data_curation?pretty=true">/users/0000-0001-5979-8713/badges/data_curation</a></li>
             </ul>
           </li>
-          <li>GET /papers/:doi1/:doi2/badges (not implemented)
+          <li>GET /papers/:doi1/:doi2/badges
             <ul>
               <li>Get all badge instances for a paper.</li>
+               <li>e.g. <a href="/papers/10.1186/2047-217X-3-18/badges?pretty=true">/papers/10.1186/2047-217X-3-18/badges</a></li>
             </ul>
           </li>
           <li>GET /papers/:doi1/:doi2/badges/:badge
             <ul>
               <li>Get all badge instances of a certain badge for a paper.</li>
-              <li>e.g. <a href="/papers/10.1371/journal.pbio.1002126/badges/investigation?pretty=true">/papers/10.1371/journal.pbio.1002126/badges/investigation</a></li>
+              <li>e.g. <a href="/papers/10.1186/2047-217X-3-18/badges/investigation?pretty=true">/papers/10.1186/2047-217X-3-18/badges/investigation</a></li>
             </ul>
           </li>
           <li>GET /papers/:doi1/:doi2/badges/:orcid/badges
             <ul>
               <li>Get all badge instances earned by a user for a paper.</li>
-              <li>e.g. <a href="/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges?pretty=true">/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges</a></li>
+              <li>e.g. <a href="/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges?pretty=true">/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges</a></li>
             </ul>
           </li>
           <li>GET /papers/:doi1/:doi2/badges/:orcid/badges/:badge
             <ul>
               <li>Get all badge instances of a certain badge earned by a user for a paper.</li>
-              <li>e.g. <a href="/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges/investigation?pretty=true">/papers/10.1371/journal.pbio.1002126/users/0000-0003-4959-3049/badges/investigation</a></li>
+              <li>e.g. <a href="/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation?pretty=true">/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation</a></li>
             </ul>
           </li>
           <li>POST /papers/:doi1/:doi2/badges/:orcid/badges/:badge

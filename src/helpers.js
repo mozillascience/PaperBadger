@@ -1,36 +1,45 @@
 // should this be configuration?
 var orcidRe = /(\d{4}-\d{4}-\d{4}-\d{3}[\dX])@orcid\.org/;
-var Url = require('url');
+var path = require('path');
 
-module.exports = {
+function emailFromORCID(orcid) {
+  return orcid + '@orcid.org';
+}
 
-  emailFromORCID: function (orcid) {
-    return orcid + '@orcid.org';
-  },
-
-  ORCIDFromEmail: function (email) {
-    var m = orcidRe.exec(email);
-    if (m !== null) {
-      return m[1];
-    }
-  },
-
-  modEntry: function (entry, orcid) {
-    entry.orcid = orcid;
-    entry.email = undefined; // set undefined to remove value from badgekit
-    delete entry.email;
-    return true;
-  },
-
-  urlFromDOI: function (doi1, doi2) {
-    return 'http://dx.doi.org/' + doi1 + '/' + decodeURIComponent(doi2);
-  },
-
-  DOIFromURL: function (url) {
-    // pathname should be '10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
-    var doiRe = /(10\.\d{3}\d+\/.*)\b/;
-    var m = doiRe.exec(url);
+function ORCIDFromEmail(email) {
+  var m = orcidRe.exec(email);
+  if (m !== null) {
     return m[1];
   }
+}
 
+function modEntry(entry, orcid) {
+  var clone = {};
+  Object.keys(entry).forEach(function (key) {
+    if (key === 'email') {
+      clone.orcid = ORCIDFromEmail(entry.email);
+    } else {
+      clone[key] = entry[key];
+    }
+  });
+  return clone;
+}
+
+function urlFromDOI(doi1, doi2) {
+  return 'http://dx.doi.org/' + path.join(doi1, decodeURIComponent(doi2));
+}
+
+function DOIFromURL(url) {
+  // pathname should be '10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
+  var doiRe = /(10\.\d{3}\d+\/.*)\b/;
+  var m = doiRe.exec(url);
+  return m[1];
+}
+
+module.exports = {
+  emailFromORCID: emailFromORCID,
+  ORCIDFromEmail: ORCIDFromEmail,
+  modEntry: modEntry,
+  urlFromDOI: urlFromDOI,
+  DOIFromURL: DOIFromURL
 };
