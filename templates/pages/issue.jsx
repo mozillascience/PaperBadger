@@ -1,6 +1,7 @@
 var React = require('react'),
     fetch = require('isomorphic-fetch'),
     Url = require('url'),
+    path = require('path'),
     CheckboxGroup = require('react-checkbox-group'),
     Page = require('../components/page.jsx');
 
@@ -18,10 +19,9 @@ var Issue = React.createClass({
     var doi = this.refs.doi.getDOMNode().value.trim();
     var badges = this.refs.badges.getCheckedValues();
 
-    var path = Url.parse(doi).pathname || doi;
-    path = path.split('/');
-
-    var url = '/papers/' + path[path.length-2] + '/' + path[path.length-1] + '/users/' + orcid + '/badges';
+    var doiRe = /(10\.\d{3}\d+)\/(.*)\b/;
+    var m = doiRe.exec(doi);
+    var url = path.join('/papers', m[1],encodeURIComponent(m[2]), 'users', orcid, 'badges');
 
     fetch(url, {
       method: 'post',

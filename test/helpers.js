@@ -38,12 +38,12 @@ describe('helpers', function () {
   });
 
   it('urlFromDOI returns a doi.org URI given a DOI', function () {
-    assert.equal(helpers.urlFromDOI('science'), 'http://dx.doi.org/science');
+    assert.equal(helpers.urlFromDOI('10.1186', '2047-217X-2-10'), 'http://dx.doi.org/10.1186/2047-217X-2-10');
   });
 
   it('DOIFromURL returns a DOI given a URI', function () {
-    assert.equal(helpers.DOIFromURL('http://dx.doi.org/science'), '/science');
-    assert.equal(helpers.DOIFromURL('http://dx.doi.org/science/'), '/science/');
-    assert.equal(helpers.DOIFromURL('https://dx.doi.org/science'), '/science');
+    assert.equal(helpers.DOIFromURL('http://dx.doi.org/10.1186/2047-217X-2-10'), '10.1186/2047-217X-2-10');
+    assert.equal(helpers.DOIFromURL('http://dx.doi.org/10.1186/2047-217X-2-10/'), '10.1186/2047-217X-2-10');
+    assert.equal(helpers.DOIFromURL('https://dx.doi.org/10.1186/2047-217X-2-10'), '10.1186/2047-217X-2-10');
   });
 });

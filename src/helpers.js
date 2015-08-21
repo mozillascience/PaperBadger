@@ -1,6 +1,6 @@
 // should this be configuration?
 var orcidRe = /(\d{4}-\d{4}-\d{4}-\d{3}[\dX])@orcid\.org/;
-var Url = require('url');
+var path = require('path');
 
 function emailFromORCID(orcid) {
   return orcid + '@orcid.org';
@@ -25,13 +25,15 @@ function modEntry(entry, orcid) {
   return clone;
 }
 
-function urlFromDOI(doi) {
-  return 'http://dx.doi.org/' + doi;
+function urlFromDOI(doi1, doi2) {
+  return 'http://dx.doi.org/' + path.join(doi1, decodeURIComponent(doi2));
 }
 
 function DOIFromURL(url) {
-  // pathname should be '/10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
-  return encodeURI(Url.parse(url).pathname) || url;
+  // pathname should be '10.1371/journal.pbio.1002126' from 'http://dx.doi.org/10.1371/journal.pbio.1002126'
+  var doiRe = /(10\.\d{3}\d+\/.*)\b/;
+  var m = doiRe.exec(url);
+  return m[1];
 }
 
 module.exports = {
