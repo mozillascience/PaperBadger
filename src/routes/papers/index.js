@@ -12,6 +12,27 @@ function getBadges(request, response) {
   }), request, response);
 }
 
+function getBadgeCount(request, response) {
+  if (!request.params.doi1 || !request.params.doi2) {
+    response.status(400).end();
+    return;
+  }
+
+  var getBadges = badgerService.getBadges(null, null, {
+      '_1': request.params.doi1,
+      '_2': request.params.doi2
+    });
+
+  getBadges(function (error, badges) {
+    if (error !== null) {
+      console.log('Get error from return Badges ' + error);
+      response.send(error);
+    } else {
+      response.json(badges.length);
+    }
+  });
+}
+
 function getBadgesByType(request, response) {
   if (!request.params.doi1 || !request.params.doi2) {
     response.status(400).end();
@@ -98,6 +119,7 @@ module.exports = function (rb, bs) {
     getBadgesByType: getBadgesByType,
     getUserBadges: getUserBadges,
     getUserBadgesByType: getUserBadgesByType,
+    getBadgeCount: getBadgeCount,
 
     // POST
     create: create,

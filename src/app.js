@@ -104,11 +104,13 @@ app.get('/badges/:badge', badges.getAllByType);
 // Routes for user
 var users = require('./routes/users')(returnBadges, badgerService);
 app.get('/users/:orcid/badges', users.getBadges);
+app.get('/users/:orcid/badges/count', users.getBadgeCount);
 app.get('/users/:orcid/badges/:badge', users.getBadgesByType);
 
 // Routes for papers
 var papers = require('./routes/papers')(returnBadges, badgerService);
 app.get('/papers/:doi1/:doi2/badges', papers.getBadges);
+app.get('/papers/:doi1/:doi2/badges/count', papers.getBadgeCount);
 app.get('/papers/:doi1/:doi2/badges/:badge', papers.getBadgesByType);
 app.get('/papers/:doi1/:doi2/users/:orcid/badges', papers.getUserBadges);
 app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', papers.getUserBadgesByType);
