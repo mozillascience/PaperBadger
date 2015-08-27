@@ -15,7 +15,7 @@ BadgeService.prototype.createBadge = function (orcid, badge, dois, name) {
       instance: {
         email: helpers.emailFromORCID(orcid),
         evidenceUrl: evidence,
-        name: name
+        authorName: name
       }
     };
 
