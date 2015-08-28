@@ -84,7 +84,7 @@ function showBadges(confIn){
 	var look=new Object(), lookGroupOrcidFromBadge=new Object(), lookGroup=new Object(), lookGroupNo=new Object(), lookTemporaryValue=new Array(2);
 	
 	look[modeString]=0;
-	look["name"]=1;
+	look["authorName"]=1;
 	look["slug"]=2;
 	var lastTempVal=look["imageUrl"]=3;
 	
@@ -104,7 +104,7 @@ function showBadges(confIn){
 		
 		arrayNumber=look[find];
 		
-		find=(find == modeString) ? "name" : (find == "name") ? "slug" : (find == "slug") ? "imageUrl" : modeString;
+		find=(find == modeString) ? "authorName" : (find == "authorName") ? "slug" : (find == "slug") ? "imageUrl" : modeString;
 		
 		lookTemporaryValue[arrayNumber]=str.substring(i, j+1);
 		
