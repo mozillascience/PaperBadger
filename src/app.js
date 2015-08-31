@@ -118,6 +118,7 @@ app.post('/papers/:doi1/:doi2', papers.create);
 app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge?', papers.createBadges);
 
 app.get('*', function (request, response) {
+  response.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   var orcid;
   if (request.session.orcid_token && request.session.orcid_token.token) {
     orcid = request.session.orcid_token.token.orcid;
