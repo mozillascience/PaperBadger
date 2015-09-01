@@ -7,9 +7,9 @@ function getClaim(request, response) {
     return;
   }
   var query  = Claim.where({ slug: request.params.slug });
-  query.findOne(function(err, claim){
+  query.findOne(function(err, claim) {
     response.json(claim);
-  })
+  });
 }
 
 module.exports = function () {

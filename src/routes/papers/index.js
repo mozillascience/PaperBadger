@@ -78,7 +78,10 @@ function createPaper(request, response) {
   var doiUrl = helpers.urlFromDOI(request.params.doi1, request.params.doi2);
   var emails = request.body.emails;
 
-  for (var email of emails) {
+  for (var e in emails) {
+    var email = emails[e];
+
+    // Generate a claim code, store in mongo, email each user their unique claim code
     var claim = new Claim({
       slug: shortid.generate(),
       doi: doiUrl,
@@ -108,8 +111,9 @@ function createBadges(request, response) {
   }
 
   var badges = request.body.badges || [request.param.badge];
-  var slug = request.body.claim;
 
+  // Delete the claim code once it's been used
+  var slug = request.body.claim;
   Claim.find({ slug:slug }).remove().exec();
 
   var badgeFinal = [];
