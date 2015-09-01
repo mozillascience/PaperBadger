@@ -74,7 +74,7 @@ function getUserBadgesByType(request, response) {
   }), request, response);
 }
 
-function create(request, response) {
+function createPaper(request, response) {
   var doiUrl = helpers.urlFromDOI(request.params.doi1, request.params.doi2);
   var emails = request.body.emails;
 
@@ -108,6 +108,10 @@ function createBadges(request, response) {
   }
 
   var badges = request.body.badges || [request.param.badge];
+  var slug = request.body.claim;
+
+  Claim.find({ slug:slug }).remove().exec();
+
   var badgeFinal = [];
   badges.map(function (badge) {
     var getBadges = badgerService.createBadge(request.params.orcid, badge, {
@@ -141,7 +145,7 @@ module.exports = function (rb, bs) {
     getBadgeCount: getBadgeCount,
 
     // POST
-    create: create,
+    createPaper: createPaper,
     createBadges: createBadges
   };
 };

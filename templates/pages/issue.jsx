@@ -42,6 +42,7 @@ var Issue = React.createClass({
     var orcid = this.refs.orcid.getDOMNode().value.trim();
     var doi = this.refs.doi.getDOMNode().value.trim();
     var badges = this.refs.badges.getCheckedValues();
+    var claim = this.state.claim.slug;
 
     var doiRe = /(10\.\d{3}\d+)\/(.*)\b/;
     var m = doiRe.exec(doi);
@@ -54,7 +55,7 @@ var Issue = React.createClass({
         'Content-Type': 'application/json'
       },
       credentials: 'same-origin',
-      body: JSON.stringify({badges: badges})
+      body: JSON.stringify({badges: badges, claim: claim})
     })
     .then((response) => {
         if (response.status >= 400) {
@@ -63,7 +64,7 @@ var Issue = React.createClass({
         return response.json();
     })
     .then((data) => {
-        document.location = url + '?pretty=true';
+        window.location = '/v/#' + url;
     });
     return;
   },
