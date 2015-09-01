@@ -1,6 +1,6 @@
 var React = require('react/addons'),
     fetch = require('isomorphic-fetch'),
-    Url = require('url'),
+    path = require('path'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
@@ -12,15 +12,19 @@ var Issue = React.createClass({
     e.preventDefault();
     var doi = this.state.doi;
     var emails = this.state.data.split('\n');
-    var path = Url.parse(doi).pathname || doi;
-    path = path.split('/');
 
-    var url = '/papers/' + path[path.length-2] + '/' + path[path.length-1];
+    var doiRe = /(10\.\d{3}\d+)\/(.*)\b/;
+    var m = doiRe.exec(doi);
+    var url = path.join('/papers', m[1],encodeURIComponent(m[2]));
 
     fetch(url, {
       method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       credentials: 'same-origin',
-      body: JSON.stringify(emails)
+      body: JSON.stringify({emails: emails})
     })
     .then((response) => {
         if (response.status >= 400) {

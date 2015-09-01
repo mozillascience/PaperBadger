@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 /* Request Schema */
 
 var requestSchema = new Schema({
-  id: String,
+  slug: String,
   doi: String,
   status: String
 });

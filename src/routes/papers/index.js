@@ -1,4 +1,9 @@
 var returnBadges, badgerService;
+var path = require('path');
+var helpers = require(path.join(process.cwd(), 'src', 'helpers'));
+var mongoose = require('mongoose');
+var Request = mongoose.model('Request');
+var shortid = require('shortid');
 
 function getBadges(request, response) {
   if (!request.params.doi1 || !request.params.doi2) {
@@ -70,7 +75,20 @@ function getUserBadgesByType(request, response) {
 }
 
 function create(request, response) {
-  // TODO: write this. https://github.com/mozillascience/PaperBadger/issues/23
+  var doiUrl = helpers.urlFromDOI(request.params.doi1, request.params.doi2);
+  var emails = request.body.emails;
+
+  for (var email of emails) {
+    var req = new Request({
+      slug: shortid.generate(),
+      doi: doiUrl,
+      status: 'new'
+    });
+
+    // TODO: make this actually send an email. Do not store emails.
+    console.log('send an email to ' + email + ' sending them to /issue/' + req.slug + '. For paper: ' + doiUrl);
+  }
+
   return;
 }
 
