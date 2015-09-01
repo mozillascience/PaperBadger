@@ -33,7 +33,7 @@ var Issue = React.createClass({
         return response.json();
     })
     .then((data) => {
-        document.location = url + '/badges';
+        window.location.reload();
     });
     return;
   },

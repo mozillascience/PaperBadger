@@ -70,6 +70,14 @@ label {
     margin-bottom: 1em;
 }
 
+.pure-form input[type=text] {
+    width: 20em;
+}
+
+.pure-form textarea {
+    width: 20em;
+}
+
 /*
  * -- PURE BUTTON STYLES --
  * I want my pure-button elements to look a little different

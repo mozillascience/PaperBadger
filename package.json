@@ -32,6 +32,7 @@
     "jsx-loader": "^0.13.2",
     "mofo-style": "^1.0.1",
     "mongoose": "^4.1.4",
+    "nodemailer": "^1.4.0",
     "npm-run-all": "^1.2.4",
     "react": "^0.13.2",
     "react-checkbox-group": "^0.1.9",

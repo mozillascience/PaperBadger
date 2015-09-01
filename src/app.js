@@ -8,6 +8,17 @@ var badgerService = require('./badges/service').getInstance();
 var mongoose = require('mongoose');
 var mongoUri = env.get('MONGOLAB_URI');
 
+var nodemailer = require('nodemailer');
+
+// create reusable transporter object using SMTP transport
+var transporter = nodemailer.createTransport({
+    service: env.get('EMAIL_SERVICE'),
+    auth: {
+        user: env.get('EMAIL_ADDRESS'),
+        pass: env.get('EMAIL_PASS')
+    }
+});
+
 // We are simply defining the app in this module.
 // Anything below here will configure the app reference.
 var app = express();
@@ -120,7 +131,7 @@ app.get('/users/:orcid/badges/count', users.getBadgeCount);
 app.get('/users/:orcid/badges/:badge', users.getBadgesByType);
 
 // Routes for papers
-var papers = require('./routes/papers')(returnBadges, badgerService);
+var papers = require('./routes/papers')(returnBadges, badgerService, transporter);
 app.get('/papers/:doi1/:doi2/badges', papers.getBadges);
 app.get('/papers/:doi1/:doi2/badges/count', papers.getBadgeCount);
 app.get('/papers/:doi1/:doi2/badges/:badge', papers.getBadgesByType);
