@@ -5,6 +5,9 @@ var path = require('path');
 var env = require('./environments');
 var badgerService = require('./badges/service').getInstance();
 
+var mongoose = require('mongoose');
+var mongoUri = env.get('MONGOLAB_URI');
+
 // We are simply defining the app in this module.
 // Anything below here will configure the app reference.
 var app = express();
@@ -16,6 +19,15 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
+
+mongoose.connect(mongoUri);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log('connection!');
+});
+
+var models = require('./models.js')
 
 function returnBadges(getBadges, request, response) {
   getBadges(function (error, badges) {
