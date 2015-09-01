@@ -3,15 +3,15 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-/* Request Schema */
+/* Claim Schema */
 
-var requestSchema = new Schema({
+var claimSchema = new Schema({
   slug: String,
   doi: String,
   status: String
 });
 
-mongoose.model('Request', requestSchema);
+mongoose.model('Claim', claimSchema);
 
 
 /* User Schema */

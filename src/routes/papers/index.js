@@ -2,7 +2,7 @@ var returnBadges, badgerService;
 var path = require('path');
 var helpers = require(path.join(process.cwd(), 'src', 'helpers'));
 var mongoose = require('mongoose');
-var Request = mongoose.model('Request');
+var Claim = mongoose.model('Claim');
 var shortid = require('shortid');
 
 function getBadges(request, response) {
@@ -79,7 +79,7 @@ function create(request, response) {
   var emails = request.body.emails;
 
   for (var email of emails) {
-    var req = new Request({
+    var req = new Claim({
       slug: shortid.generate(),
       doi: doiUrl,
       status: 'new'

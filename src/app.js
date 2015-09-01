@@ -103,7 +103,7 @@ app.get('/orcid_auth_callback', function (request, response) {
     } else {
       // Token Page
       request.session.orcid_token = oauth2.accessToken.create(result);
-      response.redirect('/issue');
+      response.redirect(request.session.redirect || '/issue');
     }
   });
 });
@@ -129,7 +129,13 @@ app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', papers.getUserBadgesBy
 app.post('/papers/:doi1/:doi2', papers.create);
 app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge?', papers.createBadges);
 
+// Routes for issue badge claims
+var claims = require('./routes/claims')();
+app.get('/claims/:slug', claims.getClaim);
+app.post('/claims/:slug', claims.updateClaim);
+
 app.get('*', function (request, response) {
+  request.session.redirect = request.originalUrl;
   var orcid;
   if (request.session.orcid_token && request.session.orcid_token.token) {
     orcid = request.session.orcid_token.token.orcid;
