@@ -1,7 +1,7 @@
 function callAjax(url, callbackFunction) {
-	
+
     var xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-	
+
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             callbackFunction(xmlhttp.responseText);
@@ -10,11 +10,11 @@ function callAjax(url, callbackFunction) {
 
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
-}	
-	
+}
+
 function visitArray(arr, visitor) {
     var result = [];
-	
+
     for (var i = 0; i < arr.length; i++) {
         result[i] = visitor(arr[i]);
     }
@@ -24,20 +24,20 @@ function visitArray(arr, visitor) {
 
 function renderBadge(key, badgeData)
 {
-	var outString="<div class=\"paper-badge\"><p>"+key+"</p>";	
+	var outString="<div class=\"paper-badge\"><p>"+key+"</p>";
 	var all=badgeData.split(";");
 	outString+="<img style=\'max-width: 8em\' src='"+all[0]+"' />";
 	outString+="<p>"+all[1]+"</p></div>";
-	
+
 	return outString;
 }
 
 function createBadgeJSON(badgeData)
 {
-	var all=badgeData.split(";");	
+	var all=badgeData.split(";");
 	var imageUrl="\"imageUrl\":\""+all[0]+"\"";
 	var all2="{"+imageUrl+",\"authorList\":"+"[\""+all[1].split(",").join("\",\"")+"\"]}";
-	
+
 	return all2;
 }
 
@@ -65,109 +65,109 @@ function nextAction()
 function splitArray(arr, lookGroup)
 {
 	var ttt="";
-	
+
 	for(var i=0, arrLen=arr.length; i<arrLen; i++)
 		{
-		var noIn=lookGroup[arr[i]];	
-		ttt+="<span class=\"badge-span\" data-bind-badge='"+arr[i]+"'>"+noIn.split("_").join(" ")+"</span>";	
+		var noIn=lookGroup[arr[i]];
+		ttt+="<span class=\"badge-span\" data-bind-badge='"+arr[i]+"'>"+noIn.split("_").join(" ")+"</span>";
 		}
-	
-	return ttt;	
+
+	return ttt;
 }
 
-	
+
 function showBadges(confIn){
-	
+
 	var k="";
-	
-	var containerClass=(confIn["container-class"]) ? confIn["container-class"] : "badge-container";	
+
+	var containerClass=(confIn["container-class"]) ? confIn["container-class"] : "badge-container";
 	var doi=confIn["article-doi"];
-		
-	callAjax("http://badges-mozillascience-org.herokuapp.com/papers/"+doi+"/badges", function( entryData ) {
-		
-	var outCount=0;		
+
+	callAjax("https://badges.mozillascience.org/papers/"+doi+"/badges", function( entryData ) {
+
+	var outCount=0;
 	var pos=0, end=0;
 	var excludeChars="\" :\{\}\n\r";
-	
+
 	var mode=0;
 	var modeString=find=(!mode) ? "orcid" : "evidenceUrl";
 	var look=new Object(), lookGroupOrcidFromBadge=new Object(), lookGroup=new Object(), lookGroupNo=new Object(), lookTemporaryValue=new Array(2);
-	
+
 	look[modeString]=0;
 	look["authorName"]=1;
 	look["slug"]=2;
 	var lastTempVal=look["imageUrl"]=3;
-	
+
 	var group=1;
 	var arrayNumber=1;
-	
+
 	while((pos=entryData.indexOf(find, pos))>0)
 		{
 		end=entryData.indexOf("\,", pos);
-		
+
 		var str=entryData.substring(pos+find.length, end);
-		
+
 		var i=0, k=0, ind=0;
-		
+
 		for(; ind>=0; ){ind=excludeChars.indexOf(str.charAt(i)); if(ind>=0) i++;}
-		for(ind=0, j=str.length-1; ind>=0;){ind=excludeChars.indexOf(str.charAt(j)); if(ind>=0) j--;}			
-		
+		for(ind=0, j=str.length-1; ind>=0;){ind=excludeChars.indexOf(str.charAt(j)); if(ind>=0) j--;}
+
 		arrayNumber=look[find];
-		
+
 		find=(find == modeString) ? "authorName" : (find == "authorName") ? "slug" : (find == "slug") ? "imageUrl" : modeString;
-		
+
 		lookTemporaryValue[arrayNumber]=str.substring(i, j+1);
-		
+
 		if(arrayNumber == lastTempVal) {
-			
+
 			if(lookTemporaryValue[lastTempVal] != "null")
 				{
 				var key=lookTemporaryValue[2].split(" ").join("");
 				var lookTempVal=lookTemporaryValue[0];
-				
+
 				if(lookGroupOrcidFromBadge[key])
 					{
-					if(new String(lookGroupOrcidFromBadge[key]).indexOf(lookTempVal)<0)		
-					lookGroupOrcidFromBadge[key]+=","+lookTempVal;	
+					if(new String(lookGroupOrcidFromBadge[key]).indexOf(lookTempVal)<0)
+					lookGroupOrcidFromBadge[key]+=","+lookTempVal;
 					}
 				else
-					{	
+					{
 					lookGroupOrcidFromBadge[key]=lookTemporaryValue[3]+";"+lookTemporaryValue[0];
 					}
 				lookGroup[lookTempVal]=lookTemporaryValue[1].split(" ").join("_");
 				}
 			}
 		}
-	
+
 		var allJson="";
 		var JSONarray=new Array(), iArr=0;
-		
+
 		for (var k in lookGroupOrcidFromBadge) {
 			// use hasOwnProperty to filter out keys from the Object.prototype
 			if (lookGroupOrcidFromBadge.hasOwnProperty(k)) {JSONarray[iArr++]=createBadgeJSON(lookGroupOrcidFromBadge[k]);}
 			}
-	
+
 		var containerClassQuery=document.querySelector("."+containerClass);
 		var parsedJSON=JSON.parse("["+JSONarray.join(",")+"]");
-		
+
 		if(containerClassQuery)
 			{
 			containerClassQuery.appendChild(document.createElement("style")).innerHTML=insertCSS();
-			
+
 			for(var i=0; i<parsedJSON.length; i++)
 				{
 				var returnString="";
-				
+
 				returnString+="<img src=\""+parsedJSON[i]["imageUrl"]+"\" style=\"max-width: 7em\" />";
 				returnString+=splitArray(parsedJSON[i]["authorList"], lookGroup);
-				
+
 				var newNode=document.createElement("div");
 				newNode.setAttribute("class", "paper-badge");
-				
+
 				containerClassQuery.appendChild(newNode).innerHTML=returnString;
 				}
-			}	
+			}
 	});
-		
-	$(document).on("hover, click", ".badge-span", showLine).on("click", ".badge-span", nextAction); 
+
+	$(document).on("hover, click", ".badge-span", showLine).on("click", ".badge-span", nextAction);
 }
