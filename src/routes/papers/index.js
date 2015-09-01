@@ -79,14 +79,15 @@ function create(request, response) {
   var emails = request.body.emails;
 
   for (var email of emails) {
-    var req = new Claim({
+    var claim = new Claim({
       slug: shortid.generate(),
       doi: doiUrl,
       status: 'new'
     });
+    claim.save();
 
     // TODO: make this actually send an email. Do not store emails.
-    console.log('send an email to ' + email + ' sending them to /issue/' + req.slug + '. For paper: ' + doiUrl);
+    console.log('send an email to ' + email + ' sending them to /issue/' + claim.slug + '. For paper: ' + doiUrl);
   }
 
   return;

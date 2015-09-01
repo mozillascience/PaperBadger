@@ -6,12 +6,31 @@ var React = require('react'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
+  loadClaimFromServer: function(slug) {
+    fetch('/claims/' + slug)
+    .then((response) => {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    })
+    .then((claim) => {
+        this.setState({claim: claim});
+    });
+  },
+  contextTypes: {
+    router: React.PropTypes.func
+  },
   componentWillMount: function() {
     document.title = "Contributorship Badges";
     if(!this.props.orcid){
       //redirect if user isn't logged in
       window.location.href="/request-orcid-user-auth";
     }
+    this.loadClaimFromServer(this.context.router.getCurrentParams().slug);
+  },
+  getInitialState: function() {
+    return {data: {}, claim: {}};
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -44,10 +63,12 @@ var Issue = React.createClass({
     return;
   },
   render: function() {
+    console.log('CLAIM');
+    console.log(this.state.claim);
+    var claim = this.state.claim;
     return (
       <Page>
-        <h1>Issue a Badge</h1>
-        <p>This is a simple prototype demonstrating using a form to issue a badge in the badgekit-api. In future versions we will only allow users to issue badges on papers they have been flagged as a contributor.</p>
+        <h1>Issue Badges</h1>
         <form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
             <fieldset>
                 <div className="pure-control-group">
@@ -57,7 +78,7 @@ var Issue = React.createClass({
 
                 <div className="pure-control-group">
                     <label for="doi">DOI</label>
-                    <input ref="doi" id="doi" type="text" placeholder="Paper DOI" />
+                    <input ref="doi" id="doi" type="text" value={ claim.doi }  disabled/>
                 </div>
 
                 <div className="pure-control-group">

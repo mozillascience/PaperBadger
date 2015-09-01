@@ -132,7 +132,6 @@ app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge?', papers.createBadges)
 // Routes for issue badge claims
 var claims = require('./routes/claims')();
 app.get('/claims/:slug', claims.getClaim);
-app.post('/claims/:slug', claims.updateClaim);
 
 app.get('*', function (request, response) {
   request.session.redirect = request.originalUrl;
