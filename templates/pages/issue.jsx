@@ -1,10 +1,12 @@
 var React = require('react'),
+    Router = require('react-router'),
     Url = require('url'),
     path = require('path'),
     CheckboxGroup = require('react-checkbox-group'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
+  mixins: [ Router.State ],
   loadClaimFromServer: function(slug) {
     fetch('/claims/' + slug)
     .then((response) => {
@@ -17,16 +19,13 @@ var Issue = React.createClass({
         this.setState({claim: claim});
     });
   },
-  contextTypes: {
-    router: React.PropTypes.func
-  },
   componentWillMount: function() {
     document.title = "Contributorship Badges";
     if(!this.props.user){
       //redirect if user isn't logged in
       window.location.href="/request-orcid-user-auth";
     }
-    this.loadClaimFromServer(this.context.router.getCurrentParams().slug);
+    this.loadClaimFromServer(this.getParams().slug);
   },
   getInitialState: function() {
     return {data: {}, claim: {}};
