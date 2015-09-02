@@ -1,5 +1,6 @@
 var React = require('react'),
     Router = require('react-router'),
+    fetch = require('isomorphic-fetch'),
     NotFoundRoute = Router.NotFoundRoute,
     Route = Router.Route;
 
@@ -16,13 +17,18 @@ var routes = (
   </Route>
 );
 
-var App = {
-  init: function (orcid) {
-    Router.run(routes, Router.HistoryLocation, function (Handler) {
-      React.render(<Handler orcid={orcid} />, document.body);
-    });
-  }
-}
 
-// expose App so that I can pass user orcid information on load
-window.App = App;
+fetch('/user', {
+  credentials: 'same-origin'
+})
+.then((response) => {
+  if (response.status >= 400) {
+      throw new Error("Bad response from server");
+  }
+  return response.json();
+})
+.then((user) => {
+  Router.run(routes, Router.HistoryLocation, function (Handler) {
+    React.render(<Handler user={user}/>, document.body);
+  });
+});

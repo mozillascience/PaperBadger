@@ -23,7 +23,7 @@ var Issue = React.createClass({
   },
   componentWillMount: function() {
     document.title = "Contributorship Badges";
-    if(!this.props.orcid){
+    if(!this.props.user){
       //redirect if user isn't logged in
       window.location.href="/request-orcid-user-auth";
     }
@@ -72,7 +72,6 @@ var Issue = React.createClass({
     var claim = this.state.claim;
 
     if(claim.doi){
-
       return (
         <Page>
           <h1>Issue Badges</h1>
@@ -80,7 +79,7 @@ var Issue = React.createClass({
               <fieldset>
                   <div className="pure-control-group">
                       <label for="orcid">ORCID</label>
-                      <input ref="orcid" id="orcid" type="text" value={ this.props.orcid }  disabled/>
+                      <input ref="orcid" id="orcid" type="text" value={ this.props.user.orcid }  disabled/>
                   </div>
 
                   <div className="pure-control-group">
