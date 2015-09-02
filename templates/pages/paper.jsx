@@ -1,11 +1,15 @@
 var React = require('react/addons'),
+    Router = require('react-router'),
+    Navigation = require('react-router').Navigation,
     path = require('path'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [React.addons.LinkedStateMixin, Navigation],
   componentWillMount: function() {
     document.title = "Submit a Paper | Contributorship Badges";
+  },
+  componentDidMount: function() {
     if(!this.props.user){
       //redirect if user isn't logged in
       window.location.href="/request-orcid-user-auth";
@@ -13,7 +17,7 @@ var Issue = React.createClass({
 
     if(this.props.user.role != 'publisher'){
       //redirect home is user isn't a publisher
-      window.location.href="/";
+      this.replaceWith('home');
     }
   },
   handleSubmit: function(e) {
@@ -41,7 +45,7 @@ var Issue = React.createClass({
         return response.json();
     })
     .then((data) => {
-        window.location.reload();
+        this.setState({data: '', doi: ''});
     });
     return;
   },
