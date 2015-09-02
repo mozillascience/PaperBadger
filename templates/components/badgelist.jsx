@@ -1,6 +1,5 @@
 var React = require('react'),
-    Badge = require('./badge.jsx'),
-    fetch = require('isomorphic-fetch');
+    Badge = require('./badge.jsx');
 
 var BadgeList = React.createClass({
   loadUsersFromServer: function() {

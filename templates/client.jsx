@@ -1,6 +1,5 @@
 var React = require('react'),
     Router = require('react-router'),
-    fetch = require('isomorphic-fetch'),
     NotFoundRoute = Router.NotFoundRoute,
     Route = Router.Route;
 

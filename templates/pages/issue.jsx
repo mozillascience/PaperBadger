@@ -1,5 +1,4 @@
 var React = require('react'),
-    fetch = require('isomorphic-fetch'),
     Url = require('url'),
     path = require('path'),
     CheckboxGroup = require('react-checkbox-group'),
@@ -35,7 +34,7 @@ var Issue = React.createClass({
   claimSubmit: function(e){
     e.preventDefault();
     var claim = this.refs.claim.getDOMNode().value.trim();
-    window.location.href="/issue/" + claim;
+    this.loadClaimFromServer(claim);
   },
   handleSubmit: function(e) {
     e.preventDefault();

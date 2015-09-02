@@ -1,5 +1,4 @@
 var React = require('react/addons'),
-    fetch = require('isomorphic-fetch'),
     path = require('path'),
     Page = require('../components/page.jsx');
 
