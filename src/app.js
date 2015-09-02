@@ -23,6 +23,7 @@ var transporter = nodemailer.createTransport({
 // Anything below here will configure the app reference.
 var app = express();
 module.exports = app;
+app.enable('trust proxy');
 
 app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, '..', '/public')));
