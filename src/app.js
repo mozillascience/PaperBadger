@@ -12,11 +12,11 @@ var nodemailer = require('nodemailer');
 
 // create reusable transporter object using SMTP transport
 var transporter = nodemailer.createTransport({
-    service: env.get('EMAIL_SERVICE'),
-    auth: {
-        user: env.get('EMAIL_ADDRESS'),
-        pass: env.get('EMAIL_PASS')
-    }
+  service: env.get('EMAIL_SERVICE'),
+  auth: {
+    user: env.get('EMAIL_ADDRESS'),
+    pass: env.get('EMAIL_PASS')
+  }
 });
 
 // We are simply defining the app in this module.

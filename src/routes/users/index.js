@@ -50,7 +50,6 @@ function getUser(request, response) {
   query.findOne(function(err, user) {
     response.json(user);
   });
-
 }
 
 module.exports = function (rb, bs) {

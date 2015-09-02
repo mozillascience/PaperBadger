@@ -82,7 +82,7 @@ function createPaper(request, response) {
   }
   var query  = User.where({ orcid:orcid });
   query.findOne(function(err, user) {
-    if(!user || (user.role != 'publisher')) {
+    if (!user || (user.role !== 'publisher')) {
       response.status(403).end();
       return;
     }
@@ -91,9 +91,7 @@ function createPaper(request, response) {
   var doiUrl = helpers.urlFromDOI(request.params.doi1, request.params.doi2);
   var emails = request.body.emails;
   var mailFinal = [];
-  for (var e in emails) {
-    var email = emails[e];
-
+  emails.map(function(email) {
     // Generate a claim code, store in mongo, email each user their unique claim code
     var claim = new Claim({
       slug: shortid.generate(),
@@ -102,31 +100,44 @@ function createPaper(request, response) {
     });
     claim.save();
 
+
+    var html = '<p>You recently authored this academic paper:  <a href="' + doiUrl + '">';
+    html += doiUrl + '</a>.</p>';
+    html += '<p>Now, you can claim <a href="https://badges.mozillascience.org/">';
+    html += 'Contributor Badges</a> based on your contributions.</p>';
+    html +=  '<p>Your claim code: <a href="https://badges.mozillascience.org/issue/';
+    html += claim.slug + '">' + claim.slug + '</a></p>';
+    html +=  '<p>You can go <a href="https://badges.mozillascience.org/issue/';
+    html += claim.slug + '">here</a> to claim your badges: <a href="https://badges.mozillascience.org/issue/';
+    html += claim.slug + '"">https://badges.mozillascience.org/issue/';
+    html += claim.slug + '</a></p>';
+
+    var text = 'You recently authored this academic paper: ';
+    text += doiUrl + '. Now, you can claim Contributor Badges based on your contributions. Your claim code: ';
+    text += claim.slug + '. You can go here to claim your badges: https://badges.mozillascience.org/issue/';
+    text += claim.slug;
+
     // setup e-mail data with unicode symbols
     var mailOptions = {
-        to: email, // list of receivers
-        subject: 'Claim badges for your scholarly contributions!', // Subject line
-        text: 'You recently authored this academic paper: ' + doiUrl + '. Now, you can claim Contributor Badges based on your contributions. Your claim code: ' + claim.slug + '. You can go here to claim your badges: https://badges.mozillascience.org/issue/' + claim.slug, // plaintext body
-        html: '<p>You recently authored this academic paper:  <a href="' + doiUrl + '">' + doiUrl + '</a>.</p>'
-              + '<p>Now, you can claim <a href="https://badges.mozillascience.org/">Contributor Badges</a> based on your contributions.</p>'
-              + '<p>Your claim code: <a href="https://badges.mozillascience.org/issue/' + claim.slug + '">' + claim.slug + '</a></p>'
-              + '<p>You can go <a href="https://badges.mozillascience.org/issue/' + claim.slug + '">here</a> to claim your badges: <a href="https://badges.mozillascience.org/issue/' + claim.slug + '"">https://badges.mozillascience.org/issue/' + claim.slug + '</a></p>'
+      to: email, // list of receivers
+      subject: 'Claim badges for your scholarly contributions!', // Subject line
+      text: text, // plaintext body
+      html: html
     };
 
     // send mail with defined transport object
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            // return console.log(error);
-            response.send(error);
-            return console.log(error);
-        }
-        mailFinal.push(info);
-        if (mailFinal.length === emails.length) {
-          response.json(mailFinal);
-        }
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        // return console.log(error);
+        response.send(error);
+        return console.log(error);
+      }
+      mailFinal.push(info);
+      if (mailFinal.length === emails.length) {
+        response.json(mailFinal);
+      }
     });
-  }
-
+  });
 }
 
 function createBadges(request, response) {
