@@ -7,6 +7,15 @@ var Issue = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
   componentWillMount: function() {
     document.title = "Submit a Paper | Contributorship Badges";
+    if(!this.props.user){
+      //redirect if user isn't logged in
+      window.location.href="/request-orcid-user-auth";
+    }
+
+    if(this.props.user.role != 'publisher'){
+      //redirect home is user isn't a publisher
+      window.location.href="/";
+    }
   },
   handleSubmit: function(e) {
     e.preventDefault();

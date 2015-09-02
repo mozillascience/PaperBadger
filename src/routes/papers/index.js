@@ -3,6 +3,7 @@ var path = require('path');
 var helpers = require(path.join(process.cwd(), 'src', 'helpers'));
 var mongoose = require('mongoose');
 var Claim = mongoose.model('Claim');
+var User = mongoose.model('User');
 var shortid = require('shortid');
 
 function getBadges(request, response) {
@@ -75,6 +76,18 @@ function getUserBadgesByType(request, response) {
 }
 
 function createPaper(request, response) {
+  var orcid;
+  if (request.session.orcid_token && request.session.orcid_token.token) {
+    orcid = request.session.orcid_token.token.orcid;
+  }
+  var query  = User.where({ orcid:orcid });
+  query.findOne(function(err, user) {
+    if(!user || (user.role != 'publisher')) {
+      response.status(403).end();
+      return;
+    }
+  });
+
   var doiUrl = helpers.urlFromDOI(request.params.doi1, request.params.doi2);
   var emails = request.body.emails;
   var mailFinal = [];
