@@ -5,6 +5,20 @@ var path = require('path');
 var env = require('./environments');
 var badgerService = require('./badges/service').getInstance();
 
+var mongoose = require('mongoose');
+var mongoUri = env.get('MONGOLAB_URI');
+
+var nodemailer = require('nodemailer');
+
+// create reusable transporter object using SMTP transport
+var transporter = nodemailer.createTransport({
+  service: env.get('EMAIL_SERVICE'),
+  auth: {
+    user: env.get('EMAIL_ADDRESS'),
+    pass: env.get('EMAIL_PASS')
+  }
+});
+
 // We are simply defining the app in this module.
 // Anything below here will configure the app reference.
 var app = express();
@@ -16,6 +30,15 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
+
+mongoose.connect(mongoUri);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback() {
+  console.log('connection!');
+});
+
+require('./models.js');
 
 function returnBadges(getBadges, request, response) {
   getBadges(function (error, badges) {
@@ -91,7 +114,7 @@ app.get('/orcid_auth_callback', function (request, response) {
     } else {
       // Token Page
       request.session.orcid_token = oauth2.accessToken.create(result);
-      response.redirect('/issue');
+      response.redirect(request.session.redirect || '/issue');
     }
   });
 });
@@ -106,18 +129,24 @@ var users = require('./routes/users')(returnBadges, badgerService);
 app.get('/users/:orcid/badges', users.getBadges);
 app.get('/users/:orcid/badges/count', users.getBadgeCount);
 app.get('/users/:orcid/badges/:badge', users.getBadgesByType);
+app.get('/user', users.getUser);
 
 // Routes for papers
-var papers = require('./routes/papers')(returnBadges, badgerService);
+var papers = require('./routes/papers')(returnBadges, badgerService, transporter);
 app.get('/papers/:doi1/:doi2/badges', papers.getBadges);
 app.get('/papers/:doi1/:doi2/badges/count', papers.getBadgeCount);
 app.get('/papers/:doi1/:doi2/badges/:badge', papers.getBadgesByType);
 app.get('/papers/:doi1/:doi2/users/:orcid/badges', papers.getUserBadges);
 app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', papers.getUserBadgesByType);
-app.post('/papers/:doi1/:doi2', papers.create);
+app.post('/papers/:doi1/:doi2', papers.createPaper);
 app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge?', papers.createBadges);
 
+// Routes for issue badge claims
+var claims = require('./routes/claims');
+app.get('/claims/:slug', claims.getClaim);
+
 app.get('*', function (request, response) {
+  request.session.redirect = request.originalUrl;
   var orcid;
   if (request.session.orcid_token && request.session.orcid_token.token) {
     orcid = request.session.orcid_token.token.orcid;

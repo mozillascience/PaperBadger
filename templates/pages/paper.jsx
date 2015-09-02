@@ -1,26 +1,42 @@
 var React = require('react/addons'),
-    fetch = require('isomorphic-fetch'),
-    Url = require('url'),
+    Router = require('react-router'),
+    Navigation = require('react-router').Navigation,
+    path = require('path'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [React.addons.LinkedStateMixin, Navigation],
   componentWillMount: function() {
     document.title = "Submit a Paper | Contributorship Badges";
+  },
+  componentDidMount: function() {
+    if(!this.props.user){
+      //redirect if user isn't logged in
+      window.location.href="/request-orcid-user-auth";
+    }
+
+    if(this.props.user.role != 'publisher'){
+      //redirect home is user isn't a publisher
+      this.replaceWith('home');
+    }
   },
   handleSubmit: function(e) {
     e.preventDefault();
     var doi = this.state.doi;
     var emails = this.state.data.split('\n');
-    var path = Url.parse(doi).pathname || doi;
-    path = path.split('/');
 
-    var url = '/papers/' + path[path.length-2] + '/' + path[path.length-1];
+    var doiRe = /(10\.\d{3}\d+)\/(.*)\b/;
+    var m = doiRe.exec(doi);
+    var url = path.join('/papers', m[1],encodeURIComponent(m[2]));
 
     fetch(url, {
       method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       credentials: 'same-origin',
-      body: JSON.stringify(emails)
+      body: JSON.stringify({emails: emails})
     })
     .then((response) => {
         if (response.status >= 400) {
@@ -29,7 +45,7 @@ var Issue = React.createClass({
         return response.json();
     })
     .then((data) => {
-        document.location = url + '/badges';
+        this.setState({data: '', doi: ''});
     });
     return;
   },
