@@ -48,7 +48,13 @@ function getUser(request, response) {
 
   var query  = User.where({ orcid:orcid });
   query.findOne(function(err, user) {
-    response.json(user);
+    if (user) {
+      response.json(user);
+    } else {
+      response.json( orcid ? {
+        name: request.session.orcid_token.name,
+        orcid: orcid } : null );
+    }
   });
 }
 

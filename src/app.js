@@ -79,24 +79,23 @@ var sessionConfig = {
     url: mongoUri,
     autoReconnect: true
   }),
-  name: 'sid',      // Generic - don't leak information
-  proxy: true,      // Trust the reverse proxy for HTTPS/SSL
+  name: 'sid', // Generic - don't leak information
+  proxy: true, // Trust the reverse proxy for HTTPS/SSL
   cookie: {
     httpOnly: true, // Reduce XSS attack vector
-    secure: true,   // Cookies via SSL
+    secure: true // Cookies via SSL
   },
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: true
 };
 
-if(env.get('APP') !== 'production') {
+if (env.get('APP') !== 'production') {
   // Allow non-SSL cookies when not in production
   sessionConfig.proxy = false;
   sessionConfig.cookie.secure = false;
 }
 
 app.use(session(sessionConfig));
-
 
 // Build ORCID authorization oauth2 URI
 var authorizationUri = oauth2.authCode.authorizeURL({
