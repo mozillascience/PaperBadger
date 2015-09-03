@@ -119,6 +119,7 @@ function createPaper(request, response) {
 
     // setup e-mail data with unicode symbols
     var mailOptions = {
+      from: 'noreply@mozillascience.org',
       to: email, // list of receivers
       subject: 'Claim badges for your scholarly contributions!', // Subject line
       text: text, // plaintext body

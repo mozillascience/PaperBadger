@@ -9,15 +9,13 @@ var mongoose = require('mongoose');
 var mongoUri = env.get('MONGOLAB_URI');
 
 var nodemailer = require('nodemailer');
+var ses = require('nodemailer-ses-transport');
 
-// create reusable transporter object using SMTP transport
-var transporter = nodemailer.createTransport({
-  service: env.get('EMAIL_SERVICE'),
-  auth: {
-    user: env.get('EMAIL_ADDRESS'),
-    pass: env.get('EMAIL_PASS')
-  }
-});
+// create reusable transporter object using Amazon SES transport
+var transporter = nodemailer.createTransport(ses({
+    AWSAccessKeyID: env.get('AWS_ACCESS_KEY'),
+    AWSSecretKey: env.get('AWS_SECRET_KEY')
+}));
 
 // We are simply defining the app in this module.
 // Anything below here will configure the app reference.
