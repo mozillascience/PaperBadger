@@ -13,8 +13,8 @@ var ses = require('nodemailer-ses-transport');
 
 // create reusable transporter object using Amazon SES transport
 var transporter = nodemailer.createTransport(ses({
-    AWSAccessKeyID: env.get('AWS_ACCESS_KEY'),
-    AWSSecretKey: env.get('AWS_SECRET_KEY')
+  AWSAccessKeyID: env.get('AWS_ACCESS_KEY'),
+  AWSSecretKey: env.get('AWS_SECRET_KEY')
 }));
 
 // We are simply defining the app in this module.
