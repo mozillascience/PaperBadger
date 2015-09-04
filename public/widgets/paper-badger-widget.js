@@ -75,6 +75,26 @@ function splitArray(arr, lookGroup)
 	return ttt;
 }
 
+function showBadgeFurniture(confIn)
+{
+	var furnitureClass=(confIn["furniture-class"]) ? confIn["furniture-class"] : "paper-badges-hidden";
+	var doi=confIn["article-doi"];
+		
+	callAjax("https://badges.mozillascience.org/papers/"+doi+"/badges/count", function(dataItem){
+		var badgesCount=(dataItem) ? dataItem : 0;
+		
+		if(badgesCount && dataItem/dataItem)
+			{
+			visitArray(document.querySelectorAll("."+furnitureClass), function(elem){
+				
+				if(elem.classList.contains(furnitureClass))
+					{
+					elem.classList.remove(furnitureClass);	
+					}
+			});
+			}
+	});
+}
 
 function showBadges(confIn){
 
