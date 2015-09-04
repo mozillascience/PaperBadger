@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 var IMPORT_ES5_SHIM = 'imports?shim=es5-shim/es5-shim&' +
   'sham=es5-shim/es5-sham';
@@ -23,5 +24,10 @@ module.exports = {
       test: require.resolve('react'),
       loader: IMPORT_ES5_SHIM
     }]
-  }
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    })
+  ]
 };
