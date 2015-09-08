@@ -43,7 +43,7 @@ function createBadgeJSON(badgeData)
 
 function insertCSS()
 {
-	return ".paper-badge {float: left; width: 10em; height: 20em; overflow: hidden; border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}.badge-span {width: 15em; display: inline-block; font-size: 88%; line-height: 1.2; color: #333; padding: 0.4em; cursor: hand; cursor: pointer}.paper-badge img {margin-left: 10%}.badges-active {color: #fff !important; background: #7ab441}";
+	return ".paper-badge {float: left; width: 10em; height: 20em; overflow: hidden; border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}.badge-span {width: 15em; display: inline-block; font-size: 88%; line-height: 1.2; color: #333; padding: 0.4em; cursor: hand; cursor: pointer}.paper-badge img {margin-left: 10%; margin-bottom: 1%}.badges-active {color: #fff !important; background: #7ab441}.paper-badges-hidden {display: none}";
 }
 
 function showLine()
