@@ -6,7 +6,7 @@ var instance, client, system;
 
 function BadgeService() {}
 
-BadgeService.prototype.createBadge = function (orcid, badge, dois) {
+BadgeService.prototype.createBadge = function (orcid, badge, dois, name) {
   return function (callback) {
     var evidence = helpers.urlFromDOI(dois._1, dois._2);
     var context = {
@@ -14,7 +14,8 @@ BadgeService.prototype.createBadge = function (orcid, badge, dois) {
       badge: badge,
       instance: {
         email: helpers.emailFromORCID(orcid),
-        evidenceUrl: evidence
+        evidenceUrl: evidence,
+        authorName: name
       }
     };
 

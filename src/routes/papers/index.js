@@ -154,7 +154,7 @@ function createBadges(request, response) {
     response.status(400).end();
     return;
   }
-
+  var name = request.session.orcid_token.token.name;
   var badges = request.body.badges || [request.param.badge];
 
   // Delete the claim code once it's been used
@@ -166,7 +166,7 @@ function createBadges(request, response) {
     var getBadges = badgerService.createBadge(request.params.orcid, badge, {
       '_1': request.params.doi1,
       '_2': request.params.doi2
-    });
+    }, name);
     getBadges(function (error, badge) {
       if (error !== null) {
         console.log('Get error from return Badges ' + error);
