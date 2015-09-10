@@ -1,3 +1,11 @@
+var clickEvent={
+	runAnalytics : [],
+	assignCallback : function(func)
+	{
+		this.runAnalytics=func;	
+	}
+};
+
 function callAjax(url, callbackFunction) {
 
     var xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
@@ -35,20 +43,24 @@ function renderBadge(key, badgeData)
 function createBadgeJSON(badgeData)
 {
 	var all=badgeData.split(";");
-	var imageUrl="\"imageUrl\":\""+all[0]+"\"";
-	var all2="{"+imageUrl+",\"authorList\":"+"[\""+all[1].split(",").join("\",\"")+"\"]}";
+	var all1=all[0].split("@");
+	var imageUrl="\"imageUrl\":\""+all1[1]+"\"";
+	var taxon="\"taxonomyClass\":\""+all1[0].split("_").join(" ")+"\"";
+	var all2="{"+imageUrl+","+taxon+",\"authorList\":"+"[\""+all[1].split(",").join("\",\"")+"\"]}";
 
 	return all2;
 }
 
 function insertCSS()
 {
-	return ".paper-badge {float: left; width: 10em; height: 20em; overflow: hidden; border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}.badge-span {width: 15em; display: inline-block; font-size: 88%; line-height: 1.2; color: #333; padding: 0.4em; cursor: hand; cursor: pointer}.paper-badge img {margin-left: 10%}.badges-active {color: #fff !important; background: #7ab441}";
+	return ".paper-badge {float: left; width: 10em; height: 20em; overflow: hidden; border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}.badge-span {width: 15em; display: inline-block; font-size: 88%; line-height: 1.2; color: #333; padding: 0.4em; cursor: hand; cursor: pointer}.paper-badge img {margin-left: 10%; margin-bottom: 1%}.badges-active {color: #fff !important; background: #7ab441}.paper-badges-hidden {display: none}";
 }
 
-function showLine()
+function showLine(event)
 {
 	var bindBadge=this.getAttribute("data-bind-badge");
+	
+	if(event.type=="click") {clickEvent.runAnalytics({"orcid" : bindBadge, "taxonomyClass" : this.getAttribute("data-bind-taxonomy")});}
 
 	//var boundElem=$(".badge span[data-bind-badge="+bindBadge+"]");
 	//boundElem.attr("title", "badge count: "+boundElem.length+"; ORCID: "+bindBadge.split("\_").join(" "));
@@ -62,14 +74,14 @@ function nextAction()
 	window.open("http://orcid.org/"+bindBadge, "orcid");
 }
 
-function splitArray(arr, lookGroup)
+function splitArray(arr, lookGroup, taxonomyClass)
 {
 	var ttt="";
 
 	for(var i=0, arrLen=arr.length; i<arrLen; i++)
 		{
 		var noIn=lookGroup[arr[i]];
-		ttt+="<span class=\"badge-span\" data-bind-badge='"+arr[i]+"'>"+noIn.split("_").join(" ")+"</span>";
+		ttt+="<span class=\"badge-span\" data-bind-badge='"+arr[i]+"' data-bind-taxonomy='"+taxonomyClass+"'>"+noIn.split("_").join(" ")+"</span>";
 		}
 
 	return ttt;
@@ -96,12 +108,17 @@ function showBadgeFurniture(confIn)
 	});
 }
 
-function showBadges(confIn){
+function showBadges(confIn, callback){
 
 	var k="";
 
 	var containerClass=(confIn["container-class"]) ? confIn["container-class"] : "badge-container";
 	var doi=confIn["article-doi"];
+	
+	if(callback)
+		{
+		clickEvent.assignCallback(callback);	
+		}
 
 	callAjax("https://badges.mozillascience.org/papers/"+doi+"/badges", function( entryData ) {
 
@@ -115,7 +132,7 @@ function showBadges(confIn){
 
 	look[modeString]=0;
 	look["authorName"]=1;
-	look["slug"]=2;
+	look["name"]=2;
 	var lastTempVal=look["imageUrl"]=3;
 
 	var group=1;
@@ -134,7 +151,7 @@ function showBadges(confIn){
 
 		arrayNumber=look[find];
 
-		find=(find == modeString) ? "authorName" : (find == "authorName") ? "slug" : (find == "slug") ? "imageUrl" : modeString;
+		find=(find == modeString) ? "authorName" : (find == "authorName") ? "name" : (find == "name") ? "imageUrl" : modeString;
 
 		lookTemporaryValue[arrayNumber]=str.substring(i, j+1);
 
@@ -152,7 +169,7 @@ function showBadges(confIn){
 					}
 				else
 					{
-					lookGroupOrcidFromBadge[key]=lookTemporaryValue[3]+";"+lookTemporaryValue[0];
+					lookGroupOrcidFromBadge[key]=lookTemporaryValue[2].split(" ").join("_")+"@"+lookTemporaryValue[3]+";"+lookTemporaryValue[0];
 					}
 				lookGroup[lookTempVal]=lookTemporaryValue[1].split(" ").join("_");
 				}
@@ -179,7 +196,7 @@ function showBadges(confIn){
 				var returnString="";
 
 				returnString+="<img src=\""+parsedJSON[i]["imageUrl"]+"\" style=\"max-width: 7em\" />";
-				returnString+=splitArray(parsedJSON[i]["authorList"], lookGroup);
+				returnString+=splitArray(parsedJSON[i]["authorList"], lookGroup, parsedJSON[i]["taxonomyClass"]);
 
 				var newNode=document.createElement("div");
 				newNode.setAttribute("class", "paper-badge");
