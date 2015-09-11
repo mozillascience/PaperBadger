@@ -98,11 +98,21 @@ function showBadgeFurniture(confIn)
 		if(badgesCount && dataItem/dataItem)
 			{
 			visitArray(document.querySelectorAll("."+furnitureClass), function(elem){
-				
-				if(elem.classList.contains(furnitureClass))
+				var list=elem.classList;
+					
+				if(list!==undefined && list.contains(furnitureClass))
 					{
-					elem.classList.remove(furnitureClass);	
+					list.remove(furnitureClass);	
 					}
+				else
+					{
+					var className=elem.className;
+					var indStart=className.indexOf(furnitureClass);
+					var indEnd=className.indexOf(" ", indStart);
+	
+					indEnd=(indEnd>=0) ? indEnd : className.length;
+					elem.className=className.substring(0, indStart)+" "+className.substring(indEnd);
+					}	
 			});
 			}
 	});
