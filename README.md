@@ -42,7 +42,7 @@ Ask @acabunoc for ones marked `###########`. Our custom BadgeKit API code can be
 5. Run `npm start`, and open up `http://localhost:5000/` in your favourite web browser!
 
 ### Using the Widget
-Scholars earn badges for their specific contributions to a scientific paper. A scholar who worked on investigation earns a prestigious investigation badge for that paper. 
+Researchers earn badges for their specific contributions to an academic paper. A researcher who worked on investigation earns a prestigious investigation badge for that paper. 
 
 The PaperBadger widget enables anyone to easily display badges on any website by including just a few lines of script with the relevant doi (digital object identifier) and a designated `<div>` in your view file. Authors can add the script to their own sites to display badges earned, while publishers can use the script to display all badges associated with a paper:
 
