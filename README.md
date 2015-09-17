@@ -41,6 +41,34 @@ Ask @acabunoc for ones marked `###########`. Our custom BadgeKit API code can be
 
 5. Run `npm start`, and open up `http://localhost:5000/` in your favourite web browser!
 
+### Using the Widget
+1. To use the widget on your own site, include a `<div>` with your custom class in your view file, for example:
+    `<div class="my-container"></div>`
+
+2. Add `<script src="https://badges.mozillascience.org/widgets/paper-badger-widget.js"></script>` above the closing `<body>` tag. 
+
+3. In your scripts, include your custom class name as the value for the "container-class" key, for example:
+
+```
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+    <title>Paper view snippet example | Paper Badger</title>
+    </head> 
+    <body>
+
+    <div class="my-container"></div>
+
+    <script src="https://badges.mozillascience.org/widgets/paper-badger-widget.js"></script>
+    <script> 
+        var conf={"article-doi": "10.1186/2047-217X-3-18", "container-class": "my-container"};
+        showBadges(conf);
+    </script>
+    </body>
+    </html>
+```
+
 ### Contributing
 
 [Project Roadmap: #17](https://github.com/mozillascience/paperbadger/issues/17)
