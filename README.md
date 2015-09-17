@@ -42,6 +42,12 @@ Ask @acabunoc for ones marked `###########`. Our custom BadgeKit API code can be
 5. Run `npm start`, and open up `http://localhost:5000/` in your favourite web browser!
 
 ### Using the Widget
+Scholars earn badges for their specific contributions to a scientific paper. A scholar who worked on investigation earns a prestigious investigation badge for that paper. 
+
+The PaperBadger widget enables anyone to easily display badges on any website by including just a few lines of script with the relevant doi (digital object identifier) and a designated `<div>` in your view file. Authors can add the script to their own sites to display badges earned, while publishers can use the script to display all badges associated with a paper:
+
+![Badge Preview](./public/img/badge_preview.jpg)
+
 1. To use the widget on your own site, include a `<div>` with your custom class in your view file, for example:
     `<div class="my-container"></div>`
 
@@ -49,7 +55,7 @@ Ask @acabunoc for ones marked `###########`. Our custom BadgeKit API code can be
 
 3. In your scripts, include your custom class name as the value for the "container-class" key, for example:
 
-```
+```html
     <!DOCTYPE html>
 
     <html>
