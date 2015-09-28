@@ -30,9 +30,8 @@ function getBadgeCount(request, response) {
     });
 
   getBadges(function (error, badges) {
-    if (error !== null) {
-      console.log('Get error from return Badges ' + error);
-      response.send(error);
+    if (error !== null || !badges) {
+      response.json(0);
     } else {
       response.json(badges.length);
     }
