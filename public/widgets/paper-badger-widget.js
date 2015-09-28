@@ -87,22 +87,44 @@ function splitArray(arr, lookGroup, taxonomyClass)
 	return ttt;
 }
 
+function getEndpoint(confIn, count)
+{
+	var orcid=confIn["orcid"];
+	var doi=confIn["article-doi"];
+	var countPoint=(count) ? "/count" : "";
+
+	var endPoint=[];
+	if(doi) {endPoint.push("papers/"+doi);}
+	if(orcid) {endPoint.push("users/"+orcid);}
+	return "https://badges.mozillascience.org/"+endPoint.join("/")+"/badges"+countPoint;
+}
+
 function showBadgeFurniture(confIn)
 {
 	var furnitureClass=(confIn["furniture-class"]) ? confIn["furniture-class"] : "paper-badges-hidden";
-	var doi=confIn["article-doi"];
+	var endPoint=getEndpoint(confIn, 1);
 		
-	callAjax("https://badges.mozillascience.org/papers/"+doi+"/badges/count", function(dataItem){
+	callAjax(endPoint, function(dataItem){
 		var badgesCount=(dataItem) ? dataItem : 0;
 		
 		if(badgesCount && dataItem/dataItem)
 			{
 			visitArray(document.querySelectorAll("."+furnitureClass), function(elem){
-				
-				if(elem.classList.contains(furnitureClass))
+				var list=elem.classList;
+					
+				if(list!==undefined && list.contains(furnitureClass))
 					{
-					elem.classList.remove(furnitureClass);	
+					list.remove(furnitureClass);	
 					}
+				else
+					{
+					var className=elem.className;
+					var indStart=className.indexOf(furnitureClass);
+					var indEnd=className.indexOf(" ", indStart);
+	
+					indEnd=(indEnd>=0) ? indEnd : className.length;
+					elem.className=className.substring(0, indStart)+" "+className.substring(indEnd);
+					}	
 			});
 			}
 	});
@@ -113,14 +135,14 @@ function showBadges(confIn, callback){
 	var k="";
 
 	var containerClass=(confIn["container-class"]) ? confIn["container-class"] : "badge-container";
-	var doi=confIn["article-doi"];
-	
+	var endPoint=getEndpoint(confIn);
+
 	if(callback)
 		{
 		clickEvent.assignCallback(callback);	
 		}
 
-	callAjax("https://badges.mozillascience.org/papers/"+doi+"/badges", function( entryData ) {
+	callAjax(endPoint, function( entryData ) {
 
 	var outCount=0;
 	var pos=0, end=0;
