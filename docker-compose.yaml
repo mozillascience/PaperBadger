@@ -1,0 +1,24 @@
+paperbadger:
+  build: .
+  # image: paperbadger
+  ports:
+    - 5000:5000
+  links:
+    - mongo:mongo
+  environment:
+    - PORT=5000
+    - SESSION_SECRET=USE_SOMETHING_GOOD_LIKE_puUJjfE6QtUnYryb
+    - BADGES_ENDPOINT=http://badgekit-api-sciencelab.herokuapp.com/
+    - BADGES_KEY=master
+    - BADGES_SECRET=#############
+    - BADGES_SYSTEM=badgekit
+    - ORCID_AUTH_CLIENT_ID=#############
+    - ORCID_AUTH_CLIENT_SECRET=#############
+    - ORCID_AUTH_SITE=#############
+    - ORCID_AUTH_TOKEN_PATH=#############
+    - ORCID_REDIRECT_URI=#############
+    - SECRET_KEY_BASE=secretgoeshere
+    - MONGOLAB_URI=mongodb://mongo:27017/test
+
+mongo:
+  image: mongo:2
