@@ -18,6 +18,7 @@ paperbadger:
     - ORCID_AUTH_TOKEN_PATH=#############
     - ORCID_REDIRECT_URI=#############
     - SECRET_KEY_BASE=secretgoeshere
+    - MONGOLAB_URI=mongodb://mongo:27017/test
 
 mongo:
   image: mongo:2
