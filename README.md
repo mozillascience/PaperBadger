@@ -17,15 +17,11 @@ Clone PaperBadger and enter the directory: `git clone https://github.com/mozilla
 
 * Make sure you have [Docker](https://www.docker.com/) and docker-compose installed.
 * Setup your environment variables, or copy over the test file
-
-
-    sed 's/export //' env.test > env.docker
+      sed 's/export //' env.test > env.docker
 
 * build images and bring up the service
-
-
-    docker-compose build
-    docker-compose up
+      docker-compose build
+      docker-compose up
 
 * visit the running service
   * If on Linux host: http://localhost:5000
