@@ -13,22 +13,26 @@ This work is a collaboration with publishers [BioMed Central](http://www.biomedc
 
 Clone PaperBadger and enter the directory: `git clone https://github.com/mozillascience/PaperBadger && cd PaperBadger`
 
-#### Quick start with Docker
+#### Run using Docker
+
+You can use Docker to bring up a quick instance of the app to develop against. This way you dont need to have node or mongo installed on your host.
 
 * Make sure you have [Docker](https://www.docker.com/) and docker-compose installed.
 * Setup your environment variables, or copy over the test file
-      sed 's/export //' env.test > env.docker
-
+```bash
+sed 's/export //' env.test > env.docker
+```
 * build images and bring up the service
-      docker-compose build
-      docker-compose up
-
+```bash
+docker-compose build
+docker-compose up
+```
 * visit the running service
   * If on Linux host: http://localhost:5000
   * If not Linux: http://(docker host ip):5000 (You can find your docker IP with `docker-machine default ip`)
 
 
-#### Install locally
+#### Run locally
 
 * Install PaperBadger's Node dependencies: `npm install`
 * If you would like to override the default, create `.env` file in your favourite text editor.
