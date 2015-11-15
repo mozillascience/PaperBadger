@@ -22,7 +22,7 @@
     "babel-loader": "^5.0.0",
     "badgekit-api-client": "https://github.com/mozilla/badgekit-api-client/tarball/v0.2.4",
     "body-parser": "^1.13.2",
-    "connect-mongo": "^0.8.2",
+    "connect-redis": "^3.0.1",
     "es5-shim": "^4.1.1",
     "exports-loader": "^0.6.2",
     "express": "~4.9.x",
