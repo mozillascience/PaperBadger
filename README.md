@@ -29,7 +29,7 @@ docker-compose up
 ```
 * visit the running service
   * If on Linux host: http://localhost:5000
-  * If not Linux: http://(docker host ip):5000 (You can find your docker IP with `docker-machine default ip`)
+  * If not Linux: http://(docker host ip):5000 (You can find your docker IP with `docker-machine ip default`)
 
 
 #### Run locally

@@ -4,12 +4,19 @@ paperbadger:
     - 5000:5000
   links:
     - mongo:mongo
+    - redis:redisdb
   env_file:
     - env.docker
   environment:
     - MONGOLAB_URI=mongodb://mongo:27017/test
+    - REDISCLOUD_URL=redis://redisdb:6379/0
 
 mongo:
   image: mongo:2
+  # volumes:    # to persist database between runs
+  #   - /data/db
+
+redis:
+  image: redis
   # volumes:    # to persist database between runs
   #   - /data/db
