@@ -18,5 +18,3 @@ mongo:
 
 redis:
   image: redis
-  # volumes:    # to persist database between runs
-  #   - /data/db
