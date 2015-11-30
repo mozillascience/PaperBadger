@@ -70,43 +70,35 @@ The PaperBadger widget enables anyone to easily display badges on any website by
 
 ![Badge Preview](./public/img/badge_preview.jpg)
 
-1. To use the widget on your own site, include a `<div>` with your custom class in your view file, for example:
-    `<div class="my-container"></div>`
+To use the widget on your own site, include a `<div>` with your custom id in your view file, for example:
+    `<div id="my-container"></div>`
 
-2. Above the closing `<body>` tag, add
-
-    <script type="text/javascript">
-       var script = document.createElement("script");
-       script.type = "text/javascript";
-       script.src = "https://badges.mozillascience.org/widgets/paper-badger-widget.js";
-       document.write(decodeURIComponent("%3Cscript src='https://badges.mozillascience.org/widgets/paper-badger-widget.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-
-3. In your scripts, include your custom class name as the value for the "container-class" key, for example:
-
+Above the closing `<body>` tag, add
 ```html
-    <!DOCTYPE html>
+<script type="text/javascript">
+    (function () {
+        var d=document,g=d.createElement("script");g.type="text/javascript";g.async=!0;g.defer=!0;
+        g.src="https://badges.mozillascience.org/widgets/paper-badger-widget.js";
+        g.onload=load;d.body.appendChild(g);
+        
+        function load() {
+            new PaperBadgerWidget({
+                DOI: "10.1186/2047-217X-3-18",
+                containerId: "my-element"
+            });
+        }
+    })();
+</script>
+```
 
-    <html>
-    <head>
-    <title>Paper view snippet example | Paper Badger</title>
-    </head>
-    <body>
-
-    <div class="my-container"></div>
-
-    <script type="text/javascript">
-       var script = document.createElement("script");
-       script.type = "text/javascript";
-       script.src = "https://badges.mozillascience.org/widgets/paper-badger-widget.js";
-       document.write(decodeURIComponent("%3Cscript src='https://badges.mozillascience.org/widgets/paper-badger-widget.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    <script>
-        var conf={"article-doi": "10.1186/2047-217X-3-18", "container-class": "my-container"};
-        showBadges(conf);
-    </script>
-    </body>
-    </html>
+Change the DOI inside the load method to the DOI you want to display. As an alternative, you can display all badges for an ORCID by exchanging the load method with the following one (again, adjust the ORCID to your value):
+```javascript
+function load() {
+    new PaperBadgerWidget({
+        ORCID: "0000-0001-5207-5061",
+        containerId: "my-element"
+    });
+}
 ```
 
 ### Contributing

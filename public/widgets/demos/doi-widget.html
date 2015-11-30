@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Paper view snippet example | Paper Badger</title>
+</head>
+<body>
+
+<div id="my-element"></div>
+
+<script>
+  (function () {
+    var d=document,g=d.createElement("script");g.type="text/javascript";g.async=!0;g.defer=!0;
+    g.src="../widget.js";g.onload=load;d.body.appendChild(g);
+
+    function load() {
+      new PaperBadgerWidget({
+        DOI: "10.1186/2047-217X-3-18",
+        containerId: "my-element"
+      });
+    }
+  })();
+</script>
+</body>
+</html>
