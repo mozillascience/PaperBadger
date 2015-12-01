@@ -19,14 +19,18 @@ The PaperBadger widget enables *anyone*, from publishers to individual researche
 
 2. Above the closing `<body>` tag, add
 
+```html
     <script type="text/javascript">
        var script = document.createElement("script");
        script.type = "text/javascript";
        script.src = "https://badges.mozillascience.org/widgets/paper-badger-widget.js";
        document.write(decodeURIComponent("%3Cscript src='https://badges.mozillascience.org/widgets/paper-badger-widget.js' type='text/javascript'%3E%3C/script%3E"));
     </script>
+```
 
-3. In your scripts, include your custom class name as the value for the "container-class" key, for example:
+3. In your scripts, include your custom values:
+  * the class name where your widget will appear for the `container-class` key and
+  * the doi for the paper you are interested in as the `article-doi` key
 
 ```html
     <!DOCTYPE html>
