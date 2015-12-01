@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div id="my-element"></div>
+<div class="my-container"></div>
 
 <script>
   (function () {
@@ -14,10 +14,8 @@
     g.src="../paper-badger-widget.js";g.onload=load;d.body.appendChild(g);
 
     function load() {
-      new PaperBadgerWidget({
-        ORCID: "0000-0001-5207-5061",
-        containerId: "my-element"
-      });
+      var conf={"article-doi": "10.1186/2047-217X-3-18", "container-class": "my-container"};
+      showBadges(conf);
     }
   })();
 </script>
