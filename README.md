@@ -6,12 +6,66 @@ Exploring the use of digital badges for crediting contributors to scholarly pape
 
 As the research environment becomes more digital, we want to test how we can use this medium to help bring transparency and credit for individuals in the publication process.
 
-This work is a collaboration with publishers [BioMed Central](http://www.biomedcentral.com/) (BMC), [Ubiquity Press](http://www.ubiquitypress.com/) (UP) and the [Public Library of Science](http://www.plos.org/) (PLoS); the biomedical research foundation, [The Wellcome Trust](http://www.wellcome.ac.uk/); the software and technology firm [Digital Science](http://www.digital-science.com/); the registry of unique researcher identifiers, [ORCID](http://orcid.org/); and the [Mozilla Science Lab](http://mozillascience.org/).
+## Using Paper Badger
 
+You can display contributorship badges for science on your own site! Researchers earn badges for their specific contributions to an academic paper. A researcher who worked on investigation earns a prestigious investigation badge for that paper.
 
-![Proposed Workflow / Implementation](./public/img/Badges-ProposedWorkflow.jpg)
+The PaperBadger widget enables *anyone*, from publishers to individual researchers, to easily display badges on a website by including just a few lines of script with the relevant doi (digital object identifier) and a designated `<div>` in your view file. Authors can add the script to their own sites to display badges earned, while publishers can use the script to display all badges associated with a paper:
+
+![Badge Preview](./public/img/badge_preview.jpg)
+
+1. To use the widget on your own site, include a `<div>` with your custom class in your view file, for example:
+    `<div class="my-container"></div>`
+
+2. Above the closing `<body>` tag, add
+
+  ```html
+      <script type="text/javascript">
+         var script = document.createElement("script");
+         script.type = "text/javascript";
+         script.src = "https://badges.mozillascience.org/widgets/paper-badger-widget.js";
+         document.write(decodeURIComponent("%3Cscript src='https://badges.mozillascience.org/widgets/paper-badger-widget.js' type='text/javascript'%3E%3C/script%3E"));
+      </script>
+  ```
+
+3. In your scripts, include your custom values:
+  * the class name where your widget will appear for the `container-class` key and
+  * the doi for the paper you are interested in as the `article-doi` key
+
+```html
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+    <title>Paper view snippet example | Paper Badger</title>
+    </head>
+    <body>
+
+    <div class="my-container"></div>
+
+    <script type="text/javascript">
+       var script = document.createElement("script");
+       script.type = "text/javascript";
+       script.src = "https://badges.mozillascience.org/widgets/paper-badger-widget.js";
+       document.write(decodeURIComponent("%3Cscript src='https://badges.mozillascience.org/widgets/paper-badger-widget.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script>
+        var conf={"article-doi": "10.1186/2047-217X-3-18", "container-class": "my-container"};
+        showBadges(conf);
+    </script>
+    </body>
+    </html>
+```
+
+## Contributing
+
+[Project Roadmap: #17](https://github.com/mozillascience/paperbadger/issues/17)
+
+Want to help? We love new contributors! Please review our [contributing guidelines](CONTRIBUTING.md) and take a look at some [good first bugs](https://github.com/mozillascience/PaperBadger/labels/good%20first%20bug).
 
 ### Getting Started
+
+Are you ready to contribute to Paper Badger? This section will help you set up your own development version of the Contributorship Badges prototype.
 
 Clone PaperBadger and enter the directory: `git clone https://github.com/mozillascience/PaperBadger && cd PaperBadger`
 
@@ -59,55 +113,10 @@ If you would like to develop against the hosted custom badgekit-api we have runn
         export ORCID_AUTH_TOKEN_PATH=#############
         export ORCID_REDIRECT_URI=#############
 
-Ask @acabunoc for ones marked `###########`. Our custom BadgeKit API code can be found [here](https://github.com/acabunoc/badgekit-api).
+Ask [@acabunoc](http://github.com/acabunoc) for ones marked `###########`. Our custom BadgeKit API code can be found [here](https://github.com/acabunoc/badgekit-api).
 
 * Run `npm start`, and open up `http://localhost:5000/` in your favourite web browser!
 
-### Using the Widget
-Researchers earn badges for their specific contributions to an academic paper. A researcher who worked on investigation earns a prestigious investigation badge for that paper.
-
-The PaperBadger widget enables anyone to easily display badges on any website by including just a few lines of script with the relevant doi (digital object identifier) and a designated `<div>` in your view file. Authors can add the script to their own sites to display badges earned, while publishers can use the script to display all badges associated with a paper:
-
-![Badge Preview](./public/img/badge_preview.jpg)
-
-To use the widget on your own site, include a `<div>` with your custom id in your view file, for example:
-    `<div id="my-container"></div>`
-
-Above the closing `<body>` tag, add
-```html
-<script type="text/javascript">
-    (function () {
-        var d=document,g=d.createElement("script");g.type="text/javascript";g.async=!0;g.defer=!0;
-        g.src="https://badges.mozillascience.org/widgets/paper-badger-widget.js";
-        g.onload=load;d.body.appendChild(g);
-        
-        function load() {
-            new PaperBadgerWidget({
-                DOI: "10.1186/2047-217X-3-18",
-                containerId: "my-element"
-            });
-        }
-    })();
-</script>
-```
-
-Change the DOI inside the load method to the DOI you want to display. As an alternative, you can display all badges for an ORCID by exchanging the load method with the following one (again, adjust the ORCID to your value):
-```javascript
-function load() {
-    new PaperBadgerWidget({
-        ORCID: "0000-0001-5207-5061",
-        containerId: "my-element"
-    });
-}
-```
-
-### Contributing
-
-[Project Roadmap: #17](https://github.com/mozillascience/paperbadger/issues/17)
-
-Please review our contributing guidelines [here](CONTRIBUTING.md)
-
-Want to help? Drop us a line in [this issue](https://github.com/mozillascience/PaperBadger/issues/2).
 
 ### API Endpoints
 
@@ -136,3 +145,8 @@ Want to help? Drop us a line in [this issue](https://github.com/mozillascience/P
     *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation)
 *   POST /papers/:doi1/:doi2/badges/:orcid/badges/:badge
     *   Issue a badge
+
+***
+
+This work is a collaboration with publishers [BioMed Central](http://www.biomedcentral.com/) (BMC), [Ubiquity Press](http://www.ubiquitypress.com/) (UP) and the [Public Library of Science](http://www.plos.org/) (PLoS); the biomedical research foundation, [The Wellcome Trust](http://www.wellcome.ac.uk/); the software and technology firm [Digital Science](http://www.digital-science.com/); the registry of unique researcher identifiers, [ORCID](http://orcid.org/); and the [Mozilla Science Lab](http://mozillascience.org/).
+
