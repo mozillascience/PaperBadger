@@ -15,7 +15,7 @@ The PaperBadger widget enables *anyone*, from publishers to individual researche
 ![Badge Preview](./public/img/badge_preview.jpg)
 
 1. To use the widget on your own site, include a `<div>` with your custom class in your view file, for example:
-    `<div id="my-container"></div>`
+    `<div class="my-container"></div>`
 
 2. Above the closing `<body>` tag, add
   ```html
@@ -27,7 +27,7 @@ The PaperBadger widget enables *anyone*, from publishers to individual researche
           function load() {
             new PaperBadgerWidget({
               DOI: "10.1186/2047-217X-3-18",
-              containerId: "my-container"
+              containerClass: "my-container"
             });
           }
         })();
@@ -35,7 +35,7 @@ The PaperBadger widget enables *anyone*, from publishers to individual researche
   ```
 
 3. In the load method, include your custom values:
-  * the element id where your widget will appear for the `containerId` key and
+  * the element class where your widget will appear for the `containerClass` key and
   * either the doi for the paper you are interested in as the `DOI` key or the ORCID for the author you are interesed in as the `ORCID` key
 
 ## Contributing

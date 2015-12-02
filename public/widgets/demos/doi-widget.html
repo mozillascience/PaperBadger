@@ -3,11 +3,11 @@
 <html>
 <head>
   <title>Paper view snippet example | Paper Badger</title>
-  <style>.my-remove-class { display: none; } #my-element { overflow: hidden; }</style>
+  <style>.my-remove-class { display: none; } .my-element { overflow: hidden; }</style>
 </head>
 
 <body>
-  <div id="my-element"></div>
+  <div class="my-element"></div>
   <div class="my-remove-class">This is only shown when the API returns badges.</div>
 
   <script>
@@ -18,7 +18,7 @@
       function load() {
         new PaperBadgerWidget({
           DOI: "10.1186/2047-217X-3-18",
-          containerId: "my-element",
+          containerClass: "my-element",
           removeClass: "my-remove-class"
         });
       }

@@ -3,7 +3,7 @@ This shows what the Paper Badger Widget can do and how to use it.
 
 ## Usage
 1. To use the widget on your own site, include a `<div>` with your custom class in your view file, for example:
-    `<div id="my-container"></div>`
+    `<div class="my-container"></div>`
 
 2. Above the closing `<body>` tag, add
   ```html
@@ -15,7 +15,7 @@ This shows what the Paper Badger Widget can do and how to use it.
           function load() {
             new PaperBadgerWidget({
               DOI: "10.1186/2047-217X-3-18",
-              containerId: "my-container"
+              containerClass: "my-container"
             });
           }
         })();
@@ -23,11 +23,11 @@ This shows what the Paper Badger Widget can do and how to use it.
   ```
 
 3. In the load method, include your custom values:
-  * the element id where your widget will appear for the `containerId` key and
+  * the element class where your widget will appear for the `containerClass` key and
   * either the doi for the paper you are interested in as the `DOI` key or the ORCID for the author you are interesed in as the `ORCID` key
   
 ## Required configuration options
-  * the `containerId` key: contains the id of the element which will contain the Paper Badger widget
+  * the `containerClass` key: contains the class of the element which will contain the Paper Badger widget
   * either the `DOI` or the `ORCID` key: defines which information the widget will display
   
 ## Optional configuration options

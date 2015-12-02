@@ -6,7 +6,7 @@
  * @param {Object}    settings
  * @param {string=}   settings.DOI
  * @param {string=}   settings.ORCID
- * @param {string}    settings.containerId
+ * @param {string}    settings.containerClass
  * @param {string=}   settings.loaderText
  * @param {string=}   settings.removeClass
  * @param {Function=} settings.clickCallback
@@ -49,7 +49,7 @@ var PaperBadgerWidget = function (settings) {
       settings.DOI = tmp[0] + '/' + tmp.slice(1).join('%2F');
     }
 
-    containerElement = document.getElementById(settings.containerId);
+    containerElement = document.getElementsByClassName(settings.containerClass)[0];
 
     if (settings.hasOwnProperty('loaderText')) {
       loaderText = settings.loaderText;
@@ -394,12 +394,9 @@ window.showBadgeFurniture = function (conf) {
  * @param {Function=} callback
  */
 window.showBadges = function (conf, callback) {
-  var containerId = 'paper-badger-container-' + (new Date().getTime());
-  document.getElementsByClassName(conf['container-class'])[0].setAttribute('id', containerId);
-
   new PaperBadgerWidget({
     DOI: conf['article-doi'],
-    containerId: containerId,
+    containerClass: conf['container-class'],
     clickCallback: callback
   });
 };
