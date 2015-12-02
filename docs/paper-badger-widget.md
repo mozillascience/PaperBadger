@@ -34,10 +34,11 @@ This shows what the Paper Badger Widget can do and how to use it.
   * the `loaderText` key: changes the default text shown while the Paper Badger widget is loading
   * the `removeClass` key: the widget will remove this class from all elements once it has loaded, if this is a non-empty string
   * the `clickCallback` key: a method that gets called when a link under a badge gets clicked. The method is called with an object containing either the DOI or ORCID of the link and the badge taxonomy:
-        ```
-            {
-                doi: '10.1186/2047-217X-3-18', // either DOI
-                orcid: '0000-0001-5207-5061', // or ORCID
-                taxonomy: 'data_curation'
-            }
-        ```
+    
+    ```
+        {
+            doi: '10.1186/2047-217X-3-18', // either DOI
+            orcid: '0000-0001-5207-5061', // or ORCID
+            taxonomy: 'data_curation'
+        }
+    ```
