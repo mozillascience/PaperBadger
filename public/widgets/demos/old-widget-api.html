@@ -6,7 +6,8 @@
 </head>
 <body>
 
-<div class="my-container"></div>
+<div class="my-container" style="overflow: hidden"></div>
+<div class="paper-badges-hidden">This is only shown when the showBadgeFurniture method finds badges for the given DOI.</div>
 
 <script>
   (function () {
@@ -14,7 +15,8 @@
     g.src="../paper-badger-widget.js";g.onload=load;d.body.appendChild(g);
 
     function load() {
-      var conf={"article-doi": "10.1186/2047-217X-3-18", "container-class": "my-container"};
+      var conf={"article-doi": "10.1186/2047-217X-3-18", "container-class": "my-container", "furniture-class": "paper-badges-hidden"};
+      showBadgeFurniture(conf);
       showBadges(conf);
     }
   })();

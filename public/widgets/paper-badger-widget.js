@@ -1,14 +1,15 @@
 /* global ActiveXObject: false */
-/* exported PaperBadgerWidget */
 /**
  * PaperBadger widget
  * Displays all badges for a DOI or ORCID.
  *
- * @param {Object} settings
- * @param {string=} settings.DOI
- * @param {string=} settings.ORCID
- * @param {string}  settings.containerId
- * @param {string=} settings.loaderText
+ * @param {Object}    settings
+ * @param {string=}   settings.DOI
+ * @param {string=}   settings.ORCID
+ * @param {string}    settings.containerId
+ * @param {string=}   settings.loaderText
+ * @param {string=}   settings.removeClass
+ * @param {Function=} settings.clickCallback
  * @constructor
  */
 var PaperBadgerWidget = function (settings) {
@@ -22,7 +23,7 @@ var PaperBadgerWidget = function (settings) {
    * String shown in the loading animation
    * @type {string}
    */
-  var loaderText = "loading widget";
+  var loaderText = 'loading widget';
 
   /**
    * Element for the loading animation
@@ -43,25 +44,25 @@ var PaperBadgerWidget = function (settings) {
   var construct = function () {
     // fix for #135, all but the first forward slash of a DOI
     // should be encoded as %2F
-    if (settings.hasOwnProperty("DOI")) {
-      var tmp = settings.DOI.split("/");
-      settings.DOI = tmp[0] + "/" + tmp.slice(1).join("%2F");
+    if (settings.hasOwnProperty('DOI')) {
+      var tmp = settings.DOI.split('/');
+      settings.DOI = tmp[0] + '/' + tmp.slice(1).join('%2F');
     }
 
     containerElement = document.getElementById(settings.containerId);
 
-    if (settings.hasOwnProperty("loaderText")) {
+    if (settings.hasOwnProperty('loaderText')) {
       loaderText = settings.loaderText;
     }
 
     // we need a container element and either a DOI or an ORCID
     // proceed if these are available, throw an error if not
-    if (containerElement && (settings.hasOwnProperty("DOI") || settings.hasOwnProperty("ORCID"))) {
+    if (containerElement && (settings.hasOwnProperty('DOI') || settings.hasOwnProperty('ORCID'))) {
       insertCSS();
       startLoader();
       loadWidgetContent();
     } else {
-      throw "The settings object is incomplete. You need to supply an element id and either a DOI or an ORCID.";
+      throw 'The settings object is incomplete. You need to supply an element id and either a DOI or an ORCID.';
     }
   };
 
@@ -70,16 +71,16 @@ var PaperBadgerWidget = function (settings) {
    * styles for the widget.
    */
   var insertCSS = function () {
-    var css = ".paper-badge {float: left; width: 10em; height: 20em; overflow: hidden; " +
-      "border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}" +
-      ".paper-badge a {width: 100%; display: inline-block; font-size: 88%; line-height: 1.2; " +
-      "color: #333; padding: 0.4em; cursor: pointer; text-decoration: none} .paper-badge " +
-      "a.active {color: #fff; background: #7ab441; text-decoration: none} .paper-badge img " +
-      "{max-width: 8em; margin-left: 10%; margin-bottom: 1%}";
+    var css = '.paper-badge {float: left; width: 10em; height: 20em; overflow: hidden; ' +
+      'border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}' +
+      '.paper-badge a {width: 100%; display: inline-block; font-size: 88%; line-height: 1.2; ' +
+      'color: #333; padding: 0.4em; cursor: pointer; text-decoration: none} .paper-badge ' +
+      'a.active {color: #fff; background: #7ab441; text-decoration: none} .paper-badge img ' +
+      '{max-width: 8em; margin-left: 10%; margin-bottom: 1%} .paper-badges-hidden{display: none}';
 
-    var head = document.head || document.getElementsByTagName("head")[0];
-    var style = document.createElement("style");
-    style.type = "text/css";
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var style = document.createElement('style');
+    style.type = 'text/css';
     if (style.styleSheet) {
       style.styleSheet.cssText = css;
     } else {
@@ -94,9 +95,9 @@ var PaperBadgerWidget = function (settings) {
    * and starts an animation loop.
    */
   var startLoader = function () {
-    loaderElement = document.createElement("div");
-    loaderElement.className = "paperbadger-loader";
-    loaderElement.setAttribute("data-step", "4");
+    loaderElement = document.createElement('div');
+    loaderElement.className = 'paperbadger-loader';
+    loaderElement.setAttribute('data-step', '4');
     containerElement.appendChild(loaderElement);
     loaderMethod();
 
@@ -108,24 +109,24 @@ var PaperBadgerWidget = function (settings) {
    * dots from the loader text.
    */
   var loaderMethod = function () {
-    var step = loaderElement.getAttribute("data-step");
+    var step = loaderElement.getAttribute('data-step');
     var text = loaderText;
 
-    if (step === "4") {
+    if (step === '4') {
       step = 1;
-    } else if (step === "1") {
+    } else if (step === '1') {
       step = 2;
-      text += ".";
-    } else if (step === "2") {
+      text += '.';
+    } else if (step === '2') {
       step = 3;
-      text += "..";
-    } else if (step === "3") {
+      text += '..';
+    } else if (step === '3') {
       step = 4;
-      text += "...";
+      text += '...';
     }
 
     loaderElement.innerHTML = text;
-    loaderElement.setAttribute("data-step", step);
+    loaderElement.setAttribute('data-step', step);
   };
 
   /**
@@ -140,7 +141,7 @@ var PaperBadgerWidget = function (settings) {
    */
   var loadWidgetContent = function () {
     var url = getEndpoint();
-    var xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+    var xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
@@ -149,7 +150,7 @@ var PaperBadgerWidget = function (settings) {
       }
     };
 
-    xmlhttp.open("GET", url, true);
+    xmlhttp.open('GET', url, true);
     xmlhttp.send();
   };
 
@@ -160,17 +161,17 @@ var PaperBadgerWidget = function (settings) {
    * @returns {string}
    */
   var getEndpoint = function () {
-    var url = "https://badges.mozillascience.org/";
+    var url = 'https://badges.mozillascience.org/';
 
     if (settings.DOI) {
-      url += "papers/" + settings.DOI;
+      url += 'papers/' + settings.DOI;
     } else if (settings.ORCID) {
-      url += "users/" + settings.ORCID;
+      url += 'users/' + settings.ORCID;
     } else {
-      throw "You need to supply either a DOI or an ORCID.";
+      throw 'You need to supply either a DOI or an ORCID.';
     }
 
-    url += "/badges";
+    url += '/badges';
 
     return url;
   };
@@ -184,7 +185,7 @@ var PaperBadgerWidget = function (settings) {
   var processAjaxResponse = function (json) {
     var badgesJson = JSON.parse(json);
     var badges = {};
-    var isDOI = (settings.hasOwnProperty("DOI") && settings.DOI.length);
+    var isDOI = (settings.hasOwnProperty('DOI') && settings.DOI.length);
 
     for (var i = 0; i < badgesJson.length; i++) {
       var badgeId = badgesJson[i].badge.slug;
@@ -202,16 +203,20 @@ var PaperBadgerWidget = function (settings) {
       if (isDOI) {
         badges[badgeId].links.push({
           id: badgesJson[i].orcid,
+          type: 'ORCID',
+          taxonomy: badgeId,
           text: badgesJson[i].authorName,
-          url: "https://orcid.org/" + badgesJson[i].orcid
+          url: 'https://orcid.org/' + badgesJson[i].orcid
         });
       } else {
-        var localDOI = badgesJson[i].evidenceUrl.split("doi.org/")[1];
+        var localDOI = badgesJson[i].evidenceUrl.split('doi.org/')[1];
 
         badges[badgeId].links.push({
           id: localDOI,
+          type: 'DOI',
+          taxonomy: badgeId,
           text: localDOI,
-          url: badgesJson[i].evidenceUrl.replace("http:", "https:")
+          url: badgesJson[i].evidenceUrl.replace('http:', 'https:')
         });
       }
     }
@@ -227,29 +232,52 @@ var PaperBadgerWidget = function (settings) {
    */
   var renderBadges = function (badges) {
     var i = 0;
-    var html = "";
+    var html = '';
+    var numBadges = 0;
 
     for (var key in badges) {
       if (badges.hasOwnProperty(key)) {
-        html += "<div class=\"paper-badge\">";
-        html += "<img src=\"" + badges[key].imageUrl + "\" alt=\"" + badges[key].name + "\"" +
-          " title=\"" + badges[key].consumerDescription + "\">";
+        numBadges++;
+
+        html += '<div class="paper-badge">';
+        html += '<img src="' + badges[key].imageUrl + '" alt="' + badges[key].name + '"' +
+          ' title="' + badges[key].consumerDescription + '">';
 
         for (i = 0; i < badges[key].links.length; i++) {
-          html += "<a href=\"" + badges[key].links[i].url + "\" class=\"paper-badger-link\" " +
-            "data-id=\"" + badges[key].links[i].id + "\">" + badges[key].links[i].text + "</a>";
+          html += '<a href="' + badges[key].links[i].url + '" class="paper-badger-link" ' +
+            'data-id="' + badges[key].links[i].id + '" data-type="' + badges[key].links[i].type + '" ' +
+            'data-taxonomy="' + badges[key].links[i].taxonomy + '" title="' + badges[key].links[i].id + '" ' +
+            'target="_blank">' + badges[key].links[i].text + '</a>';
         }
 
-        html += "</div>";
+        html += '</div>';
       }
     }
 
     containerElement.innerHTML = html;
 
-    // add mouseover for links only
-    var links = document.getElementsByClassName("paper-badger-link");
+    // if there were any badges and if the user supplied
+    // removeClass in the settings, remove the class from
+    // all elements on the page
+    if (numBadges && settings.hasOwnProperty('removeClass') && settings.removeClass.length) {
+      var elements = document.getElementsByClassName(settings.removeClass);
+
+      for (i = 0; i < elements.length; i++) {
+        var classes = elements[i].className.split(' ');
+        for (var j = 0; j < classes.length; j++) {
+          if (classes[j] === settings.removeClass) {
+            classes.splice(j, 1);
+          }
+        }
+        elements[i].className = classes.join(' ');
+      }
+    }
+
+    // add mouseover and clickCallbacks for all links
+    var links = document.getElementsByClassName('paper-badger-link');
     for (i = 0; i < links.length - 1; i++) {
-      links[i].addEventListener("mouseover", mouseOverMethod);
+      links[i].addEventListener('mouseover', mouseOverMethod);
+      links[i].addEventListener('click', clickCallbackMethod);
     }
   };
 
@@ -258,53 +286,120 @@ var PaperBadgerWidget = function (settings) {
    * by adding a .active CSS class to the link element.
    */
   var mouseOverMethod = function () {
-    var id = this.getAttribute("data-id");
-    var links = document.getElementsByClassName("paper-badger-link");
+    var id = this.getAttribute('data-id');
+    var links = document.getElementsByClassName('paper-badger-link');
 
     for (var i = 0; i < links.length; i++) {
       var j = 0;
-      var classes = links[i].className.split(" ");
+      var classes = links[i].className.split(' ');
 
-      if (links[i].getAttribute("data-id") === id) {
+      if (links[i].getAttribute('data-id') === id) {
         var found = false;
         for (j = 0; j < classes.length - 1; j++) {
-          if (classes[j] === "active") {
+          if (classes[j] === 'active') {
             found = true;
             break;
           }
         }
 
         if (!found) {
-          classes.push("active");
+          classes.push('active');
         }
       } else {
         for (j = classes.length; j > 0; j--) {
-          if (classes[j] === "active") {
+          if (classes[j] === 'active') {
             classes.splice(j, 1);
           }
         }
       }
 
-      links[i].className = classes.join(" ");
+      links[i].className = classes.join(' ');
+    }
+  };
+
+  /**
+   * Calls the clickCallback method if the user supplied one
+   */
+  var clickCallbackMethod = function () {
+    if (settings.hasOwnProperty('clickCallback') && settings.clickCallback) {
+      var data = {
+        taxonomy: this.getAttribute('data-taxonomy')
+      };
+
+      if (this.getAttribute('data-type') === 'DOI') {
+        data.doi = this.getAttribute('data-id');
+      } else if (this.getAttribute('data-type') === 'ORCID') {
+        data.orcid = this.getAttribute('data-id');
+      }
+
+      settings.clickCallback(data);
     }
   };
 
   construct();
 };
 
-/* exported showBadges */
 /**
  * Compatibility method for pages using the old widget API
+ * Unhides elements with the .paper-badges-hidden class if
+ * there are badges for this DOI
  *
- * @param {Object}   conf
- * @param {Function} callback
+ * DO NOT REMOVE, EDIT WITH CAUTION
+ *
+ * @param {Object} conf
  */
-function showBadges(conf, callback) {
-  var containerId = "paper-badger-container-" + (new Date().getTime());
-  document.querySelector("." + conf["container-class"]).setAttribute("id", containerId);
+window.showBadgeFurniture = function (conf) {
+  var url = 'https://badges.mozillascience.org/';
+  if (conf.hasOwnProperty('article-doi')) {
+    url += 'papers/' + conf['article-doi'];
+  } else {
+    url += 'users/' + conf.orcid;
+  }
+  url += '/badges/count';
+
+  var xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+
+  xmlhttp.onreadystatechange = function () {
+    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+      var count = xmlhttp.responseText ? xmlhttp.responseText : 0;
+
+      if (count > 0) {
+        var furnitureClass = conf.hasOwnProperty('furniture-class') ? conf['furniture-class'] : 'paper-badges-hidden';
+        var elements = document.getElementsByClassName(furnitureClass);
+
+        for (var i = 0; i < elements.length; i++) {
+          var classes = elements[i].className.split(' ');
+          for (var j = 0; j < classes.length; j++) {
+            if (classes[j] === furnitureClass) {
+              classes.splice(j, 1);
+            }
+          }
+          elements[i].className = classes.join(' ');
+        }
+      }
+    }
+  };
+
+  xmlhttp.open('GET', url, true);
+  xmlhttp.send();
+};
+
+/**
+ * Compatibility method for pages using the old widget API
+ * Creates a new instance of the Paper Badger Widget and displays it
+ *
+ * DO NOT REMOVE, EDIT WITH CAUTION
+ *
+ * @param {Object}    conf
+ * @param {Function=} callback
+ */
+window.showBadges = function (conf, callback) {
+  var containerId = 'paper-badger-container-' + (new Date().getTime());
+  document.getElementsByClassName(conf['container-class'])[0].setAttribute('id', containerId);
 
   new PaperBadgerWidget({
-    DOI: conf["article-doi"],
-    containerId: containerId
+    DOI: conf['article-doi'],
+    containerId: containerId,
+    clickCallback: callback
   });
-}
+};
