@@ -1,5 +1,9 @@
 .env
+env.docker
 node_modules/
 npm-debug.log
 npm-debug.log.*
 public/js/
+
+.DS_Store
+.idea

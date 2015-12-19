@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Paper view snippet example | Paper Badger</title>
+  <style>.my-remove-class { display: none; } .my-element { overflow: hidden; }</style>
+</head>
+
+<body>
+  <div class="my-element"></div>
+  <div class="my-remove-class">This text is only shown when the API returns badges.</div>
+
+  <script>
+    (function () {
+      var d=document,g=d.createElement("script");g.type="text/javascript";g.async=!0;g.defer=!0;
+      g.src="../widget.js";g.onload=load;d.body.appendChild(g);
+
+      function load() {
+        new PaperBadgerWidget({
+          DOI: "10.1186/2047-217X-3-18",
+          containerClass: "my-element",
+          removeClass: "my-remove-class"
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
