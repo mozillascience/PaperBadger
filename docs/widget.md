@@ -1,6 +1,9 @@
 # widget.js Documentation
 This shows what the Paper Badger Widget can do and how to use it.
 
+## Demos
+The demos can be found in [public/widgets/demos](../public/widgets/demos).
+
 ## Usage
 1. To use the widget on your own site, include a `<div>` with your custom class in your view file, for example:
     `<div class="my-container"></div>`
@@ -10,7 +13,7 @@ This shows what the Paper Badger Widget can do and how to use it.
       <script>
         (function () {
           var d=document,g=d.createElement("script");g.type="text/javascript";g.async=!0;g.defer=!0;
-          g.src="https://badges.mozillascience.org/widgets/paper-badger-widget.js";g.onload=load;d.body.appendChild(g);
+          g.src="https://badges.mozillascience.org/widgets/widget.js";g.onload=load;d.body.appendChild(g);
       
           function load() {
             new PaperBadgerWidget({
