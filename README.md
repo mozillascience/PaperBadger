@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/mozillascience/PaperBadger](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mozillascience/PaperBadger?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Exploring the use of digital badges for crediting contributors to scholarly papers for their work
+Issuing badges to credit authors for their work on academic papers
 
 As the research environment becomes more digital, we want to test how we can use this medium to help bring transparency and credit for individuals in the publication process.
 
