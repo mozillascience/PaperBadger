@@ -40,7 +40,7 @@
     "react-checkbox-group": "^0.1.9",
     "react-router": "^0.13.3",
     "shortid": "^2.2.2",
-    "simple-oauth2": "https://github.com/ORCID/simple-oauth2/archive/MASTER_2015_06_03.tar.gz",
+    "simple-oauth2": "0.5.1",
     "webpack": "^1.8.11",
     "whatwg-fetch": "^0.9.0"
   },
