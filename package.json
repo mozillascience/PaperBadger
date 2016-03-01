@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm-run-all --parallel server watch:js",
     "build:js": "webpack --config webpack.config.js --progress --profile --colors",
-    "watch:js": "npm run build:js -- --watch",
+    "watch:js": "npm run build:js --watch",
     "clean": "rm -r public/js/*",
     "server": "node src/index.js",
     "jscs": "jscs -c node_modules/mofo-style/linters/.jscsrc src test webpack.config.js public/widgets/widget.js",
