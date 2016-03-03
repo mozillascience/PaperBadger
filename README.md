@@ -87,12 +87,18 @@ Ask [@acabunoc](http://github.com/acabunoc) for ones marked `###########`. Our c
 *   GET /users/:orcid/badges
     *   Get all badge instances earned by a user
     *   e.g. [/users/0000-0001-5979-8713/badges](http://badges.mozillascience.org/users/0000-0001-5979-8713/badges)
+*   GET /users/:orcid/badges/count
+    *   Get a count of all badge instances earned by a user
+    *   e.g. [/users/0000-0001-5979-8713/badges/count](http://badges.mozillascience.org/users/0000-0001-5979-8713/badges/count)
 *   GET /users/:orcid/badges/:badge
     *   Get all badge instances of a certain badge earned by a user
     *   e.g. [/users/0000-0001-5979-8713/badges/data_curation](http://badges.mozillascience.org/users/0000-0001-5979-8713/badges/data_curation)
 *   GET /papers/:doi1/:doi2/badges
     *   Get all badge instances for a paper.
     *   e.g. [/papers/10.1186/2047-217X-3-18/badges](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/badges)
+*   GET /papers/:doi1/:doi2/badges/count
+    *   Get a count of all badge instances for a paper.
+    *   e.g. [/papers/10.1186/2047-217X-3-18/badges/count](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/badges/count)
 *   GET /papers/:doi1/:doi2/badges/:badge
     *   Get all badge instances of a certain badge for a paper.
     *   e.g. [/papers/10.1186/2047-217X-3-18/badges/investigation](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/badges/investigation)
