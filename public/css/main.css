@@ -17,6 +17,7 @@ body {
     line-height: 1.7em;
     color: #7f8c8d;
     font-size: 13px;
+    height:100%;
 }
 
 h1,
@@ -195,9 +196,11 @@ a.pure-button-primary {
     position: absolute;
     top: 50px;
     width: 100%;
-    min-height: 12%;
     z-index: 2;
     background: white;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 .home .content-wrapper {
@@ -234,6 +237,7 @@ a.pure-button-primary {
 /* This is the class used for the footer */
 .footer {
     background: #111;
+    flex:none;
 }
 
 .footer a:link {
@@ -257,6 +261,7 @@ a.pure-button-primary {
     /* We want to give the content area some more padding */
     .content {
         padding: 1em;
+        flex:1;
     }
 
     /* We can align the menu header to the left, but float the
