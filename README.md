@@ -12,9 +12,15 @@ You can display contributorship badges for science on your own site! Researchers
 
 The PaperBadger widget enables *anyone*, from publishers to individual researchers, to easily display badges on a website by including just a few lines of script with the relevant doi (digital object identifier) and a designated `<div>` in your view file. Authors can add the script to their own sites to display badges earned, while publishers can use the script to display all badges associated with a paper:
 
-![Badge Preview](./public/img/badge_preview.jpg)
-
 You can either use paper-badger-widget.js ([documentation](docs/paper-badger-widget.md)), which supports old browsers or widget.js ([documentation](docs/widget.md)), which is in development and currently only supports evergreen browsers and IE9+.
+
+### Current Users
+
+Two journals, [GigaScience (BioMed Central)](http://gigascience.biomedcentral.com/) and [Journal of Open Research Software (Ubiquity Press)](http://openresearchsoftware.metajnl.com/) have added the Paper Badger widget to their papers. 
+
+JORS example: [A Web-based modeling tool for the SEMAT Essence theory of software engineering](http://openresearchsoftware.metajnl.com/articles/10.5334/jors.ad/metrics/#author-contributions)
+
+![Live Example](./public/img/users.png)
 
 ## Contributing
 
