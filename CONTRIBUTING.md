@@ -15,11 +15,12 @@ Refer to the [README](README.md).
 
 See [Mozilla Foundation JavaScript Style Guide](https://www.npmjs.com/package/mofo-style)
 
-JS files must pass JSHint using the provided [.jshintrc](https://github.com/MozillaFoundation/javascript-style-guide/blob/master/linters/.jshintrc) settings.
+This project is currently _in transition_ to fully support the latest
+[mofo-style](https://www.npmjs.com/package/mofo-style) version. At the moment it uses a modified version of .eslintrc.yaml, provided
+in the root directory, instead of using the file inside ./node-modules/mofo-style/.eslintrc.yaml, in order to make the transition
+easier and smoother.
 
-Additionally, JS files need to be run through [JSBeautify](https://github.com/einars/js-beautify) with the provided [.jsbeautifyrc](https://github.com/MozillaFoundation/javascript-style-guide/blob/master/linters/.jsbeautifyrc).
-
-**TL;DR** Run `npm run lint` before pushing a commit. It will validate and beautify your JS.
+**TL;DR** Run `npm run lint` before pushing a commit. It will validate your JS.
 
 #### Variable Naming
 

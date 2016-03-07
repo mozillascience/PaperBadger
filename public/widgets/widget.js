@@ -1,3 +1,5 @@
+'use strict';
+
 /* exported PaperBadgerWidget */
 /* global ActiveXObject: false */
 /**
@@ -86,11 +88,11 @@ var PaperBadgerWidget = function (settings) {
    */
   function insertCSS() {
     var css = '.paper-badge {float: left; width: 10em; height: 20em; overflow: hidden; ' +
-      'border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}' +
-      '.paper-badge a {width: 100%; display: inline-block; font-size: 88%; line-height: 1.2; ' +
-      'color: #333; padding: 0.4em; cursor: pointer; text-decoration: none} .paper-badge ' +
-      'a.active {color: #fff; background: #7ab441; text-decoration: none} .paper-badge img ' +
-      '{max-width: 8em; margin-left: 10%; margin-bottom: 1%} .paper-badges-hidden{display: none}';
+        'border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}' +
+        '.paper-badge a {width: 100%; display: inline-block; font-size: 88%; line-height: 1.2; ' +
+        'color: #333; padding: 0.4em; cursor: pointer; text-decoration: none} .paper-badge ' +
+        'a.active {color: #fff; background: #7ab441; text-decoration: none} .paper-badge img ' +
+        '{max-width: 8em; margin-left: 10%; margin-bottom: 1%} .paper-badges-hidden{display: none}';
 
     var head = document.head || document.getElementsByTagName('head')[0];
     var style = document.createElement('style');
@@ -256,13 +258,13 @@ var PaperBadgerWidget = function (settings) {
 
         html += '<div class="paper-badge">';
         html += '<img src="' + badges[key].imageUrl + '" alt="' + badges[key].name + '"' +
-          ' title="' + badges[key].consumerDescription + '">';
+            ' title="' + badges[key].consumerDescription + '">';
 
         for (i = 0; i < badges[key].links.length; i++) {
           html += '<a href="' + badges[key].links[i].url + '" class="paper-badger-link" ' +
-            'data-id="' + badges[key].links[i].id + '" data-type="' + badges[key].links[i].type + '" ' +
-            'data-taxonomy="' + badges[key].links[i].taxonomy + '" title="' + badges[key].links[i].id + '" ' +
-            'target="_blank">' + badges[key].links[i].text + '</a>';
+              'data-id="' + badges[key].links[i].id + '" data-type="' + badges[key].links[i].type + '" ' +
+              'data-taxonomy="' + badges[key].links[i].taxonomy + '" title="' + badges[key].links[i].id + '" ' +
+              'target="_blank">' + badges[key].links[i].text + '</a>';
         }
 
         html += '</div>';

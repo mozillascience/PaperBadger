@@ -1,3 +1,5 @@
+'use strict';
+
 var ApiClient = require('badgekit-api-client');
 
 module.exports = function (config) {

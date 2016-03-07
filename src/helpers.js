@@ -1,3 +1,5 @@
+'use strict';
+
 // should this be configuration?
 var orcidRe = /(\d{4}-\d{4}-\d{4}-\d{3}[\dX])@orcid\.org/;
 var path = require('path');
@@ -13,7 +15,7 @@ function ORCIDFromEmail(email) {
   }
 }
 
-function modEntry(entry, orcid) {
+function modEntry(entry) {
   var clone = {};
   Object.keys(entry).forEach(function (key) {
     if (key === 'email') {

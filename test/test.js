@@ -1,1 +1,3 @@
-describe("example test", function () {});
+'use strict';
+
+describe('example test', function() {});

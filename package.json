@@ -9,11 +9,9 @@
     "watch:js": "npm run build:js -- --watch",
     "clean": "rm -r public/js/*",
     "server": "node src/index.js",
-    "jscs": "jscs -c node_modules/mofo-style/linters/.jscsrc src test webpack.config.js public/widgets/widget.js",
-    "jshint": "jshint -c .jshintrc src webpack.config.js public/widgets/widget.js",
-    "jshint:test": "jshint -c test/.jshintrc test",
-    "jsbeautify": "js-beautify --config node_modules/mofo-style/linters/.jsbeautifyrc src/*.js test/*.js webpack.config.js public/widgets/widget.js -r -n",
-    "lint": "npm run jsbeautify && npm run jshint && npm run jshint:test && npm run jscs",
+    "eslint": "eslint --config .eslintrc.yaml src webpack.config.js public/widgets/widget.js",
+    "eslint:test": "eslint --config .eslintrc.yaml test",
+    "lint": "npm run eslint && npm run eslint:test",
     "build:production": "npm run build:js -- --optimize-minimize --optimize-dedupe",
     "start:production": "npm-run-all build:production server",
     "test": "mocha"
@@ -31,7 +29,7 @@
     "imports-loader": "^0.6.4",
     "jade": "^1.10.0",
     "jsx-loader": "^0.13.2",
-    "mofo-style": "^1.0.1",
+    "mofo-style": "^2.3.0",
     "mongoose": "^4.1.4",
     "nodemailer": "^1.4.0",
     "nodemailer-ses-transport": "^1.3.0",
@@ -45,9 +43,7 @@
     "whatwg-fetch": "^0.9.0"
   },
   "devDependencies": {
-    "js-beautify": "^1.5.5",
-    "jscs": "^1.13.1",
-    "jshint": "^2.7.0",
+    "eslint": "^2.3.0",
     "mocha": "^2.2.5",
     "nock": "^2.3.0",
     "supertest": "^1.0.1"

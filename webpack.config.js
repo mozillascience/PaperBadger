@@ -1,8 +1,10 @@
+'use strict';
+
 var path = require('path');
 var webpack = require('webpack');
 
 var IMPORT_ES5_SHIM = 'imports?shim=es5-shim/es5-shim&' +
-  'sham=es5-shim/es5-sham';
+    'sham=es5-shim/es5-sham';
 
 module.exports = {
   entry: './templates/client.jsx',

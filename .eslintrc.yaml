@@ -1,0 +1,85 @@
+# This is a baseline set of rules intended for usage in any ES6-based project.
+#
+# Be sure to add your project's specific environment(s) as needed via external configuration.
+#   See: http://eslint.org/docs/user-guide/configuring#specifying-environments
+
+---
+rules: # http://eslint.org/docs/rules
+
+  # Possible Errors
+
+
+  # Best Practices
+
+  curly: [2]
+  dot-notation: [2]
+  eqeqeq: [2]
+  guard-for-in: [2]
+  no-div-regex: [2]
+  no-eval: [2]
+  no-extend-native: [2]
+  no-floating-decimal: [2]
+  no-implied-eval: [2]
+  no-labels: [2]
+  no-lone-blocks: [2]
+  no-loop-func: [2]
+  no-multi-spaces: [2]
+  no-native-reassign: [2]
+  no-new-wrappers: [2]
+  no-new: [2]
+  no-redeclare: [2]
+  no-return-assign: [2]
+  no-self-compare: [2]
+  radix: [2]
+  wrap-iife: [2, "inside"]
+  yoda: [2, "never"]
+
+  # Strict Mode
+
+  strict: [2, "global"]
+
+  # Variables
+
+  no-shadow: [2]
+  no-use-before-define: [2, "nofunc"]
+
+  # Stylistic Issues
+
+  block-spacing: [2, "always"]
+  brace-style: [2, "1tbs", allowSingleLine: true]
+  camelcase: [2, properties: "never"]
+  comma-style: [2, "last"]
+  consistent-this: [2, "self"]
+  eol-last: [2]
+  indent: [2, 2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
+  linebreak-style: [2, "unix"]
+  no-trailing-spaces: [2]
+  no-unneeded-ternary: [2]
+  quotes: [2, "single"]
+  semi: [2, "always"]
+  spaced-comment: [2, "always"]
+  wrap-regex: [2]
+
+  # ES6
+
+  # Overrides to `eslint:recommended` rule set
+
+  no-console: [0]
+
+
+extends: "eslint:recommended"
+
+ecmaFeatures:
+  arrowFunctions: false
+  blockBindings: true
+  defaultParams: true
+  destructuring: true
+  forOf: true
+  spread: true
+  templateStrings: true
+
+# Environments
+env:
+    browser: true
+    node: true
+    mocha: true

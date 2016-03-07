@@ -1,3 +1,5 @@
+'use strict';
+
 var returnBadges, badgerService;
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
@@ -45,7 +47,7 @@ function getUser(request, response) {
     orcid = request.session.orcid_token.token.orcid;
   }
 
-  var query  = User.where({ orcid:orcid });
+  var query = User.where({ orcid:orcid });
   query.findOne(function(err, user) {
     if (user) {
       response.json(user);

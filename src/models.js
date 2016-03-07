@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+    Schema = mongoose.Schema;
 
 /* Claim Schema  -- stores the unique claim codes for each email / doi combo to claim their badges*/
 

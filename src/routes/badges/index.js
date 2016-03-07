@@ -1,3 +1,5 @@
+'use strict';
+
 var returnBadges, badgerService;
 
 function getAll(request, response) {

@@ -1,3 +1,5 @@
+'use strict';
+
 var returnBadges, badgerService, transporter;
 var path = require('path');
 var helpers = require(path.join(process.cwd(), 'src', 'helpers'));
@@ -25,9 +27,9 @@ function getBadgeCount(request, response) {
   }
 
   var getBadges = badgerService.getBadges(null, null, {
-      '_1': request.params.doi1,
-      '_2': request.params.doi2
-    });
+    '_1': request.params.doi1,
+    '_2': request.params.doi2
+  });
 
   getBadges(function (error, badges) {
     if (error !== null || !badges) {
@@ -79,8 +81,8 @@ function createPaper(request, response) {
   if (request.session.orcid_token && request.session.orcid_token.token) {
     orcid = request.session.orcid_token.token.orcid;
   }
-  var query  = User.where({ orcid:orcid });
-  query.findOne(function(err, user) {
+  var query = User.where({orcid: orcid});
+  query.findOne(function (err, user) {
     if (!user || (user.role !== 'publisher')) {
       response.status(403).end();
       return;
@@ -90,7 +92,7 @@ function createPaper(request, response) {
   var doiUrl = helpers.urlFromDOI(request.params.doi1, request.params.doi2);
   var emails = request.body.emails;
   var mailFinal = [];
-  emails.map(function(email) {
+  emails.map(function (email) {
     // Generate a claim code, store in mongo, email each user their unique claim code
     var claim = new Claim({
       slug: shortid.generate(),
@@ -104,9 +106,9 @@ function createPaper(request, response) {
     html += doiUrl + '</a>.</p>';
     html += '<p>Now, you can claim <a href="https://badges.mozillascience.org/">';
     html += 'Contributor Badges</a> based on your contributions.</p>';
-    html +=  '<p>Your claim code: <a href="https://badges.mozillascience.org/issue/';
+    html += '<p>Your claim code: <a href="https://badges.mozillascience.org/issue/';
     html += claim.slug + '">' + claim.slug + '</a></p>';
-    html +=  '<p>You can go <a href="https://badges.mozillascience.org/issue/';
+    html += '<p>You can go <a href="https://badges.mozillascience.org/issue/';
     html += claim.slug + '">here</a> to claim your badges: <a href="https://badges.mozillascience.org/issue/';
     html += claim.slug + '"">https://badges.mozillascience.org/issue/';
     html += claim.slug + '</a></p>';
@@ -126,7 +128,7 @@ function createPaper(request, response) {
     };
 
     // send mail with defined transport object
-    transporter.sendMail(mailOptions, function(error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         // return console.log(error);
         response.send(error);
@@ -158,7 +160,7 @@ function createBadges(request, response) {
 
   // Delete the claim code once it's been used
   var slug = request.body.claim;
-  Claim.find({ slug:slug }).remove().exec();
+  Claim.find({slug: slug}).remove().exec();
 
   var badgeFinal = [];
   badges.map(function (badge) {

@@ -1,3 +1,5 @@
+'use strict';
+
 var path = require('path');
 var helpers = require(path.join(process.cwd(), 'src', 'helpers'));
 

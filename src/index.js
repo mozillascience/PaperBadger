@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('./app');
 var env = require('./environments');
 var client = require('./badges/client')(env);
