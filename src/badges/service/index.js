@@ -35,6 +35,7 @@ BadgeService.prototype.getBadges = function (orcid, badge, dois) {
     var evidenceUrl = dois ? helpers.urlFromDOI(dois._1, dois._2) : null;
 
     var clientCallback = function (err, badges) {
+      var filtered;
       if (err) {
         console.error(err);
         return callback(err);
@@ -58,7 +59,6 @@ BadgeService.prototype.getBadges = function (orcid, badge, dois) {
       }
     };
 
-    var filtered;
     var context = {
       system: system
     };

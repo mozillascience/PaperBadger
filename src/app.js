@@ -74,7 +74,7 @@ var RedisStore = require('connect-redis')(session);
 var sessionConfig = {
   secret: env.get('SESSION_SECRET'),
   store: new RedisStore({
-    url: env.get('REDISCLOUD_URL') || "redis://127.0.0.1:6379/0"
+    url: env.get('REDISCLOUD_URL') || 'redis://127.0.0.1:6379/0'
   }),
   name: 'sid', // Generic - don't leak information
   proxy: true, // Trust the reverse proxy for HTTPS/SSL

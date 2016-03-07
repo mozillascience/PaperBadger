@@ -84,7 +84,7 @@ var PaperBadgerWidget = function (settings) {
    * Injects a style tag into the header containing the necessary
    * styles for the widget.
    */
-  var insertCSS = function () {
+  function insertCSS() {
     var css = '.paper-badge {float: left; width: 10em; height: 20em; overflow: hidden; ' +
       'border-top: 1px solid #ccc; height 15em; padding: 2%; margin-right: 1%; margin-top: 2%}' +
       '.paper-badge a {width: 100%; display: inline-block; font-size: 88%; line-height: 1.2; ' +
@@ -102,13 +102,13 @@ var PaperBadgerWidget = function (settings) {
     }
 
     head.appendChild(style);
-  };
+  }
 
   /**
    * Inserts the loader element into the container element
    * and starts an animation loop.
    */
-  var startLoader = function () {
+  function startLoader() {
     loaderElement = document.createElement('div');
     loaderElement.className = 'paperbadger-loader';
     loaderElement.setAttribute('data-step', '4');
@@ -116,13 +116,13 @@ var PaperBadgerWidget = function (settings) {
     loaderMethod();
 
     loaderInterval = setInterval(loaderMethod, 750);
-  };
+  }
 
   /**
    * Animation loop for the loader text. Adds / removes
    * dots from the loader text.
    */
-  var loaderMethod = function () {
+  function loaderMethod() {
     var step = loaderElement.getAttribute('data-step');
     var text = loaderText;
 
@@ -141,7 +141,7 @@ var PaperBadgerWidget = function (settings) {
 
     loaderElement.innerHTML = text;
     loaderElement.setAttribute('data-step', step);
-  };
+  }
 
   /**
    * Stops the loader animation loop.
@@ -153,7 +153,7 @@ var PaperBadgerWidget = function (settings) {
   /**
    * Loads the widget content from the Badges API.
    */
-  var loadWidgetContent = function () {
+  function loadWidgetContent() {
     var url = getEndpoint();
     var xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 
@@ -166,7 +166,7 @@ var PaperBadgerWidget = function (settings) {
 
     xmlhttp.open('GET', url, true);
     xmlhttp.send();
-  };
+  }
 
   /**
    * Generates the endpoint url depending on the
@@ -174,7 +174,7 @@ var PaperBadgerWidget = function (settings) {
    *
    * @returns {string}
    */
-  var getEndpoint = function () {
+  function getEndpoint() {
     var url = 'https://badges.mozillascience.org/';
 
     if (settings.DOI) {
@@ -188,7 +188,7 @@ var PaperBadgerWidget = function (settings) {
     url += '/badges';
 
     return url;
-  };
+  }
 
   /**
    * Processes the data from the Badges API so it
@@ -196,7 +196,7 @@ var PaperBadgerWidget = function (settings) {
    *
    * @param {string} json
    */
-  var processAjaxResponse = function (json) {
+  function processAjaxResponse(json) {
     var badgesJson = JSON.parse(json);
     var badges = {};
     var isDOI = (settings.hasOwnProperty('DOI') && settings.DOI.length);
@@ -237,7 +237,7 @@ var PaperBadgerWidget = function (settings) {
     }
 
     renderBadges(badges);
-  };
+  }
 
   /**
    * Generates and displays the HTML code for the received
@@ -245,7 +245,7 @@ var PaperBadgerWidget = function (settings) {
    *
    * @param {Object} badges
    */
-  var renderBadges = function (badges) {
+  function renderBadges(badges) {
     var i = 0;
     var html = '';
     var numBadges = 0;
@@ -294,13 +294,13 @@ var PaperBadgerWidget = function (settings) {
       links[i].addEventListener('mouseover', mouseOverMethod);
       links[i].addEventListener('click', clickCallbackMethod);
     }
-  };
+  }
 
   /**
    * Marks all occurrences of an author on mouse over
    * by adding a .active CSS class to the link element.
    */
-  var mouseOverMethod = function () {
+  function mouseOverMethod() {
     var id = this.getAttribute('data-id');
     var links = document.getElementsByClassName('paper-badger-link');
 
@@ -330,12 +330,12 @@ var PaperBadgerWidget = function (settings) {
 
       links[i].className = classes.join(' ');
     }
-  };
+  }
 
   /**
    * Calls the clickCallback method if the user supplied one
    */
-  var clickCallbackMethod = function () {
+  function clickCallbackMethod() {
     if (settings.hasOwnProperty('clickCallback') && settings.clickCallback) {
       var data = {
         taxonomy: this.getAttribute('data-taxonomy')
@@ -349,7 +349,7 @@ var PaperBadgerWidget = function (settings) {
 
       settings.clickCallback(data);
     }
-  };
+  }
 
   construct();
 };
