@@ -1,7 +1,20 @@
-# This is a baseline set of rules intended for usage in any ES6-based project.
+# This is a modified set of rules based on the baseline defined in mofo-style v 2.3.0.
+# This project was started with a much older version of mofo-style, using jshint, and this is an
+# effort to tranistion the project to use the latest version, which is intended for usage in any ES6-based project.
+
+# The main changes in the file are as follows:
+#  Eliminated rules:
+#   - valid-jsdoc
+#   - newline-after-var
+#   - no-lonely-if
+#   - prefer-arrow-callback
+#  Modified rules:
+#   - arrowFunctions: false // instead of true
+#   - quotes: [2, "single"] // instead of "backtick"
+#   - camelcase: [2, properties: "never"] // instead of "always"
+#   - no-use-before-define: [2, "nofunc"] // instead of defaulting to none
 #
-# Be sure to add your project's specific environment(s) as needed via external configuration.
-#   See: http://eslint.org/docs/user-guide/configuring#specifying-environments
+# The specific environment(s) needed are configured in this file directly.
 
 ---
 rules: # http://eslint.org/docs/rules
