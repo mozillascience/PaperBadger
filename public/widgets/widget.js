@@ -1,6 +1,7 @@
 'use strict';
 
-/* exported PaperBadgerWidget */
+// eslint `exported` takes no effect because `node` is used as as environment. A custom rule for vars is defined here:
+/* eslint no-unused-vars: [2, { "varsIgnorePattern": "PaperBadgerWidget" }] */
 /* global ActiveXObject: false */
 /**
  * PaperBadger widget
