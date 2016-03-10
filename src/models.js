@@ -22,7 +22,7 @@ var userSchema = new Schema({
   role: String
 });
 
-userSchema.pre('save', function (next, done) {
+userSchema.pre('save', function (next) {
   if (this.isNew) {
     this.createdAt = Date.now();
   }
