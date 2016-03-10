@@ -20,8 +20,8 @@ function getBadgeCount(request, response) {
     return;
   }
 
-  var getBadges = badgerService.getBadges(orcid);
-  getBadges(function (error, badges) {
+  var getTheBadges = badgerService.getBadges(orcid);
+  getTheBadges(function (error, badges) {
     if (error !== null || !badges) {
       response.json(0);
     } else {

@@ -26,12 +26,12 @@ function getBadgeCount(request, response) {
     return;
   }
 
-  var getBadges = badgerService.getBadges(null, null, {
+  var getTheBadges = badgerService.getBadges(null, null, {
     '_1': request.params.doi1,
     '_2': request.params.doi2
   });
 
-  getBadges(function (error, badges) {
+  getTheBadges(function (error, badges) {
     if (error !== null || !badges) {
       response.json(0);
     } else {
@@ -164,16 +164,16 @@ function createBadges(request, response) {
 
   var badgeFinal = [];
   badges.map(function (badge) {
-    var getBadges = badgerService.createBadge(request.params.orcid, badge, {
+    var getTheBadges = badgerService.createBadge(request.params.orcid, badge, {
       '_1': request.params.doi1,
       '_2': request.params.doi2
     }, name);
-    getBadges(function (error, badge) {
+    getTheBadges(function (error, aBadge) {
       if (error !== null) {
         console.log('Get error from return Badges ' + error);
         response.send(error);
       } else {
-        badgeFinal.push(badge);
+        badgeFinal.push(aBadge);
         if (badgeFinal.length === badges.length) {
           response.json(badgeFinal);
         }
