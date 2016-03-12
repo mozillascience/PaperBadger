@@ -84,6 +84,13 @@ Ask [@acabunoc](http://github.com/acabunoc) for ones marked `###########`. Our c
 
 To run the application successfully you need to have [mongodb](https://www.mongodb.org/) server and [redis-server](http://redis.io/download) running locally. You can install these from their offical website or use your favorite package manager.
 
+#### Adding user as a publisher
+
+Run `npm start`, and open up mongo shell in your terminal. It would connect you with the test database. Then follow these steps.
+
+```js
+db.users.insert({"name":"Your name", "orcid":"Your ORCID", "role":"publisher"})
+```
 
 ### API Endpoints
 
