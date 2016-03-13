@@ -1,5 +1,8 @@
 'use strict';
 
+// Custom rule due to the ORCID API using properties not in camelCase
+/* eslint camelcase: [2, {properties: "never"}] */
+
 var bodyParser = require('body-parser');
 var express = require('express');
 var path = require('path');
