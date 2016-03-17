@@ -48,15 +48,14 @@ function returnBadges(getBadges, request, response) {
   getBadges(function (error, badges) {
     if (error !== null) {
       console.log('Get error from return Badges ' + error);
-      response.send(error);
+      return response.send(error);
+    }
+    if (request.query.pretty) {
+      response.render(path.join(__dirname, '..', '/public/code.jade'), {
+        data: JSON.stringify(badges, null, 2)
+      });
     } else {
-      if (request.query.pretty) {
-        response.render(path.join(__dirname, '..', '/public/code.jade'), {
-          data: JSON.stringify(badges, null, 2)
-        });
-      } else {
-        response.json(badges);
-      }
+      response.json(badges);
     }
   });
 }

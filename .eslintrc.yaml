@@ -6,7 +6,6 @@
 #  Eliminated rules:
 #   - valid-jsdoc
 #   - newline-after-var
-#   - no-lonely-if
 #   - prefer-arrow-callback
 #  Modified rules:
 #   - arrowFunctions: false // instead of true
@@ -65,6 +64,7 @@ rules: # http://eslint.org/docs/rules
   eol-last: [2]
   indent: [2, 2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
   linebreak-style: [2, "unix"]
+  no-lonely-if: [2]
   no-trailing-spaces: [2]
   no-unneeded-ternary: [2]
   quotes: [2, "single"]
