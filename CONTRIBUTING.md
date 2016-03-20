@@ -42,9 +42,11 @@ easier and smoother.
 
 ## Testing
 
-Any patch should be tested in as many of our supported browsers as possible. Obviously, access to all devices is rare, so just aim for the best coverage possible. At a minimum please test in all available desktop browsers.
+Any patch should be manually tested in as many of our supported browsers as possible. Obviously, access to all devices is rare, so just aim for the best coverage possible. At a minimum please test in all available desktop browsers.
 
-Run tests with `mocha` or `npm test`.
+You can run all automated tests with `mocha test/*` or `npm test`. If _mocha_ is not installed globally, please use `./node_modules/mocha/bin/mocha test/*`.
+
+_Unit_ and _Integration_ tests can also be run separately with `npm run test:unit` and `npm run test:integration` respectively.
 
 ## Pull requests
 
