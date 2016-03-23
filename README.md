@@ -84,7 +84,6 @@ Ask [@acabunoc](http://github.com/acabunoc) for ones marked `###########`. Our c
 
 To run the application successfully you need to have [mongodb](https://www.mongodb.org/) server and [redis-server](http://redis.io/download) running locally. You can install these from their offical website or use your favorite package manager.
 
-
 ### API Endpoints
 
 *   GET [/badges](http://badges.mozillascience.org/badges)

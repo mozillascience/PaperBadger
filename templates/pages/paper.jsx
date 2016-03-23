@@ -45,18 +45,19 @@ var Issue = React.createClass({
         return response.json();
     })
     .then((data) => {
-        this.setState({data: '', doi: ''});
+        this.setState({data: '', doi: '', 'submitted': true});
     });
     return;
   },
   getInitialState: function() {
-      return {data: '', doi: ''};
+      return {data: '', doi: '', 'submitted': false};
   },
   render: function() {
     return (
       <Page>
         <h1>Submit a Paper</h1>
         <p>This is a simple prototype demonstrating using a form to submit papers to Paper Badger, our contributorship badges prototype. In future versions we will integrate with publisher submission pipelines.</p>
+        <h4 hidden={!this.state.submitted}>You have succefully submitted the form</h4>
         <form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
             <fieldset>
                 <div className="pure-control-group">
