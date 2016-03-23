@@ -11,6 +11,10 @@ Refer to the [README](README.md).
 
 ## Code Style
 
+### Editor
+Please use an editor with support for [ESLint](http://eslint.org/) and [EditorConfig](http://editorconfig.org/). Configuration
+files for both tools are provided in the root directory of the project.
+
 ### JavaScript
 
 See [Mozilla Foundation JavaScript Style Guide](https://www.npmjs.com/package/mofo-style)
