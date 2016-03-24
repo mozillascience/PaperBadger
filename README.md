@@ -109,13 +109,13 @@ To run the application successfully you need to have [mongodb](https://www.mongo
 *   GET /papers/:doi1/:doi2/badges/:badge
     *   Get all badge instances of a certain badge for a paper.
     *   e.g. [/papers/10.1186/2047-217X-3-18/badges/investigation](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/badges/investigation)
-*   GET /papers/:doi1/:doi2/badges/:orcid/badges
+*   GET /papers/:doi1/:doi2/users/:orcid/badges
     *   Get all badge instances earned by a user for a paper.
     *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges)
-*   GET /papers/:doi1/:doi2/badges/:orcid/badges/:badge
+*   GET /papers/:doi1/:doi2/users/:orcid/badges/:badge
     *   Get all badge instances of a certain badge earned by a user for a paper.
     *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation)
-*   POST /papers/:doi1/:doi2/badges/:orcid/badges/:badge
+*   POST /papers/:doi1/:doi2/users/:orcid/badges/:badge
     *   Issue a badge
 
 ***
