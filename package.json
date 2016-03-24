@@ -14,7 +14,9 @@
     "lint": "npm run eslint && npm run eslint:test",
     "build:production": "npm run build:js -- --optimize-minimize --optimize-dedupe",
     "start:production": "npm-run-all build:production server",
-    "test": "mocha"
+    "test:integration": "mocha test/integration",
+    "test:unit": "mocha test/unit",
+    "test": "mocha test/*"
   },
   "dependencies": {
     "babel-loader": "^5.0.0",

@@ -3,15 +3,15 @@
 var request = require('supertest');
 var assert = require('assert');
 
-var testEnv = require('../src/environments');
+var testEnv = require('../../src/environments');
 
-var badgeClient = require('../src/badges/client')(testEnv);
-var badgeService = require('../src/badges/service');
+var badgeClient = require('../../src/badges/client')(testEnv);
+var badgeService = require('../../src/badges/service');
 badgeService.init(badgeClient, testEnv);
 
-var app = require('../src/app.js');
+var app = require('../../src/app.js');
 
-describe('Intergration test against the real Badge server', function () {
+describe('Integration test against the real Badge server', function () {
   before(function () {
     assert.ok(testEnv.get('BADGES_ENDPOINT'), 'should set up BADGES_ENDPOINT in your test environment');
     assert.ok(testEnv.get('BADGES_KEY'), 'should set up BADGES_KEY in your test environment');
