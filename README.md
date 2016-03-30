@@ -16,7 +16,7 @@ You can either use paper-badger-widget.js ([documentation](docs/paper-badger-wid
 
 ### Current Users
 
-Two journals, [GigaScience (BioMed Central)](http://gigascience.biomedcentral.com/) and [Journal of Open Research Software (Ubiquity Press)](http://openresearchsoftware.metajnl.com/) have added the Paper Badger widget to their papers. 
+Two journals, [GigaScience (BioMed Central)](http://gigascience.biomedcentral.com/) and [Journal of Open Research Software (Ubiquity Press)](http://openresearchsoftware.metajnl.com/) have added the Paper Badger widget to their papers.
 
 JORS example: [A Web-based modeling tool for the SEMAT Essence theory of software engineering](http://openresearchsoftware.metajnl.com/articles/10.5334/jors.ad/metrics/#author-contributions)
 
@@ -38,14 +38,13 @@ Clone PaperBadger and enter the directory: `git clone https://github.com/mozilla
 
 You can use Docker to bring up a quick instance of the app to develop against. This way you dont need to have node or mongo installed on your host.
 
-* Make sure you have [Docker](https://www.docker.com/) and docker-compose installed.
+* Make sure you have [Docker](https://www.docker.com/) (>=1.10) and docker-compose (>=1.6) installed.
 * Setup your environment variables, or copy over the test file
 ```bash
 sed 's/export //' env.test > env.docker
 ```
-* build images and bring up the service
+* start the service
 ```bash
-docker-compose build
 docker-compose up
 ```
 * visit the running service
@@ -121,4 +120,3 @@ To run the application successfully you need to have [mongodb](https://www.mongo
 ***
 
 This work is a collaboration with publishers [BioMed Central](http://www.biomedcentral.com/) (BMC), [Ubiquity Press](http://www.ubiquitypress.com/) (UP) and the [Public Library of Science](http://www.plos.org/) (PLoS); the biomedical research foundation, [The Wellcome Trust](http://www.wellcome.ac.uk/); the software and technology firm [Digital Science](http://www.digital-science.com/); the registry of unique researcher identifiers, [ORCID](http://orcid.org/); and the [Mozilla Science Lab](http://mozillascience.org/).
-
