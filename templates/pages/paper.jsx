@@ -2,6 +2,7 @@ var React = require('react/addons'),
     Router = require('react-router'),
     Navigation = require('react-router').Navigation,
     path = require('path'),
+    validator = require('validator'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
@@ -20,10 +21,29 @@ var Issue = React.createClass({
       this.replaceWith('home');
     }
   },
+  validateEmail: function(emailId) {
+    return validator.isEmail(emailId);
+  },
+  validateDOI: function(doi) {
+    var doiRe = /(10\.\d{3}\d+)\/(.*)\b/;
+    return doiRe.test(doi);
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     var doi = this.state.doi;
     var emails = this.state.data.split('\n');
+
+    if(!this.validateDOI(doi)) {
+      this.setState({'doiError': true, 'submitted': false});
+      return;
+    }
+
+    for(var i=0;i<emails.length;i++) {
+      if(!this.validateEmail(emails[i])) {
+        this.setState({'emailError': true, 'submitted': false});
+        return;
+      }
+    }
 
     var doiRe = /(10\.\d{3}\d+)\/(.*)\b/;
     var m = doiRe.exec(doi);
@@ -45,12 +65,12 @@ var Issue = React.createClass({
         return response.json();
     })
     .then((data) => {
-        this.setState({data: '', doi: '', 'submitted': true});
+        this.setState({data: '', doi: '', 'submitted': true, 'emailError': false, 'doiError': false});
     });
     return;
   },
   getInitialState: function() {
-      return {data: '', doi: '', 'submitted': false};
+      return {data: '', doi: '', 'submitted': false, 'emailError': false, 'doiError': false};
   },
   render: function() {
     return (
@@ -58,6 +78,8 @@ var Issue = React.createClass({
         <h1>Submit a Paper</h1>
         <p>This is a simple prototype demonstrating using a form to submit papers to Paper Badger, our contributorship badges prototype. In future versions we will integrate with publisher submission pipelines.</p>
         <h4 hidden={!this.state.submitted}>You have succefully submitted the form</h4>
+        <h4 hidden={!this.state.emailError}>Not a valid Email ID</h4>
+        <h4 hidden={!this.state.doiError}>Not a valid DOI</h4>
         <form className="pure-form pure-form-aligned" onSubmit={this.handleSubmit}>
             <fieldset>
                 <div className="pure-control-group">
