@@ -122,7 +122,7 @@ function createPaper(request, response) {
     var mailOptions = {
       from: 'noreply@mozillascience.org',
       to: email, // list of receivers
-      subject: 'Claim badges for your scholarly contributions!', // Subject line
+      subject: 'Claim badges for your scholarly contributions from Mozilla Science Paper Badger', // Subject line
       text: text, // plaintext body
       html: html
     };
