@@ -8,16 +8,20 @@ var Claim = mongoose.model('Claim');
 var User = mongoose.model('User');
 var shortid = require('shortid');
 
+function getBadgeResponse(doi1, doi2) {
+  return badgerService.getBadges(null, null, {
+    '_1': doi1,
+    '_2': doi2
+  });
+}
+
 function getBadges(request, response) {
   if (!request.params.doi1 || !request.params.doi2) {
     response.status(400).end();
     return;
   }
 
-  returnBadges(badgerService.getBadges(null, null, {
-    '_1': request.params.doi1,
-    '_2': request.params.doi2
-  }), request, response);
+  returnBadges(getBadgeResponse(request.params.doi1, request.params.doi2), request, response);
 }
 
 function getBadgeCount(request, response) {
@@ -26,10 +30,7 @@ function getBadgeCount(request, response) {
     return;
   }
 
-  var getTheBadges = badgerService.getBadges(null, null, {
-    '_1': request.params.doi1,
-    '_2': request.params.doi2
-  });
+  var getTheBadges = getBadgeResponse(request.params.doi1, request.params.doi2);
 
   getTheBadges(function (error, badges) {
     if (error !== null || !badges) {

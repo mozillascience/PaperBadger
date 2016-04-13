@@ -4,13 +4,17 @@ var returnBadges, badgerService;
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
+function getBadgeResponse(orcid) {
+  return badgerService.getBadges(orcid);
+}
+
 function getBadges(request, response) {
   var orcid = request.params.orcid;
   if (!orcid) {
     response.status(400).end();
     return;
   }
-  returnBadges(badgerService.getBadges(orcid), request, response);
+  returnBadges(getBadgeResponse(orcid), request, response);
 }
 
 function getBadgeCount(request, response) {
@@ -20,7 +24,7 @@ function getBadgeCount(request, response) {
     return;
   }
 
-  var getTheBadges = badgerService.getBadges(orcid);
+  var getTheBadges = getBadgeResponse(orcid);
   getTheBadges(function (error, badges) {
     if (error !== null || !badges) {
       response.json(0);
