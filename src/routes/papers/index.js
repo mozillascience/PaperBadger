@@ -14,10 +14,25 @@ function getBadges(request, response) {
     return;
   }
 
+function getBadgeResponse(doi1, doi2) {
+  return transporter.getBadges(null, null, {
+    '_1': doi1,
+    '_2': doi2
+  });
+}
+
+function getBadgeResponse(doi1, doi2) {
+  return getbadgerService.getBadges(null, null, {
+    '_1': doi1,
+    '_2': doi2
+  });
+}
+
   returnBadges(badgerService.getBadges(null, null, {
     '_1': request.params.doi1,
     '_2': request.params.doi2
   }), request, response);
+  returnBadges(getBadgeResponse(request.params.doi1, request.params.doi2), request, response);
 }
 
 function getBadgeCount(request, response) {
@@ -30,6 +45,8 @@ function getBadgeCount(request, response) {
     '_1': request.params.doi1,
     '_2': request.params.doi2
   });
+  getTheBadges(getBadgeResponse(request.params.doi1, request.params.doi2), request, response);
+}
 
   getTheBadges(function (error, badges) {
     if (error !== null || !badges) {
