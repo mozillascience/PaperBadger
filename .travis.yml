@@ -2,3 +2,9 @@ language: node_js
 sudo: false
 node_js:
   - "0.12"
+env:
+  - BADGES_ENDPOINT=http://badgekit-api-sciencelab.herokuapp.com/
+  - BADGES_KEY=master
+  - BADGES_SYSTEM=badgekit
+  - BADGES_SECRET=supersecret
+  - SESSION_SECRET=USE_SOMETHING_GOOD_LIKE_puUJjfE6QtUnYryb
