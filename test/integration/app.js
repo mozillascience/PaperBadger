@@ -59,6 +59,15 @@ describe('Integration test against the real Badge server', function () {
         .expect(200, done);
   });
 
+  it('get the number of badges earned by a user', function (done) {
+    request(app)
+      .get('/users/0000-0003-4959-3049/badges/count')
+      .expect(function (res) {
+        assert.ok(parseInt(res.body, 10) > 0, 'no badges found');
+      })
+      .expect(200, done);
+  });
+
   it('get all badge instances of a certain badge earned by a user', function (done) {
     request(app)
         .get('/users/0000-0003-4959-3049/badges/writing_review')
@@ -70,7 +79,27 @@ describe('Integration test against the real Badge server', function () {
         .expect(200, done);
   });
 
-  it('get all badge instances of a certain badge for a paper.', function (done) {
+  it('get all badges of a certain paper', function (done) {
+    request(app)
+      .get('/papers/10.1186/2047-217X-2-10/badges/')
+      .expect(function (res) {
+        assert.ok(res.body[0].slug, 'not find one badge slug in json');
+        assert.equal(res.body[0].badge.name, 'Data curation');
+        assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1186/2047-217X-2-10');
+      })
+      .expect(200, done);
+  });
+
+  it('get the number of badges of a certain paper', function (done) {
+    request(app)
+      .get('/papers/10.1186/2047-217X-2-10/badges/count')
+      .expect(function (res) {
+        assert.ok(parseInt(res.body, 10) > 0, 'no badges found');
+      })
+      .expect(200, done);
+  });
+
+  it('get all badge instances of a certain badge for a paper', function (done) {
     request(app)
         .get('/papers/10.1186/2047-217X-2-10/badges/investigation')
         .expect(function (res) {
