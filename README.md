@@ -87,9 +87,14 @@ To run the application successfully you need to have [mongodb](https://www.mongo
 
 *   GET [/badges](http://badges.mozillascience.org/badges)
     *   Get all badges we issue
+*   GET [/badges/count](http://badges.mozillascience.org/badges/count)
+    *   Get a count of all badges we issue
 *   GET /badges/:badge
     *   Get all badge instances of a certain badge
     *   e.g. [/badges/formal_analysis](http://badges.mozillascience.org/badges/formal_analysis)
+*   GET /badges/:badge/count
+    *   Get a count of all badge instances of a certain badge
+    *   e.g. [/badges/formal_analysis/count](http://badges.mozillascience.org/badges/formal_analysis/count)
 *   GET /users/:orcid/badges
     *   Get all badge instances earned by a user
     *   e.g. [/users/0000-0001-5979-8713/badges](http://badges.mozillascience.org/users/0000-0001-5979-8713/badges)

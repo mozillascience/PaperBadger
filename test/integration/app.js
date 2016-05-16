@@ -36,6 +36,15 @@ describe('Integration test against the real Badge server', function () {
         .expect(200, done);
   });
 
+  it('get a count of all the badges', function (done) {
+    request(app)
+      .get('/badges/count')
+      .expect(function (res) {
+        assert.ok(res.body > 0, 'no badges found');
+      })
+      .expect(200, done);
+  });
+
   it('get all badge instances of a certain badge', function (done) {
     request(app)
         .get('/badges/formal_analysis')
@@ -46,6 +55,15 @@ describe('Integration test against the real Badge server', function () {
           // assert.equal(res.body[0].email, null); ?? bug??
         })
         .expect(200, done);
+  });
+
+  it('get a count of all badge instances of a certain badge', function (done) {
+    request(app)
+      .get('/badges/formal_analysis/count')
+      .expect(function (res) {
+        assert.ok(res.body > 0, 'no badges found');
+      })
+      .expect(200, done);
   });
 
   it('get all badge instances earned by a user', function (done) {

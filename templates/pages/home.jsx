@@ -28,10 +28,21 @@ var Home = React.createClass({
               <li>Get all badges we issue</li>
             </ul>
           </li>
+          <li>GET <a href="/badges/count">/badges/count</a>
+            <ul>
+              <li>Get a count of all badges we issue</li>
+            </ul>
+          </li>
           <li>GET /badges/:badge
             <ul>
               <li>Get all badge instances of a certain badge</li>
               <li>e.g. <a href="/badges/formal_analysis?pretty=true">/badges/formal_analysis</a></li>
+            </ul>
+          </li>
+          <li>GET /badges/:badge/count
+            <ul>
+              <li>Get a count of all badge instances of a certain badge</li>
+              <li>e.g. <a href="/badges/formal_analysis/count">/badges/formal_analysis/count</a></li>
             </ul>
           </li>
           <li>GET /users/:orcid/badges

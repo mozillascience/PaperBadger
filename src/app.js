@@ -145,7 +145,9 @@ app.get('/orcid_auth_callback', function (request, response) {
 // Routes for badges
 var badges = require('./routes/badges')(returnBadges, badgerService);
 app.get('/badges', badges.getAll);
+app.get('/badges/count', badges.getAllCount);
 app.get('/badges/:badge', badges.getAllByType);
+app.get('/badges/:badge/count', badges.getAllByTypeCount);
 
 // Routes for user
 var users = require('./routes/users')(returnBadges, badgerService);
