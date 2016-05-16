@@ -77,7 +77,7 @@ describe('Integration test against the real Badge server', function () {
         .expect(200, done);
   });
 
-  it('get the number of badges earned by a user', function (done) {
+  it('get a count of all badge instances earned by a user', function (done) {
     request(app)
       .get('/users/0000-0003-4959-3049/badges/count')
       .expect(function (res) {
@@ -95,6 +95,15 @@ describe('Integration test against the real Badge server', function () {
           assert.equal(res.body[0].orcid, '0000-0003-4959-3049');
         })
         .expect(200, done);
+  });
+
+  it('get a count of all badge instances of a certain badge earned by a user', function (done) {
+    request(app)
+      .get('/users/0000-0003-4959-3049/badges/writing_review/count')
+      .expect(function (res) {
+        assert.ok(res.body > 0, 'no badges found');
+      })
+      .expect(200, done);
   });
 
   it('get all badges of a certain paper', function (done) {

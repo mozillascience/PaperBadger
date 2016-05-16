@@ -153,7 +153,8 @@ app.get('/badges/:badge/count', badges.getAllByTypeCount);
 var users = require('./routes/users')(returnBadges, badgerService);
 app.get('/users/:orcid/badges', users.getBadges);
 app.get('/users/:orcid/badges/count', users.getBadgeCount);
-app.get('/users/:orcid/badges/:badge', users.getBadgesByType);
+app.get('/users/:orcid/badges/:badge', users.getBadgesByBadge);
+app.get('/users/:orcid/badges/:badge/count', users.getBadgesByBadgeCount);
 app.get('/user', users.getUser);
 
 // Routes for papers

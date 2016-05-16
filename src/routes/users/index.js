@@ -34,14 +34,26 @@ function getBadgeCount(request, response) {
   });
 }
 
-function getBadgesByType(request, response) {
-  // get all badge instances for the user. Is there a more efficient way to do this?
-  var orcid = request.params.orcid;
-  if (!orcid) {
+function getBadgesByType(request, response){
+  if (!request.params.orcid || !request.params.badge) {
     response.status(400).end();
     return;
   }
-  returnBadges(badgerService.getBadges(orcid, request.params.badge), request, response);
+  return badgerService.getBadges(request.params.orcid, request.params.badge);
+}
+
+function getBadgesByBadge(request, response) {
+  returnBadges(getBadgesByType(request, response), request, response);
+}
+
+function getBadgesByBadgeCount(request, response) {
+  getBadgesByType(request, response)(function (error, badges) {
+    if (error !== null || !badges) {
+      response.json(0);
+    } else {
+      response.json(badges.length);
+    }
+  });
 }
 
 function getUser(request, response) {
@@ -68,8 +80,9 @@ module.exports = function (rb, bs) {
   badgerService = bs;
   return {
     getBadges: getBadges,
-    getBadgesByType: getBadgesByType,
     getBadgeCount: getBadgeCount,
+    getBadgesByBadge: getBadgesByBadge,
+    getBadgesByBadgeCount: getBadgesByBadgeCount,
     getUser: getUser
   };
 };
