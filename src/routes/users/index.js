@@ -4,28 +4,20 @@ var returnBadges, badgerService;
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
-function getBadgeResponse(orcid) {
-  return badgerService.getBadges(orcid);
+function getBadgeByUser(request, response) {
+  if (!request.params.orcid) {
+    response.status(400).end();
+    return;
+  }
+  return badgerService.getBadges(request.params.orcid);
 }
 
 function getBadges(request, response) {
-  var orcid = request.params.orcid;
-  if (!orcid) {
-    response.status(400).end();
-    return;
-  }
-  returnBadges(getBadgeResponse(orcid), request, response);
+  returnBadges(getBadgeByUser(request, response), request, response);
 }
 
 function getBadgeCount(request, response) {
-  var orcid = request.params.orcid;
-  if (!orcid) {
-    response.status(400).end();
-    return;
-  }
-
-  var getTheBadges = getBadgeResponse(orcid);
-  getTheBadges(function (error, badges) {
+  getBadgeByUser(request, response)(function (error, badges) {
     if (error !== null || !badges) {
       response.json(0);
     } else {
