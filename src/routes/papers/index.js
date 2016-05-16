@@ -93,10 +93,24 @@ function getUserBadgesByType(request, response) {
     return;
   }
 
-  returnBadges(badgerService.getBadges(request.params.orcid, request.params.badge, {
+  return badgerService.getBadges(request.params.orcid, request.params.badge, {
     '_1': request.params.doi1,
     '_2': request.params.doi2
-  }), request, response);
+  });
+}
+
+function getUserBadgesByBadge(request, response) {
+  returnBadges(getUserBadgesByType(request, response), request, response);
+}
+
+function getUserBadgesByBadgeCount(request, response) {
+  getUserBadgesByType(request, response)(function (error, badges) {
+    if (error !== null || !badges) {
+      response.json(0);
+    } else {
+      response.json(badges.length);
+    }
+  });
 }
 
 function createPaper(request, response) {
@@ -214,12 +228,13 @@ module.exports = function (rb, bs, tr) {
   return {
     // GET
     getBadges: getBadges,
+    getBadgeCount: getBadgeCount,
     getBadgesByBadge: getBadgesByBadge,
     getBadgesByBadgeCount: getBadgesByBadgeCount,
     getUserBadges: getUserBadges,
     getUserBadgeCount: getUserBadgeCount,
-    getUserBadgesByType: getUserBadgesByType,
-    getBadgeCount: getBadgeCount,
+    getUserBadgesByBadge: getUserBadgesByBadge,
+    getUserBadgesByBadgeCount: getUserBadgesByBadgeCount,
 
     // POST
     createPaper: createPaper,
