@@ -34,16 +34,31 @@ function getBadgeCount(request, response) {
   });
 }
 
+
 function getBadgesByType(request, response) {
-  if (!request.params.doi1 || !request.params.doi2) {
+  if (!request.params.doi1 || !request.params.doi2 || !request.params.badge) {
     response.status(400).end();
     return;
   }
 
-  returnBadges(badgerService.getBadges(null, request.params.badge, {
+  return badgerService.getBadges(null, request.params.badge, {
     '_1': request.params.doi1,
     '_2': request.params.doi2
-  }), request, response);
+  });
+}
+
+function getBadgesByBadge(request, response) {
+  returnBadges(getBadgesByType(request, response), request, response);
+}
+
+function getBadgesByBadgeCount(request, response) {
+  getBadgesByType(request, response)(function (error, badges) {
+    if (error !== null || !badges) {
+      response.json(0);
+    } else {
+      response.json(badges.length);
+    }
+  });
 }
 
 function getUserBadges(request, response) {
@@ -185,7 +200,8 @@ module.exports = function (rb, bs, tr) {
   return {
     // GET
     getBadges: getBadges,
-    getBadgesByType: getBadgesByType,
+    getBadgesByBadge: getBadgesByBadge,
+    getBadgesByBadgeCount: getBadgesByBadgeCount,
     getUserBadges: getUserBadges,
     getUserBadgesByType: getUserBadgesByType,
     getBadgeCount: getBadgeCount,

@@ -70,6 +70,12 @@ var Home = React.createClass({
               <li>e.g. <a href="/papers/10.1186/2047-217X-3-18/badges/investigation?pretty=true">/papers/10.1186/2047-217X-3-18/badges/investigation</a></li>
             </ul>
           </li>
+          <li>GET /papers/:doi1/:doi2/badges/:badge/count
+            <ul>
+              <li>Get a count of all badge instances of a certain badge for a paper.</li>
+              <li>e.g. <a href="/papers/10.1186/2047-217X-3-18/badges/investigation/count">/papers/10.1186/2047-217X-3-18/badges/investigation/count</a></li>
+            </ul>
+          </li>
           <li>GET /papers/:doi1/:doi2/users/:orcid/badges
             <ul>
               <li>Get all badge instances earned by a user for a paper.</li>

@@ -110,6 +110,15 @@ describe('Integration test against the real Badge server', function () {
         .expect(200, done);
   });
 
+  it('get the badge count for instances of a certain badge for a paper', function (done) {
+    request(app)
+      .get('/papers/10.1186/2047-217X-2-10/badges/investigation/count')
+      .expect(function (res) {
+        assert.ok(res.body > 0, 'no badges found');
+      })
+      .expect(200, done);
+  });
+
   it('get all badge instances earned by a user for a paper.', function (done) {
     request(app)
         .get('/papers/10.1186/2047-217X-2-10/users/0000-0002-3881-294X/badges')
