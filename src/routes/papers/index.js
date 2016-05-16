@@ -61,16 +61,30 @@ function getBadgesByBadgeCount(request, response) {
   });
 }
 
-function getUserBadges(request, response) {
+function getBadgesByUser(request, response) {
   if (!request.params.doi1 || !request.params.doi2 || !request.params.orcid) {
     response.status(400).end();
     return;
   }
 
-  returnBadges(badgerService.getBadges(request.params.orcid, null, {
+  return badgerService.getBadges(request.params.orcid, null, {
     '_1': request.params.doi1,
     '_2': request.params.doi2
-  }), request, response);
+  });
+}
+
+function getUserBadges(request, response) {
+  returnBadges(getBadgesByUser(request, response), request, response);
+}
+
+function getUserBadgeCount(request, response) {
+  getBadgesByUser(request, response)(function (error, badges) {
+    if (error !== null || !badges) {
+      response.json(0);
+    } else {
+      response.json(badges.length);
+    }
+  });
 }
 
 function getUserBadgesByType(request, response) {
@@ -203,6 +217,7 @@ module.exports = function (rb, bs, tr) {
     getBadgesByBadge: getBadgesByBadge,
     getBadgesByBadgeCount: getBadgesByBadgeCount,
     getUserBadges: getUserBadges,
+    getUserBadgeCount: getUserBadgeCount,
     getUserBadgesByType: getUserBadgesByType,
     getBadgeCount: getBadgeCount,
 

@@ -114,6 +114,9 @@ To run the application successfully you need to have [mongodb](https://www.mongo
 *   GET /papers/:doi1/:doi2/users/:orcid/badges
     *   Get all badge instances earned by a user for a paper.
     *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges)
+*   GET /papers/:doi1/:doi2/users/:orcid/badges/count
+    *   Get a count of all badge instances earned by a user for a paper.
+    *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/count](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/count)
 *   GET /papers/:doi1/:doi2/users/:orcid/badges/:badge
     *   Get all badge instances of a certain badge earned by a user for a paper.
     *   e.g. [/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation](http://badges.mozillascience.org/papers/10.1186/2047-217X-3-18/users/0000-0001-5979-8713/badges/data_curation)

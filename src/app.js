@@ -161,6 +161,7 @@ app.get('/papers/:doi1/:doi2/badges/count', papers.getBadgeCount);
 app.get('/papers/:doi1/:doi2/badges/:badge', papers.getBadgesByBadge);
 app.get('/papers/:doi1/:doi2/badges/:badge/count', papers.getBadgesByBadgeCount);
 app.get('/papers/:doi1/:doi2/users/:orcid/badges', papers.getUserBadges);
+app.get('/papers/:doi1/:doi2/users/:orcid/badges/count', papers.getUserBadgeCount);
 app.get('/papers/:doi1/:doi2/users/:orcid/badges/:badge', papers.getUserBadgesByType);
 app.post('/papers/:doi1/:doi2', papers.createPaper);
 app.post('/papers/:doi1/:doi2/users/:orcid/badges/:badge?', papers.createBadges);
