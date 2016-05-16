@@ -182,7 +182,7 @@ describe('Integration test against the real Badge server', function () {
     request(app)
       .get('/papers/10.1186/2047-217X-2-10/users/0000-0002-3881-294X/badges/investigation/count')
       .expect(function (res) {
-        assert.ok(res.body > 0, 'no badges found');
+        assert.ok(res.body <= 1, 'no badges found');
       })
       .expect(200, done);
   });
