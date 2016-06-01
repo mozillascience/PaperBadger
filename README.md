@@ -65,7 +65,7 @@ If you would like to develop against the hosted custom badgekit-api we have runn
         export SESSION_SECRET=USE_SOMETHING_GOOD_LIKE_puUJjfE6QtUnYryb
 
         # Badges
-        export BADGES_ENDPOINT=http://badgekit-api-sciencelab.herokuapp.com/
+        export BADGES_ENDPOINT=http://badgekit-api-test-sciencelab.herokuapp.com/
         export BADGES_KEY=master
         export BADGES_SECRET=#############
         export BADGES_SYSTEM=badgekit
