@@ -32,11 +32,11 @@ Want to help? We love new contributors! Please review our [contributing guidelin
 
 Are you ready to contribute to Paper Badger? This section will help you set up your own development version of the Contributorship Badges prototype.
 
-Clone PaperBadger and enter the directory: `git clone https://github.com/mozillascience/PaperBadger && cd PaperBadger`
+Clone (or Fork) PaperBadger and enter the directory: `git clone https://github.com/mozillascience/PaperBadger && cd PaperBadger`
 
 #### Run using Docker
 
-You can use Docker to bring up a quick instance of the app to develop against. This way you dont need to have node or mongo installed on your host.
+You can use Docker to bring up a quick instance of the app to develop against. This way you don't need to have node, MongoDB, and redis installed on your host.
 
 * Make sure you have [Docker](https://www.docker.com/) (>=1.10) and docker-compose (>=1.6) installed.
 * Setup your environment variables, or copy over the test file
@@ -55,7 +55,8 @@ docker-compose up
 #### Run locally
 
 * Install PaperBadger's Node dependencies: `npm install`
-* If you would like to override the default, create `.env` file in your favourite text editor.
+* Make sure MongoDB and redis are running and locally accessible.
+* If you would like to override the default configuration, create `.env` file in your favourite text editor, or use _default.env_ as a template.
 
 `PORT`, `SESSION_SECRET`, `BADGES_ENDPOINT`, `BADGES_KEY`, `BADGES_SECRET`, `BADGES_SYSTEM`, `ORCID_AUTH_CLIENT_ID`, `ORCID_AUTH_CLIENT_SECRET`, `ORCID_AUTH_SITE`, `ORCID_AUTH_TOKEN_PATH` and `ORCID_REDIRECT_URI` environment variables are set to the correct values. `PORT` can be any available port.
 If you would like to develop against the hosted custom badgekit-api we have running specificaly for PaperBadger testing, your environment values should look this:
@@ -81,7 +82,9 @@ Ask [@acabunoc](http://github.com/acabunoc) for ones marked `###########`. Our c
 
 * Run `npm start`, and open up `http://localhost:5000/` in your favourite web browser!
 
-To run the application successfully you need to have [mongodb](https://www.mongodb.org/) server and [redis-server](http://redis.io/download) running locally. You can install these from their offical website or use your favorite package manager.
+To run the application successfully you need to have [mongodb](https://www.mongodb.org/) server and [redis-server](http://redis.io/download) running locally. You can install these from their official website or use your favorite package manager.
+
+For an overview of the [architecture](docs/high-level-architecture.md) of the system and other details, visit the [docs](docs/) section.
 
 ### API Endpoints
 
