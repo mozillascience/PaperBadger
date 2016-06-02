@@ -29,7 +29,7 @@ describe('Integration test against the real Badge server', function () {
         .expect(200, done);
   });
 
-  it('render JSON data in code jade if ask pretty', function (done) {
+  it('render JSON data in pug with the pretty param', function (done) {
     request(app)
         .get('/badges?pretty=true')
         .expect('Content-Type', /html/)
