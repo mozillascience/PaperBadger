@@ -4,7 +4,7 @@
 Paper Badger is both an API and a UI, and it also integrates and uses data from different sources.
 The following image contains the main building blocks of the system:
 
-![Badges--Proposed-Workflow_1_.pdf](Badges--Proposed-Workflow_1_.pdf?raw=true)
+![Badges--Proposed-Workflow_1_.png](./Badges--Proposed-Workflow_1_.png?raw=true)
 
 It is recommended to keep an eye on the [Roadmap #17](https://github.com/mozillascience/PaperBadger/issues/17) to see changes that may affect this document in the near future.
 
