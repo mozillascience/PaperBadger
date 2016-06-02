@@ -34,32 +34,10 @@ Are you ready to contribute to Paper Badger? This section will help you set up y
 
 Clone (or Fork) PaperBadger and enter the directory: `git clone https://github.com/mozillascience/PaperBadger && cd PaperBadger`
 
-#### Run using Docker
+#### Environment variables
+If you would like to override the default configuration, create an `.env` file in your favourite text editor and use _default.env_ as a template (do not delete or modify _default.env_).
 
-You can use Docker to bring up a quick instance of the app to develop against. This way you don't need to have node, MongoDB, and redis installed on your host.
-
-* Make sure you have [Docker](https://www.docker.com/) (>=1.10) and docker-compose (>=1.6) installed.
-* Setup your environment variables, or copy over the test file
-```bash
-sed 's/export //' env.test > env.docker
-```
-* start the service
-```bash
-docker-compose up
-```
-* visit the running service
-  * If on Linux host: http://localhost:5000
-  * If not Linux: http://(docker host ip):5000 (You can find your docker IP with `docker-machine ip default`)
-
-
-#### Run locally
-
-* Install PaperBadger's Node dependencies: `npm install`
-* Make sure MongoDB and redis are running and locally accessible.
-* If you would like to override the default configuration, create `.env` file in your favourite text editor, or use _default.env_ as a template.
-
-`PORT`, `SESSION_SECRET`, `BADGES_ENDPOINT`, `BADGES_KEY`, `BADGES_SECRET`, `BADGES_SYSTEM`, `ORCID_AUTH_CLIENT_ID`, `ORCID_AUTH_CLIENT_SECRET`, `ORCID_AUTH_SITE`, `ORCID_AUTH_TOKEN_PATH` and `ORCID_REDIRECT_URI` environment variables are set to the correct values. `PORT` can be any available port.
-If you would like to develop against the hosted custom badgekit-api we have running specificaly for PaperBadger testing, your environment values should look this:
+If you would like to develop against the hosted custom badgekit-api we have running specifically for PaperBadger testing, your environment values should look this:
 
         # default port is 5000
         export PORT=5000
@@ -79,7 +57,25 @@ If you would like to develop against the hosted custom badgekit-api we have runn
         export ORCID_REDIRECT_URI=#############
 
 Ask [@acabunoc](http://github.com/acabunoc) for ones marked `###########`. Our custom BadgeKit API code can be found [here](https://github.com/acabunoc/badgekit-api).
+Feel free to change `PORT` to any available port.
 
+#### Run using Docker
+
+You can use Docker to bring up a quick instance of the app to develop against. This way you don't need to have node, MongoDB, and redis installed on your host.
+
+* Make sure you have [Docker](https://www.docker.com/) (>=1.10) and docker-compose (>=1.6) installed.
+* Setup your environment variables as explained in the previous section
+* start the service with `docker-compose up`
+* visit the running service
+  * If on Linux host: http://localhost:5000
+  * If not Linux: http://(docker_host_ip):5000 (You can find your docker IP with `docker-machine ip default`)
+
+
+#### Run locally
+
+* Install PaperBadger's Node dependencies: `npm install`
+* Make sure MongoDB and redis are running and locally accessible.
+* Setup your environment variables as explained in a previous section
 * Run `npm start`, and open up `http://localhost:5000/` in your favourite web browser!
 
 To run the application successfully you need to have [mongodb](https://www.mongodb.org/) server and [redis-server](http://redis.io/download) running locally. You can install these from their official website or use your favorite package manager.

@@ -9,8 +9,6 @@ services:
       - 5000:5000
     volumes:
       - .:/src
-    env_file:
-      - env.docker
     environment:
       - MONGOLAB_URI=mongodb://mongo:27017/test
       - REDISCLOUD_URL=redis://redis:6379/0
