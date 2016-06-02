@@ -34,6 +34,8 @@ Are you ready to contribute to Paper Badger? This section will help you set up y
 
 Clone (or Fork) PaperBadger and enter the directory: `git clone https://github.com/mozillascience/PaperBadger && cd PaperBadger`
 
+For an overview of the [architecture](docs/high-level-architecture.md) of the system and other details, visit the [docs](docs/) section.
+
 #### Environment variables
 If you would like to override the default configuration, create an `.env` file in your favourite text editor and use _default.env_ as a template (do not delete or modify _default.env_).
 
@@ -74,13 +76,10 @@ You can use Docker to bring up a quick instance of the app to develop against. T
 #### Run locally
 
 * Install PaperBadger's Node dependencies: `npm install`
-* Make sure MongoDB and redis are running and locally accessible.
+* Make sure [MongoDB](https://www.mongodb.org/) and [redis-server](http://redis.io/download) are running and locally accessible. You can install these from their official website or use your favorite package manager.
 * Setup your environment variables as explained in a previous section
 * Run `npm start`, and open up `http://localhost:5000/` in your favourite web browser!
 
-To run the application successfully you need to have [mongodb](https://www.mongodb.org/) server and [redis-server](http://redis.io/download) running locally. You can install these from their official website or use your favorite package manager.
-
-For an overview of the [architecture](docs/high-level-architecture.md) of the system and other details, visit the [docs](docs/) section.
 
 ### API Endpoints
 
