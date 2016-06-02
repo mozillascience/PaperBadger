@@ -28,7 +28,7 @@ var app = express();
 module.exports = app;
 app.enable('trust proxy');
 
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, '..', '/public')));
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
@@ -51,7 +51,7 @@ function returnBadges(getBadges, request, response) {
       return response.send(error);
     }
     if (request.query.pretty) {
-      response.render(path.join(__dirname, '..', '/public/code.jade'), {
+      response.render(path.join(__dirname, '..', '/public/code.pug'), {
         data: JSON.stringify(badges, null, 2)
       });
     } else {
@@ -180,7 +180,7 @@ app.get('*', function (request, response) {
   if (request.session.orcid_token && request.session.orcid_token.token) {
     orcid = request.session.orcid_token.token.orcid;
   }
-  response.render(path.join(__dirname, '..', '/public/index.jade'), {
+  response.render(path.join(__dirname, '..', '/public/index.pug'), {
     orcid: orcid
   });
 });
