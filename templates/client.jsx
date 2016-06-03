@@ -3,6 +3,8 @@ var React = require('react'),
     NotFoundRoute = Router.NotFoundRoute,
     Route = Router.Route;
 
+var ReactDOM = require('react-dom');
+
 var routes = (
   <Route>
     <Route name="home" path="/" handler={require('./pages/home.jsx')} />
@@ -27,6 +29,6 @@ fetch('/user', {
 })
 .then((user) => {
   Router.run(routes, Router.HistoryLocation, function (Handler) {
-    React.render(<Handler user={user}/>, document.body);
+    ReactDOM.render(<Handler user={user}/>, document.body);
   });
 });

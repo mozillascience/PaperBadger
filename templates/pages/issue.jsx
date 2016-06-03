@@ -5,6 +5,8 @@ var React = require('react'),
     CheckboxGroup = require('react-checkbox-group'),
     Page = require('../components/page.jsx');
 
+var ReactDOM = require('react-dom');
+
 var Issue = React.createClass({
   mixins: [ Router.State ],
   loadClaimFromServer: function(slug) {
@@ -32,13 +34,13 @@ var Issue = React.createClass({
   },
   claimSubmit: function(e){
     e.preventDefault();
-    var claim = React.findDOMNode(this.refs.claim).value.trim();
+    var claim = ReactDOM.findDOMNode(this.refs.claim).value.trim();
     this.loadClaimFromServer(claim);
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var orcid = React.findDOMNode(this.refs.orcid).value.trim();
-    var doi = React.findDOMNode(this.refs.doi).value.trim();
+    var orcid = ReactDOM.findDOMNode(this.refs.orcid).value.trim();
+    var doi = ReactDOM.findDOMNode(this.refs.doi).value.trim();
     var badges = this.refs.badges.getCheckedValues();
     var claim = this.state.claim.slug;
 
