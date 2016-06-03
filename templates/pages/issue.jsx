@@ -1,9 +1,11 @@
-var React = require('react'),
-    Router = require('react-router'),
-    Url = require('url'),
-    path = require('path'),
-    CheckboxGroup = require('react-checkbox-group'),
-    Page = require('../components/page.jsx');
+import React from 'react'
+import { findDOMNode } from 'react-dom'
+import Url from 'url'
+import path from 'path'
+import CheckboxGroup from 'react-checkbox-group'
+import { Router } from 'react-router'
+import Page from '../components/page.jsx'
+
 
 var Issue = React.createClass({
   mixins: [ Router.State ],
@@ -13,11 +15,9 @@ var Issue = React.createClass({
         if (response.status >= 400) {
             throw new Error("Bad response from server");
         }
-        return response.json();
-    })
-    .then((claim) => {
+        let claim = response.json();
         this.setState({claim: claim});
-    });
+    })
   },
   componentWillMount: function() {
     document.title = "Contributorship Badges";
@@ -32,13 +32,13 @@ var Issue = React.createClass({
   },
   claimSubmit: function(e){
     e.preventDefault();
-    var claim = this.refs.claim.getDOMNode().value.trim();
+    var claim = findDOMNode(this.refs.claim).value.trim();
     this.loadClaimFromServer(claim);
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var orcid = this.refs.orcid.getDOMNode().value.trim();
-    var doi = this.refs.doi.getDOMNode().value.trim();
+    var orcid = findDOMNode(this.refs.orcid).value.trim();
+    var doi = findDOMNode(this.refs.doi).value.trim();
     var badges = this.refs.badges.getCheckedValues();
     var claim = this.state.claim.slug;
 

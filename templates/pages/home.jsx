@@ -1,23 +1,26 @@
-var React = require('react'),
-    Link = require('react-router').Link,
-    Page = require('../components/page.jsx'),
-    BadgeList = require('../components/badgelist.jsx');
+import React from 'react'
+import { Link } from 'react-router'
+import Page from '../components/page.jsx'
+import BadgeList from '../components/badgelist.jsx'
 
-var Home = React.createClass({
-  componentDidMount: function() {
+
+class Home extends React.Component {
+  componentDidMount() {
     document.title = "Contributorship Badges";
-  },
-  handleClick: function(i){
+  }
+
+  handleClick(i) {
     console.log(i);
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <Page splash>
         <h2>Explore Badges</h2>
         <ul>
-          <li><Link to="issue">Issue a badge</Link></li>
-          <li><a href="/v/#/users/0000-0003-4959-3049/badges">Browse issued badges for ORCID 0000-0003-4959-3049</a></li>
-          <li><a href="v/#/badges/formal_analysis">Browse all formal analysis badges</a></li>
+          <li><Link to="/issue">Issue a badge</Link></li>
+          <li><Link to="/v/users/0000-0003-4959-3049/badges">Browse issued badges for ORCID 0000-0003-4959-3049</Link></li>
+          <li><Link to="/v/badges/formal_analysis">Browse all formal analysis badges</Link></li>
         </ul>
         <h2>Badges</h2>
         <BadgeList />
@@ -126,6 +129,6 @@ var Home = React.createClass({
       </Page>
     );
   }
-});
+}
 
 module.exports = Home;

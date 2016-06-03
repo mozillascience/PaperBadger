@@ -5,14 +5,22 @@ var React = require('react'),
     doiRe = /\/papers\/(10\.\d{3}\d+)\/([^\/]*)\//,
     badgeRe = /\/badges\/([a-z_]*)\b/;
 
-var viewBadges = React.createClass({
-  componentDidMount: function() {
+class viewBadges extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.updateUrl = this.updateUrl.bind(this);
+    this.state = { };
+  }
+
+  componentDidMount() {
     document.title = "Contributorship Badges";
     window.onhashchange = this.updateUrl;
     this.updateUrl();
-  },
-  updateUrl: function(){
-    var url =  (window.location.href.split('#')[1] || ''),
+    console.log(this.props);
+  }
+
+  updateUrl() {
+    var url = '/' + this.props.params.splat,
         orcid = orcidRe.exec(url),
         doi = doiRe.exec(url),
         badge = badgeRe.exec(url);
@@ -25,11 +33,9 @@ var viewBadges = React.createClass({
                     orcid: orcid,
                     doi: doi,
                     badge: badge });
-  },
-  getInitialState: function() {
-    return { };
-  },
-  render: function() {
+  }
+
+  render() {
     var orcid, badge, doi;
     if(this.state.orcid) {
       orcid = (<p>Badges for user <a href={ 'http://orcid.org/' + this.state.orcid}>{this.state.orcid}</a></p>);
@@ -46,11 +52,10 @@ var viewBadges = React.createClass({
         { orcid }
         { doi }
         { badge }
-        <BadgeInstanceList url={ this.state.url }>
-        </BadgeInstanceList>
+        <BadgeInstanceList url={ this.state.url }/>
       </Page>
     );
   }
-});
+}
 
 module.exports = viewBadges;

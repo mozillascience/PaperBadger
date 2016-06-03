@@ -1,11 +1,13 @@
-var React = require('react'),
-    Page = require('../components/page.jsx');
+import React from 'react'
+import Page from '../components/page.jsx';
 
-var About = React.createClass({
-  componentDidMount: function() {
+
+class About extends React.Component {
+  componentDidMount() {
     document.title = "About Contributorship Badges";
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <Page>
         <h1>About Contributorship Badges</h1>
@@ -15,6 +17,6 @@ var About = React.createClass({
       </Page>
       );
   }
-});
+}
 
 module.exports = About;

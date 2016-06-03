@@ -1,8 +1,13 @@
 var React = require('react'),
     Badge = require('./badge.jsx');
 
-var BadgeList = React.createClass({
-  loadUsersFromServer: function() {
+class BadgeList extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {data: []};
+  }
+
+  loadUsersFromServer() {
     fetch('/badges')
     .then((response) => {
         if (response.status >= 400) {
@@ -13,14 +18,13 @@ var BadgeList = React.createClass({
     .then((badges) => {
         this.setState({data: badges});
     });
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
+  }
+
+  componentDidMount() {
     this.loadUsersFromServer();
-  },
-  render: function() {
+  }
+
+  render() {
     var badgeNodes = this.state.data.map(function(badge, index) {
       return (
         <Badge badge={badge} key={badge.id}>
@@ -33,6 +37,6 @@ var BadgeList = React.createClass({
       </div>
     );
   }
-})
+}
 
 module.exports = BadgeList;
