@@ -32,13 +32,13 @@ var Issue = React.createClass({
   },
   claimSubmit: function(e){
     e.preventDefault();
-    var claim = this.refs.claim.getDOMNode().value.trim();
+    var claim = React.findDOMNode(this.refs.claim).value.trim();
     this.loadClaimFromServer(claim);
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var orcid = this.refs.orcid.getDOMNode().value.trim();
-    var doi = this.refs.doi.getDOMNode().value.trim();
+    var orcid = React.findDOMNode(this.refs.orcid).value.trim();
+    var doi = React.findDOMNode(this.refs.doi).value.trim();
     var badges = this.refs.badges.getCheckedValues();
     var claim = this.state.claim.slug;
 
