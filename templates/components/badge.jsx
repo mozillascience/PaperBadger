@@ -1,8 +1,8 @@
 var React = require('react');
 
 
-var Badge = React.createClass({
-  render: function() {
+class Badge extends React.Component {
+  render() {
     var badge = this.props.badge,
         slug = "/v/#/badges/" + badge.slug;
     return (
@@ -14,6 +14,6 @@ var Badge = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = Badge;

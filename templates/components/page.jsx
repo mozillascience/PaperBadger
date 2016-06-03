@@ -5,8 +5,8 @@ var React = require('react'),
 
 
 
-var Page = React.createClass({
-  render: function() {
+class Page extends React.Component {
+  render() {
     var splash;
 
     if (this.props.splash){
@@ -39,6 +39,6 @@ var Page = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = Page;

@@ -1,8 +1,8 @@
 var React = require('react');
 
 
-var BadgeInstance = React.createClass({
-  render: function() {
+class BadgeInstance extends React.Component {
+  render() {
     var badgeInstance = this.props.badge,
         doiRe = /(10\.\d{3}\d+)\/(.*)\b/,
         m = doiRe.exec(badgeInstance.evidenceUrl),
@@ -19,6 +19,6 @@ var BadgeInstance = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = BadgeInstance;

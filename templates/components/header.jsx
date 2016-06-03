@@ -3,8 +3,8 @@ var React = require('react'),
 
 
 
-var Header = React.createClass({
-  render: function() {
+class Header extends React.Component {
+  render() {
     return (
       <div className="header">
         <div className="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
@@ -19,6 +19,6 @@ var Header = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = Header;

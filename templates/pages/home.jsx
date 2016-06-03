@@ -3,14 +3,16 @@ var React = require('react'),
     Page = require('../components/page.jsx'),
     BadgeList = require('../components/badgelist.jsx');
 
-var Home = React.createClass({
-  componentDidMount: function() {
+class Home extends React.Component {
+  componentDidMount() {
     document.title = "Contributorship Badges";
-  },
-  handleClick: function(i){
+  }
+
+  handleClick(i) {
     console.log(i);
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <Page splash>
         <h2>Explore Badges</h2>
@@ -126,6 +128,6 @@ var Home = React.createClass({
       </Page>
     );
   }
-});
+}
 
 module.exports = Home;
