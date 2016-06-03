@@ -16,10 +16,11 @@ class viewBadges extends React.Component {
     document.title = "Contributorship Badges";
     window.onhashchange = this.updateUrl;
     this.updateUrl();
+    console.log(this.props);
   }
 
   updateUrl() {
-    var url =  (window.location.href.split('#')[1] || ''),
+    var url = '/' + this.props.params.splat,
         orcid = orcidRe.exec(url),
         doi = doiRe.exec(url),
         badge = badgeRe.exec(url);
@@ -51,8 +52,7 @@ class viewBadges extends React.Component {
         { orcid }
         { doi }
         { badge }
-        <BadgeInstanceList url={ this.state.url }>
-        </BadgeInstanceList>
+        <BadgeInstanceList url={ this.state.url }/>
       </Page>
     );
   }

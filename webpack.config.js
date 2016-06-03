@@ -3,11 +3,10 @@
 var path = require('path');
 var webpack = require('webpack');
 
-var IMPORT_ES5_SHIM = 'imports?shim=es5-shim/es5-shim&' +
-    'sham=es5-shim/es5-sham';
-
 module.exports = {
   entry: './templates/client.jsx',
+
+  devtool: 'source-map',
 
   output: {
     filename: '[name].js',
@@ -15,18 +14,17 @@ module.exports = {
     path: path.join('public', 'js'),
     publicPath: '/js/'
   },
+
   externals: {
     App: true
   },
+
   module: {
-    loaders: [{
-      test: /\.jsx$/,
-      loaders: ['babel', 'jsx-loader']
-    }, {
-      test: require.resolve('react'),
-      loader: IMPORT_ES5_SHIM
-    }]
+    loaders: [
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' }
+    ]
   },
+
   plugins: [
     new webpack.ProvidePlugin({
       'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'

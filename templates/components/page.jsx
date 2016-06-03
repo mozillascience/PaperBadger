@@ -1,8 +1,7 @@
-var React = require('react'),
-    Link = require('react-router').Link,
-    Header = require('./header.jsx'),
-    Footer = require('./footer.jsx');
-
+import React from 'react'
+import { Link } from 'react-router'
+import Header from './header.jsx'
+import Footer from './footer.jsx'
 
 
 function Page(props) {
@@ -19,7 +18,7 @@ function Page(props) {
               <p>Exploring the use of digital badges for crediting contributors to scholarly papers for their work</p>
             </div>
             <p>
-            <Link to="about" className="pure-button pure-button-primary">Learn More</Link>
+              <Link to="/about" className="pure-button pure-button-primary">Learn More</Link>
             </p>
           </div>
         </div>

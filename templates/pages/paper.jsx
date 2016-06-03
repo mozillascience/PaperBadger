@@ -1,12 +1,11 @@
-var React = require('react/addons'),
-    Router = require('react-router'),
+var React = require('react'),
     Navigation = require('react-router').Navigation,
     path = require('path'),
     validator = require('validator'),
     Page = require('../components/page.jsx');
 
 var Issue = React.createClass({
-  mixins: [React.addons.LinkedStateMixin, Navigation],
+  mixins: [Navigation],
   componentWillMount: function() {
     document.title = "Submit a Paper | Contributorship Badges";
   },
@@ -72,6 +71,12 @@ var Issue = React.createClass({
   getInitialState: function() {
       return {data: '', doi: '', 'submitted': false, 'emailError': false, 'doiError': false};
   },
+  handleDoiChange: function(event) {
+    this.setState({doi: event.target.value});
+  },
+  handleDataChange: function(event) {
+    this.setState({data: event.target.value});
+  },
   render: function() {
     return (
       <Page>
@@ -84,12 +89,12 @@ var Issue = React.createClass({
             <fieldset>
                 <div className="pure-control-group">
                     <label for="doi">DOI</label>
-                    <input type="text" valueLink={this.linkState('doi')} placeholder="Paper DOI" />
+                    <input type="text" value={doi} onChange={this.handleDoiChange} placeholder="Paper DOI" />
                 </div>
 
                 <div className="pure-control-group">
                     <label for="authors">Author Emails</label>
-                    <textarea valueLink={this.linkState('data')} placeholder="Author emails"></textarea>
+                    <textarea value={data} onChange={this.handleDataChange} placeholder="Author emails"></textarea>
                 </div>
 
                 <div className="pure-control-group">

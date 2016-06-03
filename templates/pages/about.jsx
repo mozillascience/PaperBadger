@@ -1,5 +1,6 @@
-var React = require('react'),
-    Page = require('../components/page.jsx');
+import React from 'react'
+import Page from '../components/page.jsx';
+
 
 class About extends React.Component {
   componentDidMount() {
