@@ -3,7 +3,7 @@ version: '2'
 services:
 
   paperbadger:
-    image: node:0.12
+    image: node:6
     command: bash -c 'cd /src && (if [ ! -d "node_modules" ]; then npm install && chmod -R uo+w node_modules; fi) && npm start'
     ports:
       - 5000:5000
