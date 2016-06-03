@@ -72,9 +72,16 @@ You can use Docker to bring up a quick instance of the app to develop against. T
   * If on Linux host: http://localhost:5000
   * If not Linux: http://(docker_host_ip):5000 (You can find your docker IP with `docker-machine ip default`)
 
+This setup will create 3 containers:
+  - paperbadger_paperbadger_1 contains the PaperBadger code, mapped to the _/src_ volume
+  - paperbadger_mongo_1 is the MongoDB container with a DB called _test_
+  - paperbadger_redis_1 is the redis server
+
+You can connect to the main container by using `docker exec -it paperbadger_paperbadger_1 /bin/bash`. _ctrl+c_ will stop the three containers.
 
 #### Run locally
 
+* Make sure you have at least node version 4.4.5 installed. Installing node through [nvm](https://github.com/creationix/nvm) is recommended, so you don't need to use _sudo_ in the next step.
 * Install PaperBadger's Node dependencies: `npm install`
 * Make sure [MongoDB](https://www.mongodb.org/) and [redis-server](http://redis.io/download) are running and locally accessible. You can install these from their official website or use your favorite package manager.
 * Setup your environment variables as explained in a previous section
