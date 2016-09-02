@@ -15,8 +15,12 @@ services:
 
   mongo:
     image: mongo:2
+    ports:
+      - 27017:27017
     # volumes:    # to persist database between runs
     #   - /data/db
 
   redis:
     image: redis
+    ports:
+      - 6379:6379
