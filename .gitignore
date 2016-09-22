@@ -1,5 +1,7 @@
 .env
 env.docker
+.db.env
+bin/badgekit_to_badgr/local.sqlite3
 node_modules/
 npm-debug.log
 npm-debug.log.*
