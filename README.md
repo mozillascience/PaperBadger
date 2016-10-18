@@ -36,6 +36,12 @@ Clone (or Fork) PaperBadger and enter the directory: `git clone https://github.c
 
 For an overview of the [architecture](docs/high-level-architecture.md) of the system and other details, visit the [docs](docs/) section.
 
+#### Badges Server
+PaperBadger relies on [Badgr Server](https://github.com/concentricsky/badgr-server) to manage all actions related to
+badges. You can install Badgr directly from github, or you can use this docker
+[local-badgr-server](https://github.com/josmas/local-badgr-server) setup,
+especially built for this project, to speed things up a little.
+
 #### Environment variables
 If you would like to override the default configuration, create an `.env` file in your favourite text editor and use _default.env_ as a template (do not delete or modify _default.env_).
 
@@ -45,11 +51,10 @@ If you would like to develop against the hosted custom badgekit-api we have runn
         export PORT=5000
         export SESSION_SECRET=USE_SOMETHING_GOOD_LIKE_puUJjfE6QtUnYryb
 
-        # Badges
-        export BADGES_ENDPOINT=http://badgekit-api-test-sciencelab.herokuapp.com/
-        export BADGES_KEY=master
-        export BADGES_SECRET=#############
-        export BADGES_SYSTEM=badgekit
+        # Badgr Server
+        export BADGR_ENDPOINT=http://localhost:8000/
+        export BADGR_USER=#############
+        export BADGR_PASSWORD=#############
 
         # ORCID Auth
         export ORCID_AUTH_CLIENT_ID=#############
@@ -58,8 +63,9 @@ If you would like to develop against the hosted custom badgekit-api we have runn
         export ORCID_AUTH_TOKEN_PATH=#############
         export ORCID_REDIRECT_URI=#############
 
-Ask [@acabunoc](http://github.com/acabunoc) for ones marked `###########`. Our custom BadgeKit API code can be found [here](https://github.com/acabunoc/badgekit-api).
 Feel free to change `PORT` to any available port.
+Note that you will have to provide your own [Badgr](https://github.com/concentricsky/badgr-server) server, and register
+for a development account with [ORCID](http://orcid.org/).
 
 #### Run using Docker
 
