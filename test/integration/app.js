@@ -2,6 +2,8 @@
 
 var request = require('supertest');
 var assert = require('assert');
+var path = require('path');
+var helpers = require(path.join(process.cwd(), 'src', 'helpers'));
 
 var testEnv = require('../../src/environments');
 
@@ -47,19 +49,18 @@ describe('Integration test against the real Badge server', function () {
 
   it('get all badge instances of a certain badge', function (done) {
     request(app)
-        .get('/badges/formal_analysis')
+        .get('/badges/software')
         .expect('Content-Type', /json/)
         .expect(function (res) {
           assert.ok(res.body[0].slug, 'not find badge slug in json');
-          assert.equal(res.body[0].badge.name, 'Formal analysis');
-          // assert.equal(res.body[0].email, null); ?? bug??
+          assert.equal(helpers.badgeClassFromURL(res.body[0].badge_class), 'software');
         })
         .expect(200, done);
   });
 
   it('get a count of all badge instances of a certain badge', function (done) {
     request(app)
-      .get('/badges/formal_analysis/count')
+      .get('/badges/software/count')
       .expect(function (res) {
         assert.ok(res.body > 0, 'no badges found');
       })
@@ -72,7 +73,7 @@ describe('Integration test against the real Badge server', function () {
         .expect('Content-Type', /json/)
         .expect(function (res) {
           assert.ok(res.body[0].slug, 'not find one badge slug in json');
-          assert.equal(res.body[0].orcid, '0000-0003-4959-3049');
+          assert.equal(helpers.ORCIDFromEmail(res.body[0].recipient_identifier), '0000-0003-4959-3049');
         })
         .expect(200, done);
   });
@@ -88,18 +89,18 @@ describe('Integration test against the real Badge server', function () {
 
   it('get all badge instances of a certain badge earned by a user', function (done) {
     request(app)
-        .get('/users/0000-0003-4959-3049/badges/writing_review')
+        .get('/users/0000-0003-4959-3049/badges/software')
         .expect(function (res) {
           assert.ok(res.body[0].slug, 'not find one badge slug in json');
-          assert.equal(res.body[0].badge.name, 'Writing - review & editing');
-          assert.equal(res.body[0].orcid, '0000-0003-4959-3049');
+          assert.equal(helpers.badgeClassFromURL(res.body[0].badge_class), 'software');
+          assert.equal(helpers.ORCIDFromEmail(res.body[0].recipient_identifier), '0000-0003-4959-3049');
         })
         .expect(200, done);
   });
 
   it('get a count of all badge instances of a certain badge earned by a user', function (done) {
     request(app)
-      .get('/users/0000-0003-4959-3049/badges/writing_review/count')
+      .get('/users/0000-0003-4959-3049/badges/software/count')
       .expect(function (res) {
         assert.ok(res.body > 0, 'no badges found');
       })
@@ -111,8 +112,7 @@ describe('Integration test against the real Badge server', function () {
       .get('/papers/10.1186/2047-217X-2-10/badges/')
       .expect(function (res) {
         assert.ok(res.body[0].slug, 'not find one badge slug in json');
-        assert.equal(res.body[0].badge.name, 'Data curation');
-        assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1186/2047-217X-2-10');
+        assert.equal(res.body[0].json.evidence, 'http://dx.doi.org/10.1186/2047-217X-2-10');
       })
       .expect(200, done);
   });
@@ -131,8 +131,8 @@ describe('Integration test against the real Badge server', function () {
         .get('/papers/10.1186/2047-217X-2-10/badges/investigation')
         .expect(function (res) {
           assert.ok(res.body[0].slug, 'not find one badge slug in json');
-          assert.equal(res.body[0].badge.name, 'Investigation');
-          assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1186/2047-217X-2-10');
+          assert.equal(helpers.badgeClassFromURL(res.body[0].badge_class), 'investigation');
+          assert.equal(res.body[0].json.evidence, 'http://dx.doi.org/10.1186/2047-217X-2-10');
         })
         .expect(200, done);
   });
@@ -151,8 +151,8 @@ describe('Integration test against the real Badge server', function () {
         .get('/papers/10.1186/2047-217X-2-10/users/0000-0002-3881-294X/badges')
         .expect(function (res) {
           assert.ok(res.body[0].slug, 'not find one badge slug in json');
-          assert.equal(res.body[0].orcid, '0000-0002-3881-294X');
-          assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1186/2047-217X-2-10');
+          assert.equal(helpers.ORCIDFromEmail(res.body[0].recipient_identifier), '0000-0002-3881-294X');
+          assert.equal(res.body[0].json.evidence, 'http://dx.doi.org/10.1186/2047-217X-2-10');
         })
         .expect(200, done);
   });
@@ -171,9 +171,8 @@ describe('Integration test against the real Badge server', function () {
         .get('/papers/10.1186/2047-217X-2-10/users/0000-0002-3881-294X/badges/investigation')
         .expect(function (res) {
           assert.ok(res.body[0].slug, 'not find one badge slug in json');
-          assert.equal(res.body[0].badge.name, 'Investigation');
-          assert.equal(res.body[0].orcid, '0000-0002-3881-294X');
-          assert.equal(res.body[0].evidenceUrl, 'http://dx.doi.org/10.1186/2047-217X-2-10');
+          assert.equal(helpers.ORCIDFromEmail(res.body[0].recipient_identifier), '0000-0002-3881-294X');
+          assert.equal(res.body[0].json.evidence, 'http://dx.doi.org/10.1186/2047-217X-2-10');
         })
         .expect(200, done);
   });
