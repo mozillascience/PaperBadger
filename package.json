@@ -21,7 +21,7 @@
   "dependencies": {
     "babel-loader": "^5.0.0",
     "badgekit-api-client": "https://github.com/mozilla/badgekit-api-client/tarball/v0.2.4",
-    "badgr-client": "0.1.0",
+    "badgr-client": "1.0.0",
     "body-parser": "^1.13.2",
     "connect-redis": "^3.0.1",
     "es5-shim": "^4.1.1",
