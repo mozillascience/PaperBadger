@@ -2,7 +2,7 @@ var clickEvent={
 	runAnalytics : [],
 	assignCallback : function(func)
 	{
-		this.runAnalytics=func;	
+		this.runAnalytics=func;
 	}
 };
 
@@ -14,7 +14,7 @@ function callAjax(url, callbackFunction) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             callbackFunction(xmlhttp.responseText);
         }
-    }
+    };
 
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
@@ -59,7 +59,7 @@ function insertCSS()
 function showLine(event)
 {
 	var bindBadge=this.getAttribute("data-bind-badge");
-	
+
 	if(event.type=="click") {clickEvent.runAnalytics({"orcid" : bindBadge, "taxonomyClass" : this.getAttribute("data-bind-taxonomy")});}
 
 	//var boundElem=$(".badge span[data-bind-badge="+bindBadge+"]");
@@ -94,7 +94,13 @@ function getEndpoint(confIn, count)
 	var countPoint=(count) ? "/count" : "";
 
 	var endPoint=[];
-	if(doi) {endPoint.push("papers/"+doi);}
+	if(doi) {
+    var splitDoi = doi.split('/');
+    if (splitDoi.length === 3) {
+      doi = splitDoi[0] + '/' + encodeURIComponent(splitDoi[1] + '/' + splitDoi[2]);
+    }
+    endPoint.push("papers/"+doi);
+	}
 	if(orcid) {endPoint.push("users/"+orcid);}
 	return "https://badges.mozillascience.org/"+endPoint.join("/")+"/badges"+countPoint;
 }
@@ -103,28 +109,28 @@ function showBadgeFurniture(confIn)
 {
 	var furnitureClass=(confIn["furniture-class"]) ? confIn["furniture-class"] : "paper-badges-hidden";
 	var endPoint=getEndpoint(confIn, 1);
-		
+
 	callAjax(endPoint, function(dataItem){
 		var badgesCount=(dataItem) ? dataItem : 0;
-		
+
 		if(badgesCount && dataItem/dataItem)
 			{
 			visitArray(document.querySelectorAll("."+furnitureClass), function(elem){
 				var list=elem.classList;
-					
+
 				if(list!==undefined && list.contains(furnitureClass))
 					{
-					list.remove(furnitureClass);	
+					list.remove(furnitureClass);
 					}
 				else
 					{
 					var className=elem.className;
 					var indStart=className.indexOf(furnitureClass);
 					var indEnd=className.indexOf(" ", indStart);
-	
+
 					indEnd=(indEnd>=0) ? indEnd : className.length;
 					elem.className=className.substring(0, indStart)+" "+className.substring(indEnd);
-					}	
+					}
 			});
 			}
 	});
@@ -139,7 +145,7 @@ function showBadges(confIn, callback){
 
 	if(callback)
 		{
-		clickEvent.assignCallback(callback);	
+		clickEvent.assignCallback(callback);
 		}
 
 	callAjax(endPoint, function( entryData ) {
@@ -226,12 +232,12 @@ function showBadges(confIn, callback){
 				containerClassQuery.appendChild(newNode).innerHTML=returnString;
 				}
 			}
-			
+
 		visitArray(document.getElementsByClassName("badge-span"), function(elem){
 			if(elem){
 			elem.addEventListener("mouseover", showLine);
-			elem.addEventListener("click", showLine);	
-			elem.addEventListener("click", nextAction);	
+			elem.addEventListener("click", showLine);
+			elem.addEventListener("click", nextAction);
 			}
 			});
 	});
