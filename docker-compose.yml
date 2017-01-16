@@ -10,6 +10,7 @@ services:
     volumes:
       - .:/src
     environment:
+      - BADGES_SECRET
       - MONGOLAB_URI=mongodb://mongo:27017/test
       - REDISCLOUD_URL=redis://redis:6379/0
 
