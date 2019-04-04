@@ -48,4 +48,9 @@ describe('helpers', function () {
     assert.equal(helpers.DOIFromURL('http://dx.doi.org/10.1186/2047-217X-2-10/'), '10.1186/2047-217X-2-10');
     assert.equal(helpers.DOIFromURL('https://dx.doi.org/10.1186/2047-217X-2-10'), '10.1186/2047-217X-2-10');
   });
+
+
+  it('returns a badge class from the end of a given a URI', function () {
+    assert.equal(helpers.badgeClassFromURL('http://192.168.99.100:8000/public/badges/software'), 'software');
+  });
 });

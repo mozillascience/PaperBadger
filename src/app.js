@@ -132,12 +132,12 @@ app.get('/orcid_auth_callback', function (request, response) {
       } else {
         // Token Page
         request.session.orcid_token_error = oauth2.accessToken.create(result);
-        response.redirect('/orcid_token_error');
+        response.redirect('/denied');
       }
     } else {
       // Token Page
       request.session.orcid_token = oauth2.accessToken.create(result);
-      response.redirect(request.session.redirect || '/issue/');
+      response.redirect('/issue/');
     }
   });
 });

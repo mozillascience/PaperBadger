@@ -1,27 +1,26 @@
+/* eslint camelcase: ["error", {properties: "never"}]*/
 'use strict';
 
 var path = require('path');
 var helpers = require(path.join(process.cwd(), 'src', 'helpers'));
 
 // We really want a singleton here
-var instance, client, system;
+var instance, client;
 
 function BadgeService() {}
 
-BadgeService.prototype.createBadge = function (orcid, badge, dois, name) {
+BadgeService.prototype.createBadge = function (orcid, badge, dois) {
   return function (callback) {
-    var evidence = helpers.urlFromDOI(dois._1, dois._2);
-    var context = {
-      system: system,
-      badge: badge,
-      instance: {
-        email: helpers.emailFromORCID(orcid),
-        evidenceUrl: evidence,
-        authorName: name
-      }
-    };
 
-    client.createBadgeInstance(context, function (err, badgeResult) {
+    var options = {
+      issuerSlug: 'mozilla-science' // TODO Can we move this value to the library?
+    };
+    options.badgeSlug = badge;
+    options.recipient_identifier = helpers.emailFromORCID(orcid);
+    options.evidence = helpers.urlFromDOI(dois._1, dois._2);
+    options.create_notification = false;
+
+    client.createBadgeInstance(options, function (err, badgeResult) {
       if (err) {
         console.error(err);
         return callback(err);
@@ -34,56 +33,45 @@ BadgeService.prototype.createBadge = function (orcid, badge, dois, name) {
 
 BadgeService.prototype.getBadges = function (orcid, badge, dois) {
   return function (callback) {
+
+    var options = {
+      issuerSlug: 'mozilla-science' // TODO Can we move this value to the library?
+    };
+
+    // The client takes care of all the filtering, depending on the flags sent (evidence, badge, and recipient)
     var evidenceUrl = dois ? helpers.urlFromDOI(dois._1, dois._2) : null;
+    if (evidenceUrl) {
+      options.evidence = evidenceUrl;
+    }
+
+    if (orcid) {
+      options.recipient = helpers.emailFromORCID(orcid);
+    }
+
+    if(badge) {
+      options.badgeSlug = badge;
+    }
 
     var clientCallback = function (err, badges) {
-      var filtered;
       if (err) {
         console.error(err);
         return callback(err);
       }
 
-      // filter for the badge
-      if (badges) {
-        filtered = badges.filter(function (entry) {
-          var goodBadge = (!badge || entry.badge.slug === badge);
-          var goodDoi = (!dois || entry.evidenceUrl === evidenceUrl);
-          return goodBadge && goodDoi;
-        });
-
-        filtered = filtered.map(helpers.modEntry);
-      }
-
-      if (filtered && filtered.length === 0) {
+      if (badges && badges.length === 0) {
         callback('client return empty result');
       } else {
-        callback(null, filtered);
+        callback(null, badges);
       }
     };
 
-    var context = {
-      system: system
-    };
-    var options = {};
-    if (orcid) {
-      options.email = helpers.emailFromORCID(orcid);
-    } else {
-      context.badge = badge || '*';
-    }
-    if (evidenceUrl) {
-      options.paginate = {
-        evidenceUrl: evidenceUrl
-      };
-    }
-    client.getBadgeInstances(context, options, clientCallback);
+    client.getBadgeInstances(options, clientCallback);
   };
 };
 
 BadgeService.prototype.getAllBadges = function () {
   return function (callback) {
-    client.getAllBadges({
-      system: system
-    }, function (err, badges) {
+    client.getAllBadges(function (err, badges) {
       if (err) {
         console.error(err);
         callback(err);
@@ -95,9 +83,8 @@ BadgeService.prototype.getAllBadges = function () {
 };
 
 module.exports = {
-  init: function (apiClient, config) {
+  init: function (apiClient) {
     client = apiClient;
-    system = config.get('BADGES_SYSTEM');
   },
 
   getInstance: function () {
