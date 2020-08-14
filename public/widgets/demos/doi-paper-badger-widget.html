@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+  <div class="my-container"></div>
+
+  <script type="text/javascript">
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "../paper-badger-widget.js";
+    document.write(decodeURIComponent("%3Cscript src='../paper-badger-widget.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script>
+    var conf={"article-doi": "10.1093/nar/gkt1063", "container-class": "my-container"};
+    showBadges(conf);
+  </script>
+  </body>
+</html>
