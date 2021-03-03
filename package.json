@@ -29,7 +29,7 @@
     "express-session": "~1.11.2",
     "habitat": "^3.1.2",
     "imports-loader": "^0.6.4",
-    "pug": "^2.0.0-alpha8",
+    "pug": "^3.0.1",
     "jsx-loader": "^0.13.2",
     "mofo-style": "^2.3.0",
     "mongoose": "^4.1.4",
