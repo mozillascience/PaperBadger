@@ -30,23 +30,8 @@ var bkDB = new sqlite3.Database('badgekit.db', function(err){
 function lookUpBadgeData(badgesList, dataItem) {
   var badgeData = {};
   badgesList.forEach(function(item){
-    // A few of the slugs are different in the two databases, in some cases the difference is just an underscore, but
-    // in other cases (like the three below) the full name is different. The ones without difference are taken care of
-    // in the first if statement.
-    if (item.slug.replace(/-/g, '') === dataItem.slug.replace(/_/g, '')) {
-      badgeData = { 'image': item.image, 'id': item.id };
-    }
-
-    if (item.slug === 'funding-acquisition' && dataItem.slug === 'funding' ) {
-      badgeData = { 'image': item.image, 'id': item.id };
-    }
-
-    if (item.slug === 'writing-original-draft' && dataItem.slug === 'writing_initial' ) {
-      badgeData = { 'image': item.image, 'id': item.id };
-    }
-
-    if (item.slug === 'writing-review-editing' && dataItem.slug === 'writing_review' ) {
-      badgeData = { 'image': item.image, 'id': item.id };
+    if (item.slug === dataItem.slug) {
+      badgeData = {'image': item.image, 'id': item.id};
     }
   });
 
@@ -54,7 +39,6 @@ function lookUpBadgeData(badgesList, dataItem) {
 }
 
 function insertToInstance(badgesIdSlug, data) {
-  console.info(data);
   var badgeData = lookUpBadgeData(badgesIdSlug, data);
 
   var serverUrl = env.get('BADGR_ENDPOINT') + 'public/';
