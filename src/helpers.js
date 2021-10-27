@@ -38,10 +38,16 @@ function DOIFromURL(url) {
   return m[1];
 }
 
+function badgeClassFromURL(url) {
+  var badgeClass = url.split('/');
+  return badgeClass[badgeClass.length - 1];
+}
+
 module.exports = {
   emailFromORCID: emailFromORCID,
   ORCIDFromEmail: ORCIDFromEmail,
   modEntry: modEntry,
   urlFromDOI: urlFromDOI,
-  DOIFromURL: DOIFromURL
+  DOIFromURL: DOIFromURL,
+  badgeClassFromURL: badgeClassFromURL
 };

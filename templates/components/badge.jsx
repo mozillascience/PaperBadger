@@ -8,7 +8,7 @@ var Badge = React.createClass({
     return (
       <div className="badge pure-u-1-8">
         <a href={slug} >
-          <img src={badge.imageUrl}/>
+          <img src={badge.image}/>
           <span> {badge.name} </span>
         </a>
       </div>

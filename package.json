@@ -8,7 +8,7 @@
     "build:js": "webpack --config webpack.config.js --progress --profile --colors",
     "watch:js": "npm run build:js -- --watch",
     "clean": "rm -r public/js/*",
-    "server": "node src/index.js",
+    "server": "nodemon src/index.js",
     "eslint": "eslint --config .eslintrc.yaml src webpack.config.js public/widgets/widget.js",
     "eslint:test": "eslint --config .eslintrc.yaml test",
     "lint": "npm run eslint && npm run eslint:test",
@@ -21,6 +21,7 @@
   "dependencies": {
     "babel-loader": "^5.0.0",
     "badgekit-api-client": "https://github.com/mozilla/badgekit-api-client/tarball/v0.2.4",
+    "badgr-client": "1.0.0",
     "body-parser": "^1.13.2",
     "connect-redis": "^3.0.1",
     "es5-shim": "^4.1.1",
@@ -29,26 +30,27 @@
     "express-session": "~1.11.2",
     "habitat": "^3.1.2",
     "imports-loader": "^0.6.4",
-    "pug": "^2.0.0-alpha8",
     "jsx-loader": "^0.13.2",
     "mofo-style": "^2.3.0",
     "mongoose": "^4.1.4",
     "nodemailer": "^1.4.0",
     "nodemailer-ses-transport": "^1.3.0",
     "npm-run-all": "^1.2.4",
+    "pug": "^2.0.0-alpha8",
     "react": "^0.13.2",
     "react-checkbox-group": "^0.1.9",
     "react-router": "^0.13.3",
     "shortid": "^2.2.2",
     "simple-oauth2": "0.5.1",
+    "validator": "^5.2.0",
     "webpack": "^1.8.11",
-    "whatwg-fetch": "^0.9.0",
-    "validator": "^5.2.0"
+    "whatwg-fetch": "^0.9.0"
   },
   "devDependencies": {
     "eslint": "^2.3.0",
     "mocha": "^2.2.5",
     "nock": "^2.3.0",
+    "nodemon": "1.10.2",
     "supertest": "^1.0.1"
   },
   "engines": {
