@@ -32,7 +32,7 @@
     "pug": "^2.0.0-alpha8",
     "jsx-loader": "^0.13.2",
     "mofo-style": "^2.3.0",
-    "mongoose": "^4.1.4",
+    "mongoose": "^4.13.21",
     "nodemailer": "^1.4.0",
     "nodemailer-ses-transport": "^1.3.0",
     "npm-run-all": "^1.2.4",
